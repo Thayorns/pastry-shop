@@ -4,6 +4,10 @@
     "express": "^4.19.2"
   },
   "scripts": {
-    "start": "node server/index.js"
+    "start": "node server/index.js",
+    "build": "cd client && npm install && npm run build"
+  },
+  "engines": {
+    "node": "20.11.0"
   }
 }

@@ -1,11 +1,12 @@
 import logo from './logo.svg'
 import React from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
 
 function App() {
-  const [data, setData] = React.useState(null)
+  const [data, setData] = useState(null)
 
-  React.useEffect(() => {
+  useEffect(() => {
     fetch("/api")
       .then((res) => res.json())
       .then((data) => setData(data.message))
