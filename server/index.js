@@ -10,7 +10,7 @@ app.use(express.static(path.resolve(__dirname, '../client/build')))
 
 // Handle GET requests to /api route
 app.get("/api", (req, res) => {
-    res.json({ message: "Алчонок! на связи сервер, как слышно, приём!?" })
+    res.json({ message: "сервер запущен и передаёт данные" })
 })
 
 // All other GET requests not handled before will return React app
