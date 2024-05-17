@@ -2,6 +2,7 @@
   "description": "",
   "dependencies": {
     "bcrypt": "^5.1.1",
+    "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "mongoose": "^8.3.5"
   },
@@ -11,5 +12,8 @@
   },
   "engines": {
     "node": "20.11.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.5"
   }
 }
