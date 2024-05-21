@@ -16,9 +16,9 @@ function App() {
   useEffect(() => {
     fetch("/api")
       .then((res) => res.json())
-      .then((data) => setData(data.message))
+      .then((data) => setData(data.result))
   }, [])
-
+  // console.log(data)
   return (
     <div className="App">
       <p>{!data ? "Загрузка..." : data}</p>
