@@ -20,13 +20,13 @@ const startServer = async () => {
         app.use(express.static(path.resolve(__dirname, '../client/build')))
 
         // Handle GET requests to /api route
-        // app.get("/api", (req, res) => {
-        //     res.json({ message: "сервер запущен и передаёт данные" })
-        // })
+        app.get("/api", (req, res) => {
+            res.json({ message: "сервер запущен и передаёт данные" })
+        })
 
         app.get('/api', async (req, res) => {
             try {
-                const result = await pool.query('SELECT * FROM postgres');
+                const result = await pool.query('SELECT * FROM public.users');
                 res.json(result.rows);
             } catch (err) {
                 console.error(err);
