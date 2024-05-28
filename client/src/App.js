@@ -1,55 +1,55 @@
-import React from 'react'
-import { useState, useEffect } from 'react'
-import { Button, Checkbox, Form, Input } from 'antd'
-import './App.css'
+import React, { useState, useEffect } from 'react';
+import { Button, Checkbox, Form, Input } from 'antd';
+import './App.css';
 
-const onFinish = (values) => {
-  console.log('Success:', values)
-}
+const onFinish = async (values) => {
+  const response = await fetch('/api/register', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(values),
+  });
+
+  const data = await response.json();
+  if (response.status === 201) {
+    console.log('Registration successful:', data);
+  } else {
+    console.error('Registration error:', data);
+  }
+};
+
 const onFinishFailed = (errorInfo) => {
-  console.log('Failed:', errorInfo)
-}
+  console.log('Failed:', errorInfo);
+};
 
 function App() {
-  const [data, setData] = useState(null)
+  const [data, setData] = useState(null);
 
   useEffect(() => {
-    fetch("/api")
+    fetch('/api')
       .then((res) => res.json())
-      .then((data) => setData(data.result))
-  }, [])
-  // console.log(data)
+      .then((data) => setData(data));
+  }, []);
+
   return (
     <div className="App">
-      <p>{!data ? "Загрузка..." : data}</p>
+      <p>{!data ? 'Загрузка...' : JSON.stringify(data)}</p>
       <div className='form-container'>
         <Form
           name="basic"
-          labelCol={{
-            span: 8,
-          }}
-          wrapperCol={{
-            span: 16,
-          }}
-          style={{
-            maxWidth: 600,
-          }}
-          initialValues={{
-            remember: true,
-          }}
+          labelCol={{ span: 8 }}
+          wrapperCol={{ span: 16 }}
+          style={{ maxWidth: 600 }}
+          initialValues={{ remember: true }}
           onFinish={onFinish}
           onFinishFailed={onFinishFailed}
           autoComplete="off"
         >
           <Form.Item
             label="Логин"
-            name="username"
-            rules={[
-              {
-                required: true,
-                message: 'Пожалуйста, введите логин!',
-              },
-            ]}
+            name="login"
+            rules={[{ required: true, message: 'Пожалуйста, введите логин!' }]}
           >
             <Input />
           </Form.Item>
@@ -57,12 +57,7 @@ function App() {
           <Form.Item
             label="Пароль"
             name="password"
-            rules={[
-              {
-                required: true,
-                message: 'Пожалуйста, введите пароль!',
-              },
-            ]}
+            rules={[{ required: true, message: 'Пожалуйста, введите пароль!' }]}
           >
             <Input.Password />
           </Form.Item>
@@ -70,19 +65,13 @@ function App() {
           <Form.Item
             name="remember"
             valuePropName="checked"
-            wrapperCol={{
-              offset: 8,
-              span: 16,
-            }}
+            wrapperCol={{ offset: 8, span: 16 }}
           >
             <Checkbox>Запомнить меня</Checkbox>
           </Form.Item>
 
           <Form.Item
-            wrapperCol={{
-              offset: 8,
-              span: 16,
-            }}
+            wrapperCol={{ offset: 8, span: 16 }}
           >
             <Button type="primary" htmlType="submit">
               Принять
@@ -91,7 +80,7 @@ function App() {
         </Form>
       </div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

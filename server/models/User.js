@@ -1,33 +1,23 @@
-const mongoose = require('mongoose')
-const bcrypt = require('bcrypt')
-
-const userSchema = new mongoose.Schema({
-    name: String,
-    email: String,
-    password: String
-    // {unique:true} добавить??!
-})
-
-// Hash the password before saving the user
-userSchema.pre('save', async function(next) {
-    if (this.isModified('password') || this.isNew) {
-        try {
-            const salt = await bcrypt.genSalt(10)
-            this.password = await bcrypt.hash(this.password, salt)
-            next()
-        } catch (error) {
-            next(error)
-        }
-    } else {
-        next()
+module.exports = (sequelize, DataTypes) => {
+  const User = sequelize.define('User', {
+    login: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
+    },
+    password: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    coffee_count: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
+    },
+    friend: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
     }
-})
+  }, {});
 
-// Method to compare given password with the hashed password
-userSchema.methods.comparePassword = function(password) {
-    return bcrypt.compare(password, this.password)
-}
-
-const User = mongoose.model('User', userSchema)
-
-module.exports = User
+  return User;
+};
