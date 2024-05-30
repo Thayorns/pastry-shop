@@ -1,0 +1,38 @@
+nav{
+    background-color: var(--color);
+    line-height: 60px;
+    height: 60px;
+    max-width: var(--maxWidth);
+    width: 100%;
+    color: var(--colorWhite);
+  }
+  .logo{
+    float: left;
+    margin-left: 10px;
+    width: 40%;
+    font-size: 20px;
+    font-weight: 600;
+  }
+  .top-nav-wrapper{
+    float: right;
+    width: 50%;
+  }
+  .navbar-top{
+    position: fixed;
+    top: 0;
+  }
+  .navbar-bottom{
+    position: fixed;
+    bottom: 0;
+  }
+  .ant-segmented.ant-segmented-block{
+    margin: 0 auto;
+    height: 60px;
+    width: 80%;
+    background-color: var(--color);
+  }
+  h1{
+    color: var(--color);
+    margin: 0 auto 50px;
+    padding-top: 300px;
+  }

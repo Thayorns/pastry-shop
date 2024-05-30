@@ -1,0 +1,9 @@
+:root{
+    --border-radius:5px;
+    --color: #a171a6;
+    --colorWhite: white;
+    --colorBlack: black;
+    --colorLightpurple: #ebcfee;
+    --colorDarkpurple: #79677a;
+    --maxWidth: 768px;
+}
