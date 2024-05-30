@@ -1,50 +1,48 @@
 import React, { useState } from "react";
 import { CoffeeOutlined,HomeOutlined,SettingOutlined,BellOutlined,UserSwitchOutlined,QrcodeOutlined,UserOutlined,ContactsOutlined } from '@ant-design/icons';
 import { Segmented, Spin } from 'antd';
-import { SegmentedProps } from 'antd/es/segmented';
+// import { SegmentedProps } from 'antd/es/segmented';
+import { Link } from "react-router-dom"
+
 import './navigation.css'
 import '../../app/styles/vars.css'
 
-const Navigation: React.FC = () => {
+const Navigation: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [activeSegment, setActiveSegment] = useState<string | number>('login');
     
-    const options:SegmentedProps['options'] = [
-        { value: 'settings', icon: <SettingOutlined /> },
-        { value: 'contacts', icon: <ContactsOutlined /> },
-        { value: 'home', icon: <HomeOutlined /> },
-        // { value: 'vzvzv', icon: <SettingOutlined /> },
-        { value: 'news', icon: <BellOutlined /> },
-        { value: 'coffee', icon: <CoffeeOutlined /> },
-        
-    ];
+    const topNavIcons = [
+        <Link to={`/qr`}><QrcodeOutlined /></Link>,
+        <Link to={`/register`}><UserSwitchOutlined /></Link>,
+        <Link to={`/login`}><UserOutlined /></Link>
+    ]
+    const bottomNavIcons = [
+        <Link to={`/settings`}><SettingOutlined /> </Link>,
+        <Link to={`/contacts`}> <ContactsOutlined /> </Link>,
+        <Link to={`/home`}><HomeOutlined /></Link>,
+        <Link to={`/news`}><BellOutlined /></Link>,
+        <Link to={`/coffee`}><CoffeeOutlined /></Link>,
+
+
+    ]
     return (
         <div>
             <nav className="navbar-top">
                 <span className="logo">Крем и Корж</span>
                 <span className="top-nav-wrapper">
-                    <Segmented 
-                        value={activeSegment}
-                        onChange={setActiveSegment}
-                        block
-                        options={[
-                            { value: 'qr', icon: <QrcodeOutlined /> },
-                            { value: 'register', icon: <UserSwitchOutlined /> },
-                            { value: 'login', icon: <UserOutlined/> },
-                            // { value: 'login', icon: <img src={require('../../app/store/images/user-logged.png')} alt=""/> },
-                        ]}
-                    />
+                    {topNavIcons.map(icon => (
+                        <button className="navigation-button">{icon}</button>
+                    ))}
                 </span>
             </nav>
 
-            <h1>Крем и Корж</h1>
-            <Spin />
+            <main>{children}<Spin/></main>
+            
             <nav className="navbar-bottom">
-                <Segmented
-                    value={activeSegment}
-                    onChange={setActiveSegment}
-                    block
-                    options={options}
-                />
+                <span className="bottom-nav-wrapper">
+                    {bottomNavIcons.map(icon => (
+                        <button className="navigation-button">{icon}</button>
+                    ))}
+                </span>    
             </nav> 
         </div>
     )

@@ -6,4 +6,7 @@
     --colorLightpurple: #ebcfee;
     --colorDarkpurple: #79677a;
     --maxWidth: 768px;
+    --displayFlex: flex;
+    --spaceAround: space-around;
+    --fixedPosition: fixed;
 }

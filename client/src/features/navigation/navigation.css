@@ -6,33 +6,49 @@ nav{
     width: 100%;
     color: var(--colorWhite);
   }
-  .logo{
-    float: left;
+.logo{
     margin-left: 10px;
-    width: 40%;
+    width: 50%;
     font-size: 20px;
     font-weight: 600;
-  }
-  .top-nav-wrapper{
-    float: right;
+}
+.top-nav-wrapper{
     width: 50%;
-  }
-  .navbar-top{
-    position: fixed;
+    margin-right: 10px;
+    display: var(--displayFlex);
+    justify-content: var(--spaceAround);
+}
+.bottom-nav-wrapper{
+    width: 85%;
+    display: var(--displayFlex);
+}
+.navbar-top{
+    display: var(--displayFlex);
+    justify-content: var(--spaceAround);
+    position: var(--fixedPosition);
     top: 0;
-  }
-  .navbar-bottom{
-    position: fixed;
+}
+.navbar-bottom{
+    display: var(--displayFlex);
+    justify-content: var(--spaceAround);
+    position: var(--fixedPosition);
     bottom: 0;
-  }
-  .ant-segmented.ant-segmented-block{
-    margin: 0 auto;
-    height: 60px;
-    width: 80%;
+}
+.navigation-button{
+    width: 50px;
+    height: auto;
+    margin: 5px auto;
     background-color: var(--color);
-  }
-  h1{
-    color: var(--color);
-    margin: 0 auto 50px;
-    padding-top: 300px;
-  }
+    border: none;
+}
+
+.navigation-button svg{
+    color: var(--colorLightpurple);
+    transition: color 0.8s ease;
+    height: auto;
+    width: 25px;
+}
+.navigation-button svg > .active{
+    color: var(--colorDarkpurple);
+    transition: color 1.5s ease;
+}

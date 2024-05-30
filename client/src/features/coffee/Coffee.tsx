@@ -1,13 +1,14 @@
 import React from "react";
-import './cards.css'
+
+import './coffee.css'
 import '../../app/styles/normalize.css'
 import '../../app/styles/vars.css'
 
-const CardsList: React.FC = () => {
+const Coffee: React.FC = () => {
     return (
         <div>
             
         </div>
     )
 }
-export default CardsList;
+export default Coffee;

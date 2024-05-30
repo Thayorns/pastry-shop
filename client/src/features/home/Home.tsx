@@ -1,13 +1,14 @@
 import React from "react";
-import './cards.css'
+
+import './home.css'
 import '../../app/styles/normalize.css'
 import '../../app/styles/vars.css'
 
-const CardsList: React.FC = () => {
+const Home: React.FC = () => {
     return (
         <div>
             
         </div>
     )
 }
-export default CardsList;
+export default Home;
