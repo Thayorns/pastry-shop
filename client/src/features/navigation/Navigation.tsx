@@ -11,14 +11,13 @@ const Navigation: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
     const [activeTopButton, setActiveTopButton] = useState<number | null>(null);
     const [activeBottomButton, setActiveBottomButton] = useState<number | null>(null);
-    const toggleActiveButton = (index: number, setAction: any) => {
+    const toggleActiveButton = (index: number, setAction: (num: number)=> void) => {
         setAction(index)
-    }
-
+    };
     const topNavIcons = [
         <Link to={`/qr`}><QrcodeOutlined /></Link>,
         <Link to={`/register`}><UserSwitchOutlined /></Link>,
-        <Link to={`/login`}><UserOutlined /></Link>
+        // <Link to={`/login`}><UserOutlined /></Link>
     ];
     const bottomNavIcons = [
         <Link to={`/settings`}><SettingOutlined /> </Link>,

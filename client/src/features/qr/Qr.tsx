@@ -7,7 +7,7 @@ import '../../app/styles/vars.css'
 const Qr: React.FC = () => {
     return (
         <div>
-            
+            <h1>Роут для генерации qr-code настроен</h1>
         </div>
     )
 }

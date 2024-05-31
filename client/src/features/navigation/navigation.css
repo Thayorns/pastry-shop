@@ -9,14 +9,17 @@ nav{
 .logo{
     margin-left: 10px;
     width: 50%;
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 600;
 }
 .top-nav-wrapper{
     width: 50%;
-    margin-right: 10px;
+    margin-right: 30px;
     display: var(--displayFlex);
     justify-content: var(--spaceAround);
+    .navigation-button{
+        width: 50%;
+    }
 }
 .bottom-nav-wrapper{
     width: 85%;
@@ -61,7 +64,6 @@ nav a{
 
 .navigation-button:hover:not(.active){
     background-color: rgba(16, 130, 236, 0.336);
-    
 }
 .active{
     background-color: var(--colorWhite);

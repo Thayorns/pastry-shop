@@ -1,0 +1,19 @@
+.register{
+    height: 100vh;
+}
+form{
+    margin-top: 50px;
+    height: 40%;
+    display: var(--displayFlex);
+    flex-direction: column;
+    justify-content: var(--spaceAround);
+}
+.ant-input,
+.form-button{
+    margin: 0 auto;
+    width: 70%;
+    height: 45px;
+    border: 1px solid var(--colorDarkpurple);
+    border-radius: 18px;
+    /* text-align: center; */
+}

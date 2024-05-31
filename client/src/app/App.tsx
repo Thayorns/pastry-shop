@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import CardsList from '../features/cards/CardsList';
 import CardDescription from '../features/cards/CardDescription'
 import Navigation from '../features/navigation/Navigation'
@@ -23,6 +23,9 @@ const App: React.FC = () => {
         <Navigation>
           <Routes>
           
+            <Route path="/" 
+              element={<Navigate to="/home" />}
+            />
             <Route path="/cards"
               element={<CardsList/>}
             />

@@ -1,7 +1,10 @@
 :root{
-    --border-radius:5px;
+    --border-radius: 5px;
     --color: #a171a6;
     --colorWhite: white;
+    --colorGray: gray;
+    --colorOrange: orange;
+    --colorGreen: green;
     --colorBlack: black;
     --colorLightpurple: #ebcfee;
     --colorDarkpurple: #605161;
@@ -10,4 +13,6 @@
     --spaceAround: space-around;
     --fixedPosition: fixed;
     --borderRadius: 5px;
+    --cursor: pointer;
+    --hoverButtons: rgba(17, 17, 201, 0.425);
 }
