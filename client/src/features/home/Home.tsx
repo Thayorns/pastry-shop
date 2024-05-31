@@ -6,8 +6,8 @@ import '../../app/styles/vars.css'
 
 const Home: React.FC = () => {
     return (
-        <div>
-            
+        <div className="home-div">
+            topNavTabs!
         </div>
     )
 }

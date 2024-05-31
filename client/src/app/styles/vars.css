@@ -4,9 +4,10 @@
     --colorWhite: white;
     --colorBlack: black;
     --colorLightpurple: #ebcfee;
-    --colorDarkpurple: #79677a;
+    --colorDarkpurple: #605161;
     --maxWidth: 768px;
     --displayFlex: flex;
     --spaceAround: space-around;
     --fixedPosition: fixed;
+    --borderRadius: 5px;
 }
