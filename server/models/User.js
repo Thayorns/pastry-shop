@@ -1,21 +1,30 @@
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
+    email: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true,
+    },
     login: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true
+      unique: true,
     },
     password: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
     coffee_count: {
       type: DataTypes.INTEGER,
-      defaultValue: 0
+      defaultValue: 0,
     },
     friend: {
       type: DataTypes.BOOLEAN,
-      defaultValue: false
+      defaultValue: false,
+    },
+    isActivated: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
     }
   }, {});
 

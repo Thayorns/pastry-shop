@@ -1,7 +1,7 @@
 .App {
   max-width: var(--maxWidth);
   height: 100vh;
-  margin: 0 auto;
+  margin: var(--margin-0-auto);
   text-align: center;
   background: var(--colorWhite);
   color: var(--colorBlack);
@@ -18,12 +18,21 @@
   height: 25px;
 }
 main{
-  margin: 0 auto;
+  margin: var(--margin-0-auto);
 }
-h1{
+h1,h2{
   padding: 150px 20px 10px;
   font-size: 20px;
   color: var(--colorBlack);
+}
+strong{
+  color: var(--color);
+}
+p{
+  text-align: start;
+  width: 80%;
+  padding-top: 20px;
+  margin: var(--margin-0-auto);
 }
 button,input{
   cursor: var(--cursor);

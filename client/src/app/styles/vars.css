@@ -8,11 +8,15 @@
     --colorBlack: black;
     --colorLightpurple: #ebcfee;
     --colorDarkpurple: #605161;
+    --colorRed: red;
     --maxWidth: 768px;
     --displayFlex: flex;
+    --flexColumn: column;
     --spaceAround: space-around;
+    --spaceBetwen: space-between;
     --fixedPosition: fixed;
     --borderRadius: 5px;
     --cursor: pointer;
     --hoverButtons: rgba(17, 17, 201, 0.425);
+    --margin-0-auto: 0 auto;
 }
