@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { CoffeeOutlined,HomeOutlined,SettingOutlined,BellOutlined,UserSwitchOutlined,QrcodeOutlined,UserOutlined,ContactsOutlined } from '@ant-design/icons';
+import { CoffeeOutlined,HomeOutlined,SettingOutlined,BellOutlined,UserAddOutlined,UserSwitchOutlined,QrcodeOutlined,ContactsOutlined } from '@ant-design/icons';
 // import { Spin } from 'antd';
 // import { SegmentedProps } from 'antd/es/segmented';
 import { Link } from "react-router-dom"
@@ -16,8 +16,8 @@ const Navigation: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     };
     const topNavIcons = [
         <Link to={`/qr`}><QrcodeOutlined /></Link>,
-        <Link to={`/register`}><UserSwitchOutlined /></Link>,
-        // <Link to={`/login`}><UserOutlined /></Link>
+        <Link to={`/register`}><UserAddOutlined /></Link>,
+        <Link to={`/login`}><UserSwitchOutlined /></Link>
     ];
     const bottomNavIcons = [
         <Link to={`/settings`}><SettingOutlined /> </Link>,

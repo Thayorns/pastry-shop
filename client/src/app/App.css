@@ -21,16 +21,19 @@ main{
   margin: var(--margin-0-auto);
 }
 h1,h2{
+  width: var(--width80);
+  margin: var(--margin-0-auto);
   padding: 150px 20px 10px;
   font-size: 20px;
   color: var(--colorBlack);
+  /* text-align: var(--text-align); */
 }
 strong{
   color: var(--color);
 }
 p{
   text-align: start;
-  width: 80%;
+  width: var(--width80);
   padding-top: 20px;
   margin: var(--margin-0-auto);
 }

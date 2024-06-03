@@ -1,5 +1,9 @@
 .register{
-    height: 700px;
+    height: var(--height700);
+    span{
+        display: var(--inlineBlock);
+        width: var(--width80);
+    }
 }
 form{
     margin-top: 30px;
@@ -30,12 +34,19 @@ form{
     display: var(--displayFlex);
     flex-direction: var(--flexColumn);
     justify-content: var(--spaceBetwen);
-    /* padding-top: 80px; */
-    /* button{
-        margin-top: 80px;
+    span{
+        margin-top: 20px;
+        color: var(--color);
+        text-decoration: var(--textUnderline);
+    }
+    .form-button{
+        margin-top: 60px;
+    }
+    .form-button span{
+        margin-top: 0px;
         color: var(--colorWhite);
-        font-size: 16px;
-    } */
+        text-decoration: none;
+    }
 }
 .error-register{
     color: var(--colorRed)

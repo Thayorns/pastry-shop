@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
-import CardsList from '../features/cards/CardsList';
-import CardDescription from '../features/cards/CardDescription'
+
 import Navigation from '../features/navigation/Navigation'
 import Coffee from '../features/coffee/Coffee';
 import Contacts from '../features/contacts/Contacts';
@@ -11,6 +10,7 @@ import News from '../features/news/News';
 import Qr from '../features/qr/Qr';
 import Register from '../features/registration/Register';
 import Settings from '../features/settings/Settings';
+import Token from '../features/tokens/Token';
 
 import './App.css';
 import './styles/normalize.css'
@@ -26,11 +26,8 @@ const App: React.FC = () => {
             <Route path="/" 
               element={<Navigate to="/home" />}
             />
-            <Route path="/cards"
-              element={<CardsList/>}
-            />
-            <Route path="/cards/:itemId" 
-              element={<CardDescription/>} 
+            <Route path="/activate/:token"
+              element={<Token/>}
             />
             <Route path="/coffee"
               element={<Coffee/>}
@@ -63,36 +60,4 @@ const App: React.FC = () => {
     </Router>
   );
 }
-
-
 export default App;
-
-
-
-// useEffect(() => {
-//   fetch('/api')
-//   .then((res) => res.json())
-//   .then((data) => setData(data));
-// }, []);
-
-// {/* <p>{!data ? 'Загрузка...' : JSON.stringify(data)}</p> */}
-
-// const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
-//   const response = await fetch('/api/register', {
-//     method: 'POST',
-//     headers: {
-//       'Content-Type': 'application/json',
-//     },
-//     body: JSON.stringify(values),
-//   });
-
-//   const data = await response.json();
-//   if (response.status === 201) {
-//     console.log('Registration successful:', data);
-//   } else {
-//     console.error('Registration error:', data);
-//   }
-// };
-// const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
-//   console.log('Failed:', errorInfo);
-// };

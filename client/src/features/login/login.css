@@ -1,0 +1,8 @@
+.login-div{
+    height: var(--height700);
+    span{
+        margin-top: 0px;
+        display: var(--inlineBlock);
+        width: var(--width80);
+    }
+}

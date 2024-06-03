@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express");
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
@@ -11,6 +12,8 @@ const transporter = require('./mailer');
 const PORT = process.env.PORT || 3001;
 const app = express();
 const JWT_SECRET = 'k0raelstrazSfu110f1ight5Darkne5Ss';
+const ACCESS_TOKEN_SECRET = 'k0raelstrazSfu110f1ight5Darkne5Ss'
+const REFRESH_TOKEN_SECRET = 'k0raelstrazSfu110f1ight5Darkne5Ss'
 
 app.use(express.json());
 app.use(cookieParser());
@@ -31,7 +34,7 @@ app.post('/api/register', async (req, res) => {
     const newUser = await User.create({ email, login, password: hashedPassword });
 
     const token = jwt.sign({ id: newUser.id }, JWT_SECRET, { expiresIn: '1h' });
-    const activationLink = `http://localhost:3001/api/activate/${token}`;
+    const activationLink = `http://localhost:3000/activate/${token}`;
 
     const mailOptions = {
       from: 'thayornswordsman@gmail.com',
@@ -69,6 +72,64 @@ app.get('/api/activate/:token', async (req, res) => {
     console.error(err);
     res.status(500).json({ error: 'Account activation failed' });
   }
+});
+
+// авторизация 
+app.post('/api/login', async (req, res) => {
+  const { login, password } = req.body;
+  try {
+    const user = await User.findOne({ where: { login } });
+
+    if (!user || !user.isActivated) {
+      return res.status(401).json({ error: 'Invalid login or user not activated' });
+    }
+
+    if (await bcrypt.compare(password, user.password)) {
+      // Generate tokens
+      const accessToken = jwt.sign({ userId: user.id }, ACCESS_TOKEN_SECRET, { expiresIn: '15m' });
+      const refreshToken = jwt.sign({ userId: user.id }, REFRESH_TOKEN_SECRET, { expiresIn: '60d' });
+
+      // Set refresh token in httpOnly cookie
+      res.cookie('refreshToken', refreshToken, {
+        httpOnly: true,
+        secure: true, // Use true in production
+        sameSite: 'strict',
+        maxAge: 60 * 24 * 60 * 60 * 1000 // 60 days
+      });
+
+      return res.json({ accessToken });
+    } else {
+      return res.status(401).json({ error: 'Invalid login or password' });
+    }
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: 'User login failed' });
+  }
+});
+
+// обновление токенов
+app.post('/api/refresh-token', (req, res) => {
+  const { refreshToken } = req.cookies;
+
+  if (!refreshToken) {
+    return res.status(401).json({ error: 'Refresh token not found' });
+  }
+
+  try {
+    const decoded = jwt.verify(refreshToken, REFRESH_TOKEN_SECRET);
+    const newAccessToken = jwt.sign({ userId: decoded.userId }, ACCESS_TOKEN_SECRET, { expiresIn: '15m' });
+
+    return res.json({ accessToken: newAccessToken });
+  } catch (err) {
+    console.error(err);
+    return res.status(401).json({ error: 'Invalid refresh token' });
+  }
+});
+
+// завершение сеанса (logout)
+app.post('/api/logout', (req, res) => {
+  res.cookie('refreshToken', '', { maxAge: 0 });
+  res.status(200).json({ message: 'Logout successful' });
 });
 
 const startServer = async () => {
