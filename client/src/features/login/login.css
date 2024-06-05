@@ -1,8 +1,13 @@
 .login-div{
     height: var(--height700);
     span{
-        margin-top: 0px;
         display: var(--inlineBlock);
         width: var(--width80);
     }
+}
+.account-logout-button{
+    margin-top: 60px;
+}
+.success-login-h2{
+    padding: 200px 20px 10px;
 }

@@ -40,9 +40,6 @@ form{
         text-decoration: var(--textUnderline);
             
     }
-    .form-button{
-        margin-top: 60px;
-    }
     .form-button span{
         margin-top: 0px;
         color: var(--colorWhite);

@@ -129,7 +129,7 @@ app.post('/api/refresh-token', (req, res) => {
 // завершение сеанса (logout)
 app.post('/api/logout', (req, res) => {
   res.cookie('refreshToken', '', { maxAge: 0 });
-  res.status(200).json({ message: 'Logout successful' });
+  return res.status(200).json({ message: 'Logout successful' });
 });
 
 const startServer = async () => {

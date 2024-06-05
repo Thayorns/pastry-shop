@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Button, Input, Spin } from 'antd';
-import { useLogInUserMutation, useUserLogoutMutation } from "../api/apiSlice";
 import { Link } from "react-router-dom"
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from "../api/authSlice";
+import { useLogInUserMutation, useUserLogoutMutation } from "../api/apiSlice";
 
 import './login.css'
 import '../../app/styles/normalize.css'
@@ -23,38 +23,49 @@ const Login: React.FC = () => {
     const loginStatus = useSelector((state: any) => state.auth.loginStatus);
     const error = useSelector((state: any) => state.auth.error);
     
-    const handleSubmit = (e: React.FormEvent) => {
+    // функция аутентификации
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        logInUser({ login: userName, password: userPassword})
+        try{
+            await logInUser({ login: userName, password: userPassword});
+        }catch (err){
+            console.error('Failed to log in: ', err);
+        }
     }
-    const handleUserLogoutSubmit = (e: React.FormEvent) => {
+    // функция выхода из аккаунта
+    const handleUserLogoutSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        userLogout({});
-        dispatch(logout());
+        try{
+            await userLogout({});
+            dispatch(logout());
+        }catch (err){
+            console.error('Failed to log in: ', err);
+        }
+        
     }
 
+    // отрисовка контента
     const errorDisplay: React.ReactNode = error as React.ReactNode;
     let content: React.ReactNode;
     
     if(loginStatus === 'loading'){
         content = <Spin/>
-    }else if(isAuthenticated){
+    }else if(isAuthenticated === true){
         content = (
             <div className="success-register">
-                <h2>Здравствуйте, <strong>{userLoginFromStore}</strong>! Вы вошли в аккаунт "Крем и Корж"</h2>
+                <h2 className="success-login-h2">Здравствуйте, <strong>{userLoginFromStore}</strong>! Вы вошли в аккаунт "Крем и Корж"</h2>
                 <p>Теперь Вы можете пользоваться акцией "бесплатного кофе", зайдя во вкладку "qr-кода" приложения.</p>
-                <Link to='/'><Button onSubmit={handleUserLogoutSubmit} htmlType="submit" type="primary" className="form-button" >Выйти</Button></Link>
+                <Link to='/login' className="account-logout-button"><Button onClick={handleUserLogoutSubmit} htmlType="submit" type="primary" className="form-button" >Выйти</Button></Link>
             </div>
         )
     }else{
         content = (
-        
             <div className="login-div">
-                <h1>АВТОРИЗАЦИЯ</h1>
+                <h1>ВХОД В АККАУНТ</h1>
                 <span>Если Вы уже регистрировались в "Крем и Корж", заполните форму, чтобы войти в свой аккаунт.</span>
                 {errorDisplay && (
                     <div className="error-register">
-                        <p>Ошибка..Вы ввели неверный логин или пароль.</p>
+                        <p>Ошибка..Вы либо ввели неверный логин или пароль, либо не активировали аккаунт через письмо на почте.</p>
                         <p>Попробуйте снова.</p>
                     </div>
                 ) as React.ReactNode}

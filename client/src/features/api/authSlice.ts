@@ -18,6 +18,7 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+    // кондиции состояния входа
       .addMatcher(apiSlice.endpoints.logInUser.matchPending, (state: any) => {
         state.loginStatus = 'loading';
         state.error = null;
@@ -31,6 +32,16 @@ const authSlice = createSlice({
         state.loginStatus = 'failed';
         state.error = action.error;
       });
+      // кондиции выхода
+      // .addMatcher(apiSlice.endpoints.userLogout.matchFulfilled, (state: any) => {
+      //   state.isAuthenticated = false;
+      //   state.login = null;
+      //   state.loginStatus = 'idle';
+      //   state.error = null;
+      // })
+      // .addMatcher(apiSlice.endpoints.userLogout.matchRejected, (state: any, action: any) => {
+      //   state.error = action.error;
+      // });
   }
 });
 
