@@ -10,7 +10,7 @@ import '../../app/styles/vars.css'
 const Navigation: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
     const [activeTopButton, setActiveTopButton] = useState<number | null>(null);
-    const [activeBottomButton, setActiveBottomButton] = useState<number | null>(2);
+    const [activeBottomButton, setActiveBottomButton] = useState<number | null>(null);
     const toggleActiveButton = (index: number, setAction: (num: number)=> void) => {
         setAction(index)
     };

@@ -1,4 +1,4 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 interface AddUserRequest {
   email: string;
   login: string;
@@ -9,27 +9,9 @@ interface LogInUserRequest {
   password: string;
 }
 
-// // Тип для данных, получаемых в ответе
-// interface AddUserResponse {
-//   message: string;
-//   user: {
-//     id: number;
-//     email: string;
-//     login: string;
-//     coffeeCount: number;
-//     friend: boolean;
-//     isActivated: boolean;
-//   };
-// }
-
-// // Тип для ошибки
-// interface ErrorResponse {
-//   error: string;
-// }
-
 export const apiSlice = createApi({
   reducerPath: 'api',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3001' }),
+  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3001'}),
   endpoints: (builder: any) => ({
     
     addUser: builder.mutation({ 
@@ -38,6 +20,10 @@ export const apiSlice = createApi({
         method: 'POST',
         body,
       })
+    }),
+
+    getToken: builder.query({
+      query: (token: string) => `http://localhost:3001/api/activate/${token}`
     }),
     
     logInUser: builder.mutation({
@@ -49,12 +35,9 @@ export const apiSlice = createApi({
     }),
     
     userLogout: builder.mutation({
-      query: () => `/api/logout`
+      query: () =>  `/api/logout`
     }),
     
-    getToken: builder.query({
-      query: (token: string) => `http://localhost:3001/api/activate/${token}`
-    }),
 
   }),
 })

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Button, Input, Spin } from 'antd';
 import { useLogInUserMutation, useUserLogoutMutation } from "../api/apiSlice";
 import { Link } from "react-router-dom"
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from "../api/authSlice";
 
 import './login.css'
 import '../../app/styles/normalize.css'
@@ -9,11 +11,17 @@ import '../../app/styles/vars.css'
 
 
 const Login: React.FC = () => {
-    const [logInUser, { isLoading, error, isSuccess }] = useLogInUserMutation()
-    const [userLogout] = useUserLogoutMutation()
+    const [logInUser] = useLogInUserMutation();
+    const [userLogout] = useUserLogoutMutation();
+    const dispatch = useDispatch();
 
-    const [userName, setUserName] = useState('')
-    const [userPassword, setUserPassword] = useState('')
+    const [userName, setUserName] = useState('');
+    const [userPassword, setUserPassword] = useState('');
+
+    const isAuthenticated = useSelector((state: any) => state.auth.isAuthenticated);
+    const userLoginFromStore = useSelector((state:any) => state.auth.login)
+    const loginStatus = useSelector((state: any) => state.auth.loginStatus);
+    const error = useSelector((state: any) => state.auth.error);
     
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -21,21 +29,21 @@ const Login: React.FC = () => {
     }
     const handleUserLogoutSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        userLogout({})
+        userLogout({});
+        dispatch(logout());
     }
 
-    
     const errorDisplay: React.ReactNode = error as React.ReactNode;
     let content: React.ReactNode;
     
-    if(isLoading){
+    if(loginStatus === 'loading'){
         content = <Spin/>
-    }else if(isSuccess){
+    }else if(isAuthenticated){
         content = (
             <div className="success-register">
-                <h2>Здравствуйте, <strong>{userName}</strong>! Вы вошли в аккаунт "Крем и Корж"</h2>
+                <h2>Здравствуйте, <strong>{userLoginFromStore}</strong>! Вы вошли в аккаунт "Крем и Корж"</h2>
                 <p>Теперь Вы можете пользоваться акцией "бесплатного кофе", зайдя во вкладку "qr-кода" приложения.</p>
-                <Link to='/'><Button onSubmit={handleUserLogoutSubmit} htmlType="submit" type="primary" className="form-button" disabled={isLoading}>Выйти</Button></Link>
+                <Link to='/'><Button onSubmit={handleUserLogoutSubmit} htmlType="submit" type="primary" className="form-button" >Выйти</Button></Link>
             </div>
         )
     }else{
@@ -72,7 +80,7 @@ const Login: React.FC = () => {
                             required 
                         />
                     </div>
-                    <Button htmlType="submit" type="primary" className="form-button" disabled={isLoading}>Войти</Button>
+                    <Button htmlType="submit" type="primary" className="form-button" disabled={loginStatus === 'loading'}>Войти</Button>
                 </form>
             </div>
         )

@@ -97,7 +97,7 @@ app.post('/api/login', async (req, res) => {
         maxAge: 60 * 24 * 60 * 60 * 1000 // 60 days
       });
 
-      return res.json({ accessToken });
+      return res.json({ accessToken, login });
     } else {
       return res.status(401).json({ error: 'Invalid login or password' });
     }

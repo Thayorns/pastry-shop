@@ -38,6 +38,7 @@ form{
         margin-top: 20px;
         color: var(--color);
         text-decoration: var(--textUnderline);
+            
     }
     .form-button{
         margin-top: 60px;
