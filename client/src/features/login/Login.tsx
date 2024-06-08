@@ -4,6 +4,7 @@ import { Link } from "react-router-dom"
 import { useDispatch, useSelector } from 'react-redux';
 import { logout } from "../api/authSlice";
 import { useLogInUserMutation, useUserLogoutMutation } from "../api/apiSlice";
+import { RootState } from "../../app/store/store";
 
 import './login.css'
 import '../../app/styles/normalize.css'
@@ -11,17 +12,16 @@ import '../../app/styles/vars.css'
 
 
 const Login: React.FC = () => {
-    const [logInUser] = useLogInUserMutation();
+    const [logInUser,{error}] = useLogInUserMutation();
     const [userLogout] = useUserLogoutMutation();
     const dispatch = useDispatch();
 
     const [userName, setUserName] = useState('');
     const [userPassword, setUserPassword] = useState('');
 
-    const isAuthenticated = useSelector((state: any) => state.auth.isAuthenticated);
-    const userLoginFromStore = useSelector((state:any) => state.auth.login)
-    const loginStatus = useSelector((state: any) => state.auth.loginStatus);
-    const error = useSelector((state: any) => state.auth.error);
+    const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
+    const userLoginFromStore = useSelector((state:RootState) => state.auth.login)
+    const loginStatus = useSelector((state: RootState) => state.auth.loginStatus);
     
     // функция аутентификации
     const handleSubmit = async (e: React.FormEvent) => {
@@ -29,7 +29,7 @@ const Login: React.FC = () => {
         try{
             await logInUser({ login: userName, password: userPassword});
         }catch (err){
-            console.error('Failed to log in: ', err);
+            console.error('Ошибка входа: ', err);
         }
     }
     // функция выхода из аккаунта
@@ -39,7 +39,7 @@ const Login: React.FC = () => {
             await userLogout({});
             dispatch(logout());
         }catch (err){
-            console.error('Failed to log in: ', err);
+            console.error('Ошибка входа: ', err);
         }
         
     }

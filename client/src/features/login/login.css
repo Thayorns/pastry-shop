@@ -10,4 +10,5 @@
 }
 .success-login-h2{
     padding: 200px 20px 10px;
+    text-align: var(--text-align);
 }

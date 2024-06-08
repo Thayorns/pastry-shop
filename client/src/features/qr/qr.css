@@ -1,0 +1,25 @@
+.qr-div{
+    img{
+        margin-top: 20px;
+        width: 270px;
+        height: var(--height-auto);
+    }
+    h1{
+        font-size: 30px;
+    }
+    h2{
+        padding: 20px;
+        font-size: 60px;
+        color: var(--color);
+    }
+    span{
+        display: var(--inlineBlock);
+        width: var(--width80);
+    }
+}
+.auth-error h2{
+    padding-top: 200px;
+    color: var(--color);
+    text-align: justify;
+
+}

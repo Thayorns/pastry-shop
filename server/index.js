@@ -8,6 +8,7 @@ const { sequelize, User } = require('./models');
 const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 const transporter = require('./mailer');
+const QRCode = require('qrcode');
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -15,9 +16,30 @@ const JWT_SECRET = 'k0raelstrazSfu110f1ight5Darkne5Ss';
 const ACCESS_TOKEN_SECRET = 'k0raelstrazSfu110f1ight5Darkne5Ss'
 const REFRESH_TOKEN_SECRET = 'k0raelstrazSfu110f1ight5Darkne5Ss'
 
+
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
+
+// функционал QR-code
+function getRandomArbitrary(min, max) {
+  return Math.floor(Math.random() * (max - min) + min);
+}
+app.get('/qr', async (req, res) => {
+  const randomNumber = getRandomArbitrary(1000, 10000);
+  try {
+    const qrCodeDataURL = await QRCode.toDataURL(randomNumber.toString());
+    
+    // отправка значений
+    res.json({
+      number: randomNumber,
+      qrCode: qrCodeDataURL
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Ошибка генерации QR-кода');
+  }
+});
 
 // регистрация
 app.post('/api/register', async (req, res) => {

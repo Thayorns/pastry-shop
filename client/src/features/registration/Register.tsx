@@ -11,9 +11,15 @@ const Register: React.FC = () => {
     const [userEmail, setUserEmail] = useState('')
     const [userName, setUserName] = useState('')
     const [userPassword, setUserPassword] = useState('')
-    const handleSubmit = (e: React.FormEvent) => {
+    
+    // функция добавления пользователя
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        addUser({ email: userEmail, login: userName, password: userPassword})
+        try{
+            await addUser({ email: userEmail, login: userName, password: userPassword})
+        }catch(err){
+            console.error('Ошибка регистрации: ', err);
+        }
     }
     
     const errorDisplay: React.ReactNode = error as React.ReactNode;

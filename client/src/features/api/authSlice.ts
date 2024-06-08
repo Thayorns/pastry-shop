@@ -1,16 +1,26 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { apiSlice } from '../api/apiSlice';
 
+export type InitialState = {
+  isAuthenticated: boolean;
+  login: string | null;
+  loginStatus: string;
+}
+export interface UserLoginPayload {
+  login: string;
+}
+
 const authSlice = createSlice({
   name: 'auth',
+  
   initialState: {
     isAuthenticated: false,
     login: null,
     loginStatus: 'idle',
-    error: null,
-  },
+  } as InitialState,
+
   reducers: {
-    logout(state: any) {
+    logout(state: InitialState) {
       state.isAuthenticated = false;
       state.login = null;
       state.loginStatus = 'idle';
@@ -18,30 +28,18 @@ const authSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-    // кондиции состояния входа
-      .addMatcher(apiSlice.endpoints.logInUser.matchPending, (state: any) => {
-        state.loginStatus = 'loading';
-        state.error = null;
-      })
-      .addMatcher(apiSlice.endpoints.logInUser.matchFulfilled, (state: any, action: any) => {
-        state.loginStatus = 'succeeded';
-        state.isAuthenticated = true;
-        state.login = action.payload.login;
-      })
-      .addMatcher(apiSlice.endpoints.logInUser.matchRejected, (state: any, action: any) => {
-        state.loginStatus = 'failed';
-        state.error = action.error;
-      });
-      // кондиции выхода
-      // .addMatcher(apiSlice.endpoints.userLogout.matchFulfilled, (state: any) => {
-      //   state.isAuthenticated = false;
-      //   state.login = null;
-      //   state.loginStatus = 'idle';
-      //   state.error = null;
-      // })
-      // .addMatcher(apiSlice.endpoints.userLogout.matchRejected, (state: any, action: any) => {
-      //   state.error = action.error;
-      // });
+    .addMatcher(apiSlice.endpoints.logInUser.matchPending, (state: InitialState) => {
+      state.loginStatus = 'loading';
+    })
+    .addMatcher(apiSlice.endpoints.logInUser.matchFulfilled, (state: InitialState, action: any) => {
+      state.loginStatus = 'succeeded';
+      state.isAuthenticated = true;
+      const {login} = action.payload as UserLoginPayload;
+      state.login = login;
+    })
+    .addMatcher(apiSlice.endpoints.logInUser.matchRejected, (state: InitialState) => {
+      state.loginStatus = 'failed';
+    });
   }
 });
 

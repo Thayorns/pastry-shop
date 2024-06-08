@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { CoffeeOutlined,HomeOutlined,SettingOutlined,BellOutlined,UserAddOutlined,UserSwitchOutlined,QrcodeOutlined,ContactsOutlined } from '@ant-design/icons';
 import { useSelector} from "react-redux";
 import { Link } from "react-router-dom"
+import { RootState } from "../../app/store/store";
 
 import './navigation.css'
 import '../../app/styles/vars.css'
@@ -15,21 +16,16 @@ const Navigation: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const toggleActiveButton = (index: number, setAction: (num: number)=> void) => {
         setAction(index)
     };
-
-    // отрисовка верхней навигации в зависимости от кондиции
-    const isAuthenticatedFromStore = useSelector((state: any) => state.auth.isAuthenticated);
-    const topIcons = [
-        <Link to={`/qr`}><QrcodeOutlined /></Link>,
-        <Link to={`/register`}><UserAddOutlined /></Link>,
-        <Link to={`/login`}><UserSwitchOutlined /></Link>
-    ];
+    
+    // отрисовка верхней навигации в зависимости от состояния
+    const isAuthenticatedFromStore = useSelector((state: RootState) => state.auth.isAuthenticated);
     const topNavIcons = [
-        topIcons[0],
-        ...(isAuthenticatedFromStore === false ? [topIcons[1]] : []),
-        topIcons[2]
+        <Link to={`/qr`}><QrcodeOutlined /></Link>,
+        <Link to={`/login`}><UserSwitchOutlined /></Link>,
+        ...(isAuthenticatedFromStore === false ? [<Link to={`/register`}><UserAddOutlined /></Link>] : []),
     ];
 
-    // отрисовка нижней навигации в зависимости от кондиции
+    // отрисовка нижней навигации в зависимости от состояния
     const bottomNavIcons = [
         <Link to={`/settings`}><SettingOutlined /> </Link>,
         <Link to={`/contacts`}> <ContactsOutlined /> </Link>,

@@ -14,6 +14,12 @@ export const apiSlice = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3001'}),
   endpoints: (builder: any) => ({
     
+    // получение QR-кода
+    getQRcode: builder.query({
+      query: () => `/qr`
+    }),
+
+    // добавление нового юзера
     addUser: builder.mutation({ 
       query: (body: AddUserRequest) => ({
         url: `/api/register`,
@@ -22,10 +28,12 @@ export const apiSlice = createApi({
       })
     }),
 
+    // получение токена юзером
     getToken: builder.query({
       query: (token: string) => `http://localhost:3001/api/activate/${token}`
     }),
     
+    // вход в аккаунт юзером
     logInUser: builder.mutation({
       query: (body: LogInUserRequest) => ({
         url: `/api/login`,
@@ -34,6 +42,7 @@ export const apiSlice = createApi({
       })
     }),
     
+    // выход из аккаунта юзером
     userLogout: builder.mutation({
       query: () => ({
         url: `/api/logout`,
@@ -44,4 +53,4 @@ export const apiSlice = createApi({
 
   }),
 })
-export const {useAddUserMutation, useGetTokenQuery, useLogInUserMutation, useUserLogoutMutation} = apiSlice;
+export const {useAddUserMutation, useGetTokenQuery, useLogInUserMutation, useUserLogoutMutation, useGetQRcodeQuery} = apiSlice;

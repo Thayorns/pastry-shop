@@ -21,6 +21,7 @@ main{
   margin: var(--margin-0-auto);
 }
 h1,h2{
+  line-height: 40px;
   width: var(--width80);
   margin: var(--margin-0-auto);
   padding: 150px 20px 10px;
@@ -32,6 +33,7 @@ strong{
   color: var(--color);
 }
 p{
+  line-height: 20px;
   text-align: start;
   width: var(--width80);
   padding-top: 20px;
