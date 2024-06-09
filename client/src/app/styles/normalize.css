@@ -1,8 +1,10 @@
 html {
+    height: var(--height700);
     scroll-behavior: smooth;
-    background: var(--colorBlack);
+    background: var(--colorWhite);
 }
 body {
+    height: var(--height700);
     margin: 0;
     font-family:'Montserrat', sans-serif;
     -webkit-font-smoothing: antialiased;

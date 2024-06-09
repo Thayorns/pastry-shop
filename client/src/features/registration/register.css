@@ -21,6 +21,7 @@ form{
     border-radius: 18px;
 }
 .form-button{
+    margin-top: 60px;
     background-color: var(--color);
     span{
         font-size: 18px;

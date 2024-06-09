@@ -29,6 +29,10 @@ module.exports = (sequelize, DataTypes) => {
     qr_code: {
       type: DataTypes.INTEGER,
       allowNull: true,
+    },
+    admin: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
     }
   }, {});
 

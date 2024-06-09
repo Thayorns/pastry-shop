@@ -134,8 +134,10 @@ app.post('/api/login', async (req, res) => {
         sameSite: 'strict',
         maxAge: 60 * 24 * 60 * 60 * 1000 // 60 days
       });
+      
+      const role = user.admin
 
-      return res.json({ accessToken, login });
+      return res.json({ accessToken, login, role });
     } else {
       return res.status(401).json({ error: 'Invalid login or password' });
     }

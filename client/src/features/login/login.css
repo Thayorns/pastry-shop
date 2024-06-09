@@ -5,10 +5,38 @@
         width: var(--width80);
     }
 }
+.success-login,
+.success-login-not-admin {
+    height: 1000px;
+    span{
+        margin-top: 20px;
+        color: var(--color);
+        text-decoration: var(--textUnderline);
+    }
+    .form-button span{
+        margin-top: 0px;
+        color: var(--colorWhite);
+        text-decoration: none;
+    }
+}
+.success-login-not-admin{
+    height: var(--height700);
+}
+.success-login-not-admin h1{
+    padding-top: 150px;
+}
 .account-logout-button{
     margin-top: 60px;
 }
 .success-login-h2{
-    padding: 200px 20px 10px;
+    padding: 20px 20px 10px;
     text-align: var(--text-align);
+}
+.success-login-h1,
+.admin-role{
+    font-size: 25px;
+    color: var(--color);
+}
+.success-login-h1{
+    padding-top: 20px;
 }

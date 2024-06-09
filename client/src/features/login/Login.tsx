@@ -20,6 +20,7 @@ const Login: React.FC = () => {
     const [userPassword, setUserPassword] = useState('');
 
     const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
+    const role = useSelector((state: RootState) => state.auth.role);
     const userLoginFromStore = useSelector((state:RootState) => state.auth.login)
     const loginStatus = useSelector((state: RootState) => state.auth.loginStatus);
     
@@ -41,7 +42,6 @@ const Login: React.FC = () => {
         }catch (err){
             console.error('Ошибка входа: ', err);
         }
-        
     }
 
     // отрисовка контента
@@ -50,11 +50,29 @@ const Login: React.FC = () => {
     
     if(loginStatus === 'loading'){
         content = <Spin/>
+    }else if(isAuthenticated === true && role === true){
+        content = (
+            <div className="success-login">
+                <h1 className="admin-role">
+                    АДМИНИСТРАТОР <br/>
+                    {userLoginFromStore}
+                </h1>
+                <h2 className="success-login-h2">Здравствуйте! Вы вошли в аккаунт "Крем и Корж".</h2>
+                <p>Для администраторов приложение несколько отличается своим расширенным функционалом, в отличии от остальных пользователей.</p>
+                <p>В разделе "настройки" Вы можете добавлять в друзья посетителей, достаточно ввести логин посетителя.</p>    
+                <p>В разделе "настройки" Вы можете добавлять пользователя в администраторы.</p>   
+                <p>В разделе "настройки" Вы в будущем сможете загружать фотографии для раздела "дом".</p>   
+                <p>В разделе "кофе" Вы можете добавлять подарочные кофе для посетителей, достаточно ввести номер, который озвучит посетитель.</p>
+                <Link to='/login' className="account-logout-button"><Button onClick={handleUserLogoutSubmit} htmlType="submit" type="primary" className="form-button" >Выйти</Button></Link>
+            </div>
+        )
     }else if(isAuthenticated === true){
         content = (
-            <div className="success-register">
-                <h2 className="success-login-h2">Здравствуйте, <strong>{userLoginFromStore}</strong>! Вы вошли в аккаунт "Крем и Корж"</h2>
-                <p>Теперь Вы можете пользоваться акцией "бесплатного кофе", зайдя во вкладку "qr-кода" приложения.</p>
+            <div className="success-login-not-admin">
+                <h1 className="success-login-h1">{userLoginFromStore}</h1>
+                <h2 className="success-login-h2">Здравствуйте! Вы вошли в аккаунт "Крем и Корж".</h2>
+                <p>Теперь Вы можете пользоваться проводимыми в "Крем и Корж" акциями, такими как бесплатный кофе.</p>
+                <p>Кликните на раздел "qr-код" для дальнейших инструкций.</p>
                 <Link to='/login' className="account-logout-button"><Button onClick={handleUserLogoutSubmit} htmlType="submit" type="primary" className="form-button" >Выйти</Button></Link>
             </div>
         )

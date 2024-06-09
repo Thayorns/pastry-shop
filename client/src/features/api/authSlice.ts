@@ -5,9 +5,11 @@ export type InitialState = {
   isAuthenticated: boolean;
   login: string | null;
   loginStatus: string;
+  role: boolean;
 }
 export interface UserLoginPayload {
   login: string;
+  role: boolean;
 }
 
 const authSlice = createSlice({
@@ -17,6 +19,7 @@ const authSlice = createSlice({
     isAuthenticated: false,
     login: null,
     loginStatus: 'idle',
+    role: false,
   } as InitialState,
 
   reducers: {
@@ -34,8 +37,9 @@ const authSlice = createSlice({
     .addMatcher(apiSlice.endpoints.logInUser.matchFulfilled, (state: InitialState, action: any) => {
       state.loginStatus = 'succeeded';
       state.isAuthenticated = true;
-      const {login} = action.payload as UserLoginPayload;
+      const {login, role} = action.payload as UserLoginPayload;
       state.login = login;
+      state.role = role;
     })
     .addMatcher(apiSlice.endpoints.logInUser.matchRejected, (state: InitialState) => {
       state.loginStatus = 'failed';
