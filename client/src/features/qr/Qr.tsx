@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
-import { useGetQRcodeQuery } from "../api/apiSlice";
+import { useAddQRcodeMutation } from "../api/apiSlice";
 import { RootState } from "../../app/store/store";
 import { useSelector } from 'react-redux';
+import { Spin } from 'antd';
 
 import './qr.css';
 import '../../app/styles/normalize.css';
@@ -9,26 +10,29 @@ import '../../app/styles/vars.css';
 
 const Qr: React.FC = () => {
 
-    const {refetch, isError} = useGetQRcodeQuery({});
+    const [addQRcode, { isLoading: isSaving, error }] = useAddQRcodeMutation();
     
     // использую глобал-стейт авторизованного
     const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
+    const userLogin = useSelector((state: RootState) => state.auth.login);
     // использую глобал стейт приходящего с сервера qr
     const numberFromStore = useSelector((state: RootState) => state.qr.number);
     const qrUrlFromStore = useSelector((state: RootState) => state.qr.qrCode);
     const loginStatusSuccessFromStore = useSelector((state: RootState) => state.qr.loadingStatus);
-
+    
     console.log('component renders', numberFromStore);
     
     
     useEffect(() => {
-        if(isAuthenticated === true){
-            refetch();
-        };
-    }, [refetch, isAuthenticated]);
+        addQRcode({ login: userLogin })
+    }, [addQRcode, userLogin]);
     
     let content: React.ReactNode;
+    const errorDisplay: React.ReactNode = error as React.ReactNode;
 
+    if(isSaving) {
+        content = <Spin/>
+    }
     if(isAuthenticated === false){
         content = (
             <div className="auth-error">
@@ -45,7 +49,7 @@ const Qr: React.FC = () => {
                 <h2>{numberFromStore}</h2>
             </div>
         )
-    }else content = <div>{isError}</div>
+    }else content = <div>{errorDisplay}</div>
 
     return content;
 };

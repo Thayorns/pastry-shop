@@ -20,12 +20,13 @@ const qrSlice = createSlice({
     reducers: {},
 
     extraReducers: (builder) => {
-        builder.addMatcher(apiSlice.endpoints.getQRcode.matchFulfilled, (state: InitialState, action: any) => {
+        builder
+        .addMatcher(apiSlice.endpoints.addQRcode.matchFulfilled, (state: InitialState, action: any) => {
             state.loadingStatus = 'succeeded';
             const {number, qrCode} = action.payload;
             state.number = number;
             state.qrCode = qrCode;
-        });
+        })
     },
 });
 export default qrSlice.reducer;

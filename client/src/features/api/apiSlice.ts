@@ -9,14 +9,21 @@ interface LogInUserRequest {
   password: string;
 }
 
+interface AddQRCodeRequest {
+  login: string;
+}
 export const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3001'}),
   endpoints: (builder: any) => ({
-    
-    // получение QR-кода
-    getQRcode: builder.query({
-      query: () => `/qr`
+
+    // добавление QR-кода
+    addQRcode: builder.mutation({
+      query: (body: AddQRCodeRequest) => ({
+        url: `/qr`,
+        method: 'POST',
+        body,
+      })
     }),
 
     // добавление нового юзера
@@ -53,4 +60,4 @@ export const apiSlice = createApi({
 
   }),
 })
-export const {useAddUserMutation, useGetTokenQuery, useLogInUserMutation, useUserLogoutMutation, useGetQRcodeQuery} = apiSlice;
+export const {useAddUserMutation, useGetTokenQuery, useLogInUserMutation, useUserLogoutMutation, useAddQRcodeMutation } = apiSlice;

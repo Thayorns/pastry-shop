@@ -25,6 +25,10 @@ module.exports = (sequelize, DataTypes) => {
     isActivated: {
       type: DataTypes.BOOLEAN,
       defaultValue: false,
+    },
+    qr_code: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
     }
   }, {});
 

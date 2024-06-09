@@ -25,19 +25,35 @@ app.use(cors());
 function getRandomArbitrary(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 }
-app.get('/qr', async (req, res) => {
-  const randomNumber = getRandomArbitrary(1000, 10000);
+app.post('/qr', async (req, res) => {
+  const { login } = req.body;
+
   try {
-    const qrCodeDataURL = await QRCode.toDataURL(randomNumber.toString());
+    const user = await User.findOne({ where: { login } });
     
-    // отправка значений
+    const randomNumber = getRandomArbitrary(1000, 10000);
+    const qrCodeDataURL = await QRCode.toDataURL(randomNumber.toString());
+
+    user.qr_code = randomNumber;
+    await user.save();
+    
     res.json({
       number: randomNumber,
-      qrCode: qrCodeDataURL
+      qrCode: qrCodeDataURL,
     });
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Ошибка генерации QR-кода');
+
+    // Удаление QR-кода через 5 минут у пользователя в бд
+    setTimeout(async () => {
+      try {
+        user.qr_code = null;
+        await user.save();
+      } catch (error) {
+        console.error('Ошибка очистки QR-кода:', error);
+      }
+    }, 300000);
+    
+  } catch {
+    res.status(500).send('Ошибка обновления QR-кода');
   }
 });
 
