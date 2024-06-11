@@ -10,27 +10,28 @@ import '../../app/styles/vars.css';
 
 const Qr: React.FC = () => {
 
-    const [addQRcode, { isLoading: isSaving, error }] = useAddQRcodeMutation();
+    const [addQRcode, { isLoading, error }] = useAddQRcodeMutation();
     
     // использую глобал-стейт авторизованного
     const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
     const userLogin = useSelector((state: RootState) => state.auth.login);
+    const accessToken = useSelector((state: RootState) => state.auth.accessToken);
     // использую глобал стейт приходящего с сервера qr
     const numberFromStore = useSelector((state: RootState) => state.qr.number);
     const qrUrlFromStore = useSelector((state: RootState) => state.qr.qrCode);
     const loginStatusSuccessFromStore = useSelector((state: RootState) => state.qr.loadingStatus);
     
-    console.log('component renders', numberFromStore);
-    
-    
     useEffect(() => {
-        addQRcode({ login: userLogin })
-    }, [addQRcode, userLogin]);
+        console.log('accessToken', accessToken);
+        if(accessToken) {
+            addQRcode({ login: userLogin })
+        }
+    }, [addQRcode, userLogin, accessToken]);
     
     let content: React.ReactNode;
     const errorDisplay: React.ReactNode = error as React.ReactNode;
 
-    if(isSaving) {
+    if(isLoading) {
         content = <Spin/>
     }
     if(isAuthenticated === false){

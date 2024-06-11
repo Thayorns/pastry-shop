@@ -1,4 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import {FetchArgs, FetchBaseQueryError, BaseQueryFn} from '@reduxjs/toolkit/query';
+import { RootState } from '../../app/store/store';
+import { setToken, logout } from './authSlice';
 interface AddUserRequest {
   email: string;
   login: string;
@@ -12,9 +15,45 @@ interface LogInUserRequest {
 interface AddQRCodeRequest {
   login: string;
 }
+interface RefreshTokenResponse {
+  accessToken: string;
+}
+
+const baseQuery = fetchBaseQuery({
+  baseUrl: 'http://localhost:3001',
+  prepareHeaders: (headers, { getState }) => {
+    const token = (getState() as RootState).auth.accessToken;
+    if (token) {
+      headers.set('Authorization', `Bearer ${token}`);
+    }
+    return headers;
+  },
+});
+
+const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> = async (args:any, api:any, extraOptions:any) => {
+  let result = await baseQuery(args, api, extraOptions);
+
+  if (result.error && result.error.status === 401) {
+    // Try to get a new token
+    const refreshResult = await baseQuery('/api/refresh-token', api, extraOptions);
+
+    if (refreshResult.data) {
+      const refreshData = refreshResult.data as RefreshTokenResponse;
+      // Store the new token
+      api.dispatch(setToken( { accessToken: refreshData.accessToken } ));
+      // Retry the original query with the new token
+      result = await baseQuery(args, api, extraOptions);
+    } else {
+      // Logout user if refresh fails
+      api.dispatch(logout());
+    }
+  }
+  return result;
+};
+
 export const apiSlice = createApi({
   reducerPath: 'api',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3001'}),
+  baseQuery: baseQueryWithReauth,
   endpoints: (builder: any) => ({
 
     // добавление QR-кода

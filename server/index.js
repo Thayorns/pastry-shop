@@ -44,11 +44,13 @@ app.post('/qr', async (req, res) => {
 
     // Удаление QR-кода через 5 минут у пользователя в бд
     setTimeout(async () => {
-      try {
-        user.qr_code = null;
-        await user.save();
-      } catch (error) {
-        console.error('Ошибка очистки QR-кода:', error);
+      if(user.qr_code !== null){
+        try {
+          user.qr_code = null;
+          await user.save();
+        } catch (error) {
+          console.error('Ошибка очистки QR-кода:', error);
+        }
       }
     }, 300000);
     
@@ -172,6 +174,7 @@ app.post('/api/logout', (req, res) => {
   return res.status(200).json({ message: 'Logout successful' });
 });
 
+// запуск сервера с бд
 const startServer = async () => {
   try {
     await sequelize.authenticate();

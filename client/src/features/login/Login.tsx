@@ -24,7 +24,7 @@ const Login: React.FC = () => {
     const userLoginFromStore = useSelector((state:RootState) => state.auth.login)
     const loginStatus = useSelector((state: RootState) => state.auth.loginStatus);
     
-    // функция аутентификации
+    // функция аутентификации + логин
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try{
@@ -43,7 +43,7 @@ const Login: React.FC = () => {
             console.error('Ошибка входа: ', err);
         }
     }
-
+    
     // отрисовка контента
     const errorDisplay: React.ReactNode = error as React.ReactNode;
     let content: React.ReactNode;

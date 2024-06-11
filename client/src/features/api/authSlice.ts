@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { apiSlice } from '../api/apiSlice';
 
 export type InitialState = {
@@ -6,16 +6,19 @@ export type InitialState = {
   login: string | null;
   loginStatus: string;
   role: boolean;
+  accessToken: string;
 }
 export interface UserLoginPayload {
   login: string;
   role: boolean;
+  accessToken: string;
 }
 
 const authSlice = createSlice({
   name: 'auth',
   
   initialState: {
+    accessToken: '',
     isAuthenticated: false,
     login: null,
     loginStatus: 'idle',
@@ -25,9 +28,13 @@ const authSlice = createSlice({
   reducers: {
     logout(state: InitialState) {
       state.isAuthenticated = false;
-      state.login = null;
+      state.login = null; 
       state.loginStatus = 'idle';
-    }
+      state.accessToken = '';
+    },
+    setToken(state, action: PayloadAction<{ accessToken: string }>) {
+      state.accessToken = action.payload.accessToken;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -37,9 +44,10 @@ const authSlice = createSlice({
     .addMatcher(apiSlice.endpoints.logInUser.matchFulfilled, (state: InitialState, action: any) => {
       state.loginStatus = 'succeeded';
       state.isAuthenticated = true;
-      const {login, role} = action.payload as UserLoginPayload;
+      const {login, role, accessToken} = action.payload as UserLoginPayload;
       state.login = login;
       state.role = role;
+      state.accessToken = accessToken;
     })
     .addMatcher(apiSlice.endpoints.logInUser.matchRejected, (state: InitialState) => {
       state.loginStatus = 'failed';
@@ -47,6 +55,6 @@ const authSlice = createSlice({
   }
 });
 
-export const { logout } = authSlice.actions;
+export const { logout, setToken } = authSlice.actions;
 
 export default authSlice.reducer;
