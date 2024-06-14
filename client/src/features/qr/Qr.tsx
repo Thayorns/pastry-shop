@@ -26,7 +26,7 @@ const Qr: React.FC = () => {
         if(accessToken) {
             addQRcode({ login: userLogin })
         }
-    }, [addQRcode, userLogin, accessToken]);
+    }, [addQRcode, userLogin]);
     
     let content: React.ReactNode;
     const errorDisplay: React.ReactNode = error as React.ReactNode;

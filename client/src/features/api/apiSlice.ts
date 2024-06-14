@@ -15,12 +15,15 @@ interface LogInUserRequest {
 interface AddQRCodeRequest {
   login: string;
 }
-interface RefreshTokenResponse {
-  accessToken: string;
+
+interface CoffeeRequest {
+  number: number;
+  selectedCoffee: number;
 }
 
 const baseQuery = fetchBaseQuery({
   baseUrl: 'http://localhost:3001',
+  // credentials: 'include',
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.accessToken;
     if (token) {
@@ -30,22 +33,29 @@ const baseQuery = fetchBaseQuery({
   },
 });
 
-const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> = async (args:any, api:any, extraOptions:any) => {
+const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQueryError> = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
 
   if (result.error && result.error.status === 401) {
-    // Try to get a new token
-    const refreshResult = await baseQuery('/api/refresh-token', api, extraOptions);
+    console.log('SENDING NEW ACCESS-TOKEN');
+    
+    try {
+      const refreshResult = await baseQuery({
+        url: `/api/refresh-token`,
+        method: "POST",
+        // credentials: 'include',
+      }, api, extraOptions);
+      
+      if (refreshResult.data) {
+        api.dispatch(setToken( { accessToken: refreshResult.data as string} ));
+        result = await baseQuery(args, api, extraOptions);
+        
+      }else{
+        api.dispatch(logout())
+      }
 
-    if (refreshResult.data) {
-      const refreshData = refreshResult.data as RefreshTokenResponse;
-      // Store the new token
-      api.dispatch(setToken( { accessToken: refreshData.accessToken } ));
-      // Retry the original query with the new token
-      result = await baseQuery(args, api, extraOptions);
-    } else {
-      // Logout user if refresh fails
-      api.dispatch(logout());
+    } catch(err) {
+      console.error('Ошибка доступа', err)
     }
   }
   return result;
@@ -56,15 +66,23 @@ export const apiSlice = createApi({
   baseQuery: baseQueryWithReauth,
   endpoints: (builder: any) => ({
 
-    // добавление QR-кода
-    addQRcode: builder.mutation({
-      query: (body: AddQRCodeRequest) => ({
-        url: `/qr`,
+    // добавление кофе администратором
+    addCoffee: builder.mutation({
+      query: (body: CoffeeRequest) => ({
+        url: `/api/coffee`,
         method: 'POST',
         body,
       })
     }),
 
+    // добавление QR-кода
+    addQRcode: builder.mutation({
+      query: (body: AddQRCodeRequest) => ({
+        url: `/api/qr`,
+        method: 'POST',
+        body,
+      }),
+    }),
     // добавление нового юзера
     addUser: builder.mutation({ 
       query: (body: AddUserRequest) => ({
@@ -95,8 +113,6 @@ export const apiSlice = createApi({
         method: 'POST'
       }),
     })
-    
-
   }),
 })
-export const {useAddUserMutation, useGetTokenQuery, useLogInUserMutation, useUserLogoutMutation, useAddQRcodeMutation } = apiSlice;
+export const {useAddUserMutation, useGetTokenQuery, useLogInUserMutation, useUserLogoutMutation, useAddQRcodeMutation, useAddCoffeeMutation } = apiSlice;

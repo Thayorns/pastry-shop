@@ -19,6 +19,7 @@ const Login: React.FC = () => {
     const [userName, setUserName] = useState('');
     const [userPassword, setUserPassword] = useState('');
 
+    // const accessToken = useSelector((state: RootState) => state.auth.accessToken);
     const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
     const role = useSelector((state: RootState) => state.auth.role);
     const userLoginFromStore = useSelector((state:RootState) => state.auth.login)
@@ -33,6 +34,7 @@ const Login: React.FC = () => {
             console.error('Ошибка входа: ', err);
         }
     }
+    
     // функция выхода из аккаунта
     const handleUserLogoutSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -62,11 +64,11 @@ const Login: React.FC = () => {
                 <p>В разделе "настройки" Вы можете добавлять в друзья посетителей, достаточно ввести логин посетителя.</p>    
                 <p>В разделе "настройки" Вы можете добавлять пользователя в администраторы.</p>   
                 <p>В разделе "настройки" Вы в будущем сможете загружать фотографии для раздела "дом".</p>   
-                <p>В разделе "кофе" Вы можете добавлять подарочные кофе для посетителей, достаточно ввести номер, который озвучит посетитель.</p>
+                <p>В разделе "кофе" Вы можете добавлять подарочные кофе для пользователей, достаточно ввести номер, который озвучит посетитель.</p>
                 <Link to='/login' className="account-logout-button"><Button onClick={handleUserLogoutSubmit} htmlType="submit" type="primary" className="form-button" >Выйти</Button></Link>
             </div>
         )
-    }else if(isAuthenticated === true){
+    }else if(isAuthenticated === true && role === false){
         content = (
             <div className="success-login-not-admin">
                 <h1 className="success-login-h1">{userLoginFromStore}</h1>

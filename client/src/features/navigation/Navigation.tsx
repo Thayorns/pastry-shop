@@ -19,8 +19,9 @@ const Navigation: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     
     // отрисовка верхней навигации в зависимости от состояния
     const isAuthenticatedFromStore = useSelector((state: RootState) => state.auth.isAuthenticated);
+    const role = useSelector((state: RootState) => state.auth.role);
     const topNavIcons = [
-        <Link to={`/qr`}><QrcodeOutlined /></Link>,
+        ...(role === true ? [] : [<Link to={`/qr`}><QrcodeOutlined /></Link>]),
         <Link to={`/login`}><UserSwitchOutlined /></Link>,
         ...(isAuthenticatedFromStore === false ? [<Link to={`/register`}><UserAddOutlined /></Link>] : []),
     ];

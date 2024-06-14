@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { apiSlice } from '../api/apiSlice';
 
 export type InitialState = {
@@ -31,8 +31,9 @@ const authSlice = createSlice({
       state.login = null; 
       state.loginStatus = 'idle';
       state.accessToken = '';
+      state.role = false;
     },
-    setToken(state, action: PayloadAction<{ accessToken: string }>) {
+    setToken(state: InitialState, action: { payload: { accessToken: string } }) {
       state.accessToken = action.payload.accessToken;
     },
   },

@@ -9,23 +9,86 @@ const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 const transporter = require('./mailer');
 const QRCode = require('qrcode');
+const { where } = require('sequelize');
 
 const PORT = process.env.PORT || 3001;
 const app = express();
 const JWT_SECRET = 'k0raelstrazSfu110f1ight5Darkne5Ss';
 const ACCESS_TOKEN_SECRET = 'k0raelstrazSfu110f1ight5Darkne5Ss'
 const REFRESH_TOKEN_SECRET = 'k0raelstrazSfu110f1ight5Darkne5Ss'
-
+// const corsOptions = {
+//   origin: 'http://localhost:3000',
+//   credentials: true,
+// };
 
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
+// app.options('/api/login', cors(corsOptions));
+
+
+// user.coffee_count === 4 ? user.coffee_count = 0 : user.coffee_count++;
+// добавление кофе пользователю в бд администратором
+app.post('/api/coffee', async (req, res) => {
+  const { number, selectedCoffee } = req.body;
+
+  if (!number || !selectedCoffee) {
+    return res.status(400).json({ error: 'Number and selectedCoffee are required' });
+  }
+
+  const transaction = await sequelize.transaction();
+
+  try {
+    // Найти пользователя по номеру с блокировкой для обновления
+    const user = await User.findOne({ 
+      where: { qr_code: number }, 
+      lock: transaction.LOCK.UPDATE, 
+      transaction 
+    });
+
+    if (!user) {
+      await transaction.rollback();
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Получить текущее значение coffee_count
+    let currentCoffeeCount = user.coffee_count;
+
+    // Привести selectedCoffee к числу
+    const selectedCoffeeInt = parseInt(selectedCoffee, 10);
+
+    // Обновить coffee_count с учетом правила обнуления при достижении значения 8
+    currentCoffeeCount += selectedCoffeeInt;
+    if (currentCoffeeCount === 8) {
+      currentCoffeeCount = 0;
+    }
+    if (currentCoffeeCount > 8) {
+      const diff = currentCoffeeCount - 8;
+      currentCoffeeCount = diff;
+    }
+
+    user.coffee_count = currentCoffeeCount;
+
+    // Сохранить изменения в базе данных с использованием транзакции
+    await user.save({ transaction });
+
+    // Завершить транзакцию
+    await transaction.commit();
+
+    res.status(200).json({ coffee_count: user.coffee_count });
+  } catch (error) {
+    console.error('Ошибка при зачислении кофе:', error);
+    await transaction.rollback();
+    res.status(500).send('Ошибка при зачислении кофе.');
+  }
+});
+
 
 // функционал QR-code
 function getRandomArbitrary(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 }
-app.post('/qr', async (req, res) => {
+app.post('/api/qr', async (req, res) => {
   const { login } = req.body;
 
   try {
@@ -114,7 +177,7 @@ app.get('/api/activate/:token', async (req, res) => {
   }
 });
 
-// авторизация 
+// логин юзера
 app.post('/api/login', async (req, res) => {
   const { login, password } = req.body;
   try {
@@ -125,14 +188,15 @@ app.post('/api/login', async (req, res) => {
     }
 
     if (await bcrypt.compare(password, user.password)) {
-      // Generate tokens
-      const accessToken = jwt.sign({ userId: user.id }, ACCESS_TOKEN_SECRET, { expiresIn: '15m' });
+      const accessToken = jwt.sign({ userId: user.id }, ACCESS_TOKEN_SECRET, { expiresIn: '10s' });
       const refreshToken = jwt.sign({ userId: user.id }, REFRESH_TOKEN_SECRET, { expiresIn: '60d' });
 
-      // Set refresh token in httpOnly cookie
+      user.refresh_token = refreshToken;
+      await user.save();
+
       res.cookie('refreshToken', refreshToken, {
         httpOnly: true,
-        secure: true, // Use true in production
+        secure: true,
         sameSite: 'strict',
         maxAge: 60 * 24 * 60 * 60 * 1000 // 60 days
       });
@@ -150,7 +214,7 @@ app.post('/api/login', async (req, res) => {
 });
 
 // обновление токенов
-app.post('/api/refresh-token', (req, res) => {
+app.post('/api/refresh-token', async (req, res) => {
   const { refreshToken } = req.cookies;
 
   if (!refreshToken) {
@@ -159,9 +223,14 @@ app.post('/api/refresh-token', (req, res) => {
 
   try {
     const decoded = jwt.verify(refreshToken, REFRESH_TOKEN_SECRET);
-    const newAccessToken = jwt.sign({ userId: decoded.userId }, ACCESS_TOKEN_SECRET, { expiresIn: '15m' });
+    const user = await User.findOne({ where: { id: decoded.userId, refresh_token: refreshToken } });
+    if (!user) {
+      return res.status(401).json({ error: 'Invalid refresh token or user not found' });
+    }
 
-    return res.json({ accessToken: newAccessToken });
+    const newAccessToken = jwt.sign({ userId: user.id }, ACCESS_TOKEN_SECRET, { expiresIn: '10s' });
+
+    return res.json({ accessToken: newAccessToken }); 
   } catch (err) {
     console.error(err);
     return res.status(401).json({ error: 'Invalid refresh token' });
