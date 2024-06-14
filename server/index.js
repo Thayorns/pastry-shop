@@ -26,8 +26,6 @@ app.use(cookieParser());
 app.use(cors());
 // app.options('/api/login', cors(corsOptions));
 
-
-// user.coffee_count === 4 ? user.coffee_count = 0 : user.coffee_count++;
 // добавление кофе пользователю в бд администратором
 app.post('/api/coffee', async (req, res) => {
   const { number, selectedCoffee } = req.body;
@@ -45,6 +43,7 @@ app.post('/api/coffee', async (req, res) => {
       lock: transaction.LOCK.UPDATE, 
       transaction 
     });
+    const userLogin = user.login
 
     if (!user) {
       await transaction.rollback();
@@ -75,7 +74,7 @@ app.post('/api/coffee', async (req, res) => {
     // Завершить транзакцию
     await transaction.commit();
 
-    res.status(200).json({ coffee_count: user.coffee_count });
+    res.status(200).json({ userLogin: userLogin });
   } catch (error) {
     console.error('Ошибка при зачислении кофе:', error);
     await transaction.rollback();
@@ -201,9 +200,10 @@ app.post('/api/login', async (req, res) => {
         maxAge: 60 * 24 * 60 * 60 * 1000 // 60 days
       });
       
-      const role = user.admin
+      const role = user.admin;
+      const coffee = user.coffee_count;
 
-      return res.json({ accessToken, login, role });
+      return res.json({ accessToken, login, role, coffee });
     } else {
       return res.status(401).json({ error: 'Invalid login or password' });
     }

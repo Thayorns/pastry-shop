@@ -59,7 +59,7 @@ const Login: React.FC = () => {
                     АДМИНИСТРАТОР <br/>
                     {userLoginFromStore}
                 </h1>
-                <h2 className="success-login-h2">Здравствуйте! Вы вошли в аккаунт "Крем и Корж".</h2>
+                <h2 className="success-login-h2">Здравствуйте! Вы вошли в аккаунт "КРЕМ и КОРЖ".</h2>
                 <p>Для администраторов приложение несколько отличается своим расширенным функционалом, в отличии от остальных пользователей.</p>
                 <p>В разделе "настройки" Вы можете добавлять в друзья посетителей, достаточно ввести логин посетителя.</p>    
                 <p>В разделе "настройки" Вы можете добавлять пользователя в администраторы.</p>   
@@ -72,7 +72,7 @@ const Login: React.FC = () => {
         content = (
             <div className="success-login-not-admin">
                 <h1 className="success-login-h1">{userLoginFromStore}</h1>
-                <h2 className="success-login-h2">Здравствуйте! Вы вошли в аккаунт "Крем и Корж".</h2>
+                <h2 className="success-login-h2">Здравствуйте! Вы вошли в аккаунт "КРЕМ и КОРЖ".</h2>
                 <p>Теперь Вы можете пользоваться проводимыми в "Крем и Корж" акциями, такими как бесплатный кофе.</p>
                 <p>Кликните на раздел "qr-код" для дальнейших инструкций.</p>
                 <Link to='/login' className="account-logout-button"><Button onClick={handleUserLogoutSubmit} htmlType="submit" type="primary" className="form-button" >Выйти</Button></Link>
@@ -82,7 +82,7 @@ const Login: React.FC = () => {
         content = (
             <div className="login-div">
                 <h1>ВХОД В АККАУНТ</h1>
-                <span>Если Вы уже регистрировались в "Крем и Корж", заполните форму, чтобы войти в свой аккаунт.</span>
+                <span>Если Вы уже регистрировались в "КРЕМ и КОРЖ", заполните форму, чтобы войти в свой аккаунт.</span>
                 {errorDisplay && (
                     <div className="error-register">
                         <p>Ошибка..Вы либо ввели неверный логин или пароль, либо не активировали аккаунт через письмо на почте.</p>

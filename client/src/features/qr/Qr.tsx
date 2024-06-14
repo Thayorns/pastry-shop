@@ -22,7 +22,6 @@ const Qr: React.FC = () => {
     const loginStatusSuccessFromStore = useSelector((state: RootState) => state.qr.loadingStatus);
     
     useEffect(() => {
-        console.log('accessToken', accessToken);
         if(accessToken) {
             addQRcode({ login: userLogin })
         }
@@ -37,7 +36,7 @@ const Qr: React.FC = () => {
     if(isAuthenticated === false){
         content = (
             <div className="auth-error">
-                <h2>Пожалуйста, войдите в свой аккаунт, и Вам будет доступна акция подарочного кофе по qr-коду, возможность стать другом "Крем и Корж" и 15% скидкой на всю продукцию.</h2>
+                <h2>Пожалуйста, войдите в свой аккаунт, и Вам будет доступна акция подарочного кофе по qr-коду, возможность стать другом "КРЕМ и КОРЖ" и 15% скидкой на всю продукцию.</h2>
             </div>
         )
 
@@ -45,12 +44,15 @@ const Qr: React.FC = () => {
         content = (
             <div className="qr-div">
                 <h1>ВАШ КОД</h1>
-                <span>Покажите или назовите код кассиру в "Крем и Корж", чтобы накопить подарочный кофе.</span>
+                <span>Покажите или назовите код кассиру в "КРЕМ и КОРЖ", чтобы накопить подарочный кофе.</span>
                 <img src={qrUrlFromStore} alt="qr-code"/>
                 <h2>{numberFromStore}</h2>
             </div>
         )
-    }else content = <div>{errorDisplay}</div>
+    }else content = 
+        <div>
+            <h2>Пожалуйста, войдите в свой аккаунт, и Вам будет доступна акция подарочного кофе по qr-коду, возможность стать другом "КРЕМ и КОРЖ" и 15% скидкой на всю продукцию.</h2>
+        </div>
 
     return content;
 };

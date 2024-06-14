@@ -2,8 +2,7 @@
 .user-coffee{
     height: var(--height700);
     p{
-        text-align: var(--text-align);
-        padding: 200px 0px 0px;
+        text-align: var(--text-center);
     }
     form{
         margin-top: 30px;
@@ -12,9 +11,40 @@
         flex-direction: var(--flexColumn);
         justify-content: var(--spaceAround);
     }
-    .error-div{
-        p{
-            color: var(--colorRed);
-        }
+}
+.ant-message .ant-message-notice-wrapper .ant-message-notice-content{
+    margin-top: 100px;
+}
+.admin-coffee p{
+    padding: 200px 0px 0px;
+}
+.user-coffee .count-coffee{
+    font-size: 20px;
+}
+.coffee-cups{
+    width: 80%;
+    height: 50px;
+    margin: 50px auto;
+    
+    .anticon{
+        width: 40px;
+        height: 50px;
     }
+    svg{
+        width: 40px;
+        height: auto;
+        color: var(--colorLightpurple);
+    }
+}
+ .anticon.EIGHT-coffee{
+    width: 80px;
+    height: 100px;
+    svg{
+        width: 80px;
+        height: auto;
+        color: var(--colorLightpurple);
+    }
+}
+.glowing-cup{
+    color: var(--colorOrange);
 }

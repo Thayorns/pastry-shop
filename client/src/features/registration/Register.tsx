@@ -40,7 +40,7 @@ const Register: React.FC = () => {
         content = (
             <div className="register">
                 <h1>РЕГИСТРАЦИЯ</h1>
-                <span>Заполните форму, чтобы создать новый аккаунт в "Крем и Корж".</span>
+                <span>Заполните форму, чтобы создать новый аккаунт в "КРЕМ и КОРЖ".</span>
                 {errorDisplay && (
                     <div className="error-register">
                         <p>Ошибка..Пользователь с такой учётной записью уже существует!</p>

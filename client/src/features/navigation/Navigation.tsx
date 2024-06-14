@@ -38,7 +38,7 @@ const Navigation: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     return (
         <div>
             <nav className="navbar-top">
-                <span className="logo">Крем и Корж</span>
+                <span className="logo">КРЕМ и КОРЖ</span>
                 <span className="top-nav-wrapper">
                     {topNavIcons.map((icon, index) => (
                         <button onClick={()=> {

@@ -23,6 +23,7 @@
     --inlineBlock: inline-block;
     --width80: 80%;
     --text-align: start;
+    --text-center: center;
     --textUnderline: underline;
     --height-auto: auto;
 }

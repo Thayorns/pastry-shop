@@ -7,11 +7,13 @@ export type InitialState = {
   loginStatus: string;
   role: boolean;
   accessToken: string;
+  coffee: number;
 }
 export interface UserLoginPayload {
   login: string;
   role: boolean;
   accessToken: string;
+  coffee: number;
 }
 
 const authSlice = createSlice({
@@ -23,6 +25,7 @@ const authSlice = createSlice({
     login: null,
     loginStatus: 'idle',
     role: false,
+    coffee: 0,
   } as InitialState,
 
   reducers: {
@@ -32,6 +35,7 @@ const authSlice = createSlice({
       state.loginStatus = 'idle';
       state.accessToken = '';
       state.role = false;
+      state.coffee = 0;
     },
     setToken(state: InitialState, action: { payload: { accessToken: string } }) {
       state.accessToken = action.payload.accessToken;
@@ -45,10 +49,11 @@ const authSlice = createSlice({
     .addMatcher(apiSlice.endpoints.logInUser.matchFulfilled, (state: InitialState, action: any) => {
       state.loginStatus = 'succeeded';
       state.isAuthenticated = true;
-      const {login, role, accessToken} = action.payload as UserLoginPayload;
+      const {login, role, accessToken, coffee} = action.payload as UserLoginPayload;
       state.login = login;
       state.role = role;
       state.accessToken = accessToken;
+      state.coffee = coffee;
     })
     .addMatcher(apiSlice.endpoints.logInUser.matchRejected, (state: InitialState) => {
       state.loginStatus = 'failed';
