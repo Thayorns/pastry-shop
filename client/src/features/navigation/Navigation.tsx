@@ -19,6 +19,7 @@ const Navigation: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     
     // отрисовка верхней навигации в зависимости от состояния
     const isAuthenticatedFromStore = useSelector((state: RootState) => state.auth.isAuthenticated);
+    const userLogin = useSelector((state: RootState) => state.auth.login)
     const role = useSelector((state: RootState) => state.auth.role);
     const topNavIcons = [
         ...(role === true ? [] : [<Link to={`/qr`}><QrcodeOutlined /></Link>]),
@@ -32,7 +33,7 @@ const Navigation: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         <Link to={`/contacts`}> <ContactsOutlined /> </Link>,
         <Link to={`/home`}><HomeOutlined /></Link>,
         <Link to={`/news`}><BellOutlined /></Link>,
-        <Link to={`/coffee`}><CoffeeOutlined /></Link>,
+        ...(role === true ? [<Link to={`/admin-coffee`}><CoffeeOutlined /></Link>] : [<Link to={`/user-coffee/${userLogin}`}><CoffeeOutlined /></Link>]),
     ];
 
     return (

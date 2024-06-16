@@ -1,8 +1,9 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
 import Navigation from '../features/navigation/Navigation'
-import Coffee from '../features/coffee/Coffee';
+import AdminCoffee from '../features/coffee/Admin-coffee';
+import UserCoffee from '../features/coffee/User-coffee';
 import Contacts from '../features/contacts/Contacts';
 import Home from '../features/home/Home';
 import Login from '../features/login/Login';
@@ -29,8 +30,11 @@ const App: React.FC = () => {
             <Route path="/activate/:token"
               element={<Token/>}
             />
-            <Route path="/coffee"
-              element={<Coffee/>}
+            <Route path="/admin-coffee"
+              element={<AdminCoffee/>}
+            />
+            <Route path="/user-coffee/:login"
+              element={<UserCoffee/>}
             />
             <Route path="/contacts"
               element={<Contacts/>}

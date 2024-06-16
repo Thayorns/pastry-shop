@@ -69,18 +69,18 @@ export const apiSlice = createApi({
     // добавление кофе администратором
     addCoffee: builder.mutation({
       query: (body: CoffeeRequest) => ({
-        url: `/api/coffee`,
+        url: `/api/admin-coffee`,
         method: 'POST',
         body,
       })
     }),
 
-    // // обновление кофе пользователем
-    // getCoffee: builder.query({
-    //   query: () => `/api/coffee`,
-    // }),
+    // обновление кофе пользователем
+    getCoffee: builder.query({
+      query: (login: string) => `/api/user-coffee/${login}`,
+    }),
 
-    // добавление QR-кода
+    // генерация QR-кода пользователем и добавление в бд
     addQRcode: builder.mutation({
       query: (body: AddQRCodeRequest) => ({
         url: `/api/qr`,
@@ -121,4 +121,11 @@ export const apiSlice = createApi({
     })
   }),
 })
-export const {useAddUserMutation, useGetTokenQuery, useLogInUserMutation, useUserLogoutMutation, useAddQRcodeMutation, useAddCoffeeMutation} = apiSlice;
+export const {useAddUserMutation,
+  useGetTokenQuery,
+  useLogInUserMutation,
+  useUserLogoutMutation,
+  useAddQRcodeMutation,
+  useAddCoffeeMutation,
+  useGetCoffeeQuery,
+} = apiSlice;

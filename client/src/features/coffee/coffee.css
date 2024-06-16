@@ -45,6 +45,8 @@
         color: var(--colorLightpurple);
     }
 }
-.glowing-cup{
-    color: var(--colorOrange);
+.anticon.glowing-cup{
+    svg{
+        color: var(--colorOrange);
+    }
 }

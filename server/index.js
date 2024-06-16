@@ -26,8 +26,25 @@ app.use(cookieParser());
 app.use(cors());
 // app.options('/api/login', cors(corsOptions));
 
+
+// получение количества кофе пользователем
+app.get('/api/user-coffee/:login', async (req, res) => {
+  const {login} = req.params;
+
+  try {
+    const user = await User.findOne({ where: { login }});
+    if(user){
+      res.json({ coffee: user.coffee_count });
+    }else{
+      res.status(404).json({ message: 'User not found' });
+    }
+  } catch(error) {
+    console.error('Ошибка при получении информации о кофе:', error);
+  }
+});
+
 // добавление кофе пользователю в бд администратором
-app.post('/api/coffee', async (req, res) => {
+app.post('/api/admin-coffee', async (req, res) => {
   const { number, selectedCoffee } = req.body;
 
   if (!number || !selectedCoffee) {
@@ -50,13 +67,10 @@ app.post('/api/coffee', async (req, res) => {
       return res.status(404).json({ error: 'User not found' });
     }
 
-    // Получить текущее значение coffee_count
     let currentCoffeeCount = user.coffee_count;
 
-    // Привести selectedCoffee к числу
     const selectedCoffeeInt = parseInt(selectedCoffee, 10);
 
-    // Обновить coffee_count с учетом правила обнуления при достижении значения 8
     currentCoffeeCount += selectedCoffeeInt;
     if (currentCoffeeCount === 8) {
       currentCoffeeCount = 0;
@@ -83,7 +97,7 @@ app.post('/api/coffee', async (req, res) => {
 });
 
 
-// функционал QR-code
+// функционал QR-code для пользователя
 function getRandomArbitrary(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 }
@@ -201,9 +215,8 @@ app.post('/api/login', async (req, res) => {
       });
       
       const role = user.admin;
-      const coffee = user.coffee_count;
 
-      return res.json({ accessToken, login, role, coffee });
+      return res.json({ accessToken, login, role });
     } else {
       return res.status(401).json({ error: 'Invalid login or password' });
     }

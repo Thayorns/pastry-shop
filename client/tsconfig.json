@@ -1,12 +1,13 @@
+
 {
   "compilerOptions": {
-    "target": "es5",
-    "jsx": "react",
-    "module": "commonjs",
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+  "target": "es5",
+  "jsx": "react",
+  "module": "commonjs",
+  "strict": true,
+  "esModuleInterop": true,
+  "skipLibCheck": true,
+  "forceConsistentCasingInFileNames": true
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
