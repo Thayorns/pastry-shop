@@ -72,8 +72,8 @@ app.post('/api/admin-coffee', async (req, res) => {
     const selectedCoffeeInt = parseInt(selectedCoffee, 10);
 
     currentCoffeeCount += selectedCoffeeInt;
-    if (currentCoffeeCount === 8) {
-      currentCoffeeCount = 0;
+    if (currentCoffeeCount === 9) {
+      currentCoffeeCount = 1;
     }
     if (currentCoffeeCount > 8) {
       const diff = currentCoffeeCount - 8;

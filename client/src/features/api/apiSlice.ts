@@ -48,11 +48,12 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
       
       if (refreshResult.data) {
         api.dispatch(setToken( { accessToken: refreshResult.data as string} ));
+        console.log(`GETTING NEW ACCESS-TOKEN ${refreshResult.data}`);
         result = await baseQuery(args, api, extraOptions);
         
-      }else{
-        api.dispatch(logout())
-      }
+        }else{
+          api.dispatch(logout())
+          }
 
     } catch(err) {
       console.error('Ошибка доступа', err)

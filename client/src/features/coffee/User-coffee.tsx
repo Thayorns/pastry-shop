@@ -9,7 +9,7 @@ import { RootState } from '../../app/store/store';
 const UserCoffee: React.FC = () => {
     const { login } = useParams<{ login: string }>();
     const { data, isLoading, isSuccess, refetch } = useGetCoffeeQuery(login);
-    const [activeCups, setActiveCups] = useState<boolean[]>(Array(7).fill(false));
+    const [activeCups, setActiveCups] = useState<boolean[]>(Array(8).fill(false));
 
     type CoffeeResponse = {
         coffee: number;
@@ -26,10 +26,11 @@ const UserCoffee: React.FC = () => {
 
     useEffect(() => {
         if (isSuccess && data) {
-            const cupsArray = Array(7).fill(false).map((_, index) => index < needToGlow);
+            const cupsArray = Array(8).fill(false).map((_, index) => index < needToGlow);
             setActiveCups(cupsArray);
         }
     }, [data, isSuccess, needToGlow]);
+
     return (
         <>
             {isLoading && <Spin />}
@@ -39,15 +40,14 @@ const UserCoffee: React.FC = () => {
                     <p>Заказывая кофе по qr-коду, вы накапливаете счётчик чашек.</p>
                     <p>Каждая восьмая чашка кофе - <strong>бесплатно</strong>!</p>
                     <div className='coffee-cups'>
-                        {activeCups.slice(0, 7).map((isActive, index) => (
-                            <CoffeeOutlined 
-                                key={index} 
-                                className={isActive ? 'anticon glowing-cup' : ''} 
-                            />
+                        {activeCups.map((isActive, index) => (
+                            <CoffeeOutlined key={index} className={isActive ? 'anticon glowing-cup' : ''}/>
                         ))}
                     </div>
-                    <CoffeeOutlined className='EIGHT-coffee'/>
-                    <p>Чашек до подарочного кофе: <strong className='count-coffee'>{coffeeDiff}</strong></p>
+                    {(activeCups[7] === true) 
+                        ? <p className='diff-coffee-paragraph'>Вам доступен кофе в подарок!</p>
+                        : <p className='diff-coffee-paragraph'>Чашек до подарочного кофе: <strong className='count-coffee'>{coffeeDiff}</strong></p>
+                    }
                 </div>
             )}
             {isAuth === false && (

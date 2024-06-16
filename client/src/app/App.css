@@ -54,8 +54,18 @@ strong{
   }
 }
 @media screen and (min-width: 320px) {
-
+  .coffee-cups{
+    width: 60%;
+  }
+  .coffee-cups .anticon:last-child{
+    margin-top: 10px;
+  }
 }
 @media screen and (min-width: 425px) {
-  
+  .coffee-cups{
+    width: 80%;
+  }
+  .coffee-cups .anticon:last-child{
+    margin-top: 40px;
+  }
 }

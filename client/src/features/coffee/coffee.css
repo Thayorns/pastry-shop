@@ -30,21 +30,26 @@
         width: 40px;
         height: 50px;
     }
+    .anticon:last-child{
+        display: block;
+        margin: 40px auto;
+        width: 80px;
+        height: 100px;
+        svg{
+            width: 80px;
+            height: 100px;
+        }
+    }
     svg{
         width: 40px;
         height: auto;
         color: var(--colorLightpurple);
     }
 }
- .anticon.EIGHT-coffee{
-    width: 80px;
-    height: 100px;
-    svg{
-        width: 80px;
-        height: auto;
-        color: var(--colorLightpurple);
-    }
+.diff-coffee-paragraph{
+    margin-top: 150px;
 }
+
 .anticon.glowing-cup{
     svg{
         color: var(--colorOrange);
