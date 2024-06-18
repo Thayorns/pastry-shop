@@ -13,6 +13,9 @@
         color: var(--color);
         text-decoration: var(--textUnderline);
     }
+    .form-button{
+        margin-bottom: var(--px-60);
+    }
     .form-button span{
         margin-top: 0px;
         color: var(--colorWhite);

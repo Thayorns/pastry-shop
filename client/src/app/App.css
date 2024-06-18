@@ -58,8 +58,8 @@ strong{
   display: var(--block);
   padding: 0px;
   width: var(--px-60);
-  margin-top: var(--px-20);
-  margin-left: var(--px-20);
+  margin-top: var(--px-10);
+  margin-left: var(--px-10);
   height: 42px;
   svg{
     padding-top: 4px;

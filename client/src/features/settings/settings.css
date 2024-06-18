@@ -53,14 +53,25 @@
 .add-settings-div{
     height: var(--height700);
     padding-top: var(--px-60);
+    
     form{
         height: var(--width70);
+        
         .form-button{
-            margin-top: var(--px-30);
+            margin-top: var(--px-10);
+            margin-bottom: var(--px-20);
         }
     }
-    .upload-div{
+    .upload-div, .form-select{
         width: var(--width70);
         margin: var(--margin-0-auto);
+    }
+    .form-select{
+        .ant-select-single{
+            float: left;
+        }
+        span{
+            font-size: 14px;
+        }
     }
 }

@@ -4,12 +4,14 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const path = require('path');
 const bcrypt = require('bcrypt');
-const { sequelize, User } = require('./models');
+const { sequelize, User, Product } = require('./models');
 const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 const transporter = require('./mailer');
 const QRCode = require('qrcode');
 const { where } = require('sequelize');
+const multer = require('multer');
+const fs = require('fs');
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -24,7 +26,46 @@ const REFRESH_TOKEN_SECRET = 'k0raelstrazSfu110f1ight5Darkne5Ss'
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors());
-// app.options('/api/login', cors(corsOptions));
+
+const uploadDir = './product-photos';
+if (!fs.existsSync(uploadDir)){
+    fs.mkdirSync(uploadDir);
+}
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+      cb(null, uploadDir);
+  },
+  filename: function (req, file, cb) {
+      const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+      cb(null, uniqueSuffix + '-' + file.originalname);
+  }
+});
+
+const upload = multer({ storage: storage });
+
+// добавление новых позиций продуктов
+app.post('/api/admin-settings/add-product', upload.single('photo'), async (req, res) => {
+  const {title, description, price, ingredients, chapter} = req.body;
+  const photo = req.file ? req.file.filename : null;
+
+  try {
+    const newProduct = await Product.create({
+      photo,
+      title,
+      description,
+      price,
+      ingredients,
+      chapter
+    });
+    res.status(201).json(newProduct);
+  } catch (error) {
+
+    console.error('Ошибка при добавлении продукта:', error);
+    res.status(500).json({ error: 'Произошла ошибка при добавлении продукта' });
+  }
+
+});
 
 
 // получение количества кофе пользователем
