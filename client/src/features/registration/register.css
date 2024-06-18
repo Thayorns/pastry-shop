@@ -5,28 +5,7 @@
         width: var(--width80);
     }
 }
-form{
-    margin-top: 30px;
-    height: 40%;
-    display: var(--displayFlex);
-    flex-direction: var(--flexColumn);
-    justify-content: var(--spaceAround);
-}
-.ant-input,
-.form-button{
-    margin: var(--margin-0-auto);
-    width: 70%;
-    height: 50px;
-    border: 1px solid var(--colorDarkpurple);
-    border-radius: 18px;
-}
-.form-button{
-    margin-top: 60px;
-    background-color: var(--color);
-    span{
-        font-size: 18px;
-    }
-}
+
 .email-underlined{
     text-decoration: underline;
     color: var(--color);

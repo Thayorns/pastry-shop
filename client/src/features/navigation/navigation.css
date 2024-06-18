@@ -1,24 +1,24 @@
 nav{
     background-color: var(--color);
-    line-height: 60px;
-    height: 60px;
+    line-height: var(--px-60);
+    height: var(--px-60);
     max-width: var(--maxWidth);
-    width: 100%;
+    width: var(--width100);
     color: var(--colorWhite);
   }
 .logo{
     margin-left: 20px;
-    width: 50%;
+    width: var(--width50);
     font-size: 20px;
     font-weight: 600;
 }
 .top-nav-wrapper{
-    width: 50%;
+    width: var(--width50);
     margin-right: 30px;
     display: var(--displayFlex);
     justify-content: var(--spaceAround);
     .navigation-button{
-        width: 50%;
+        width: var(--width50);
     }
 }
 .bottom-nav-wrapper{
@@ -39,7 +39,7 @@ nav{
 }
 nav a{
     display: inline-block;
-    width: 100%;
+    width: var(--width100);
     height: 50px;
 }
 .navigation-button{

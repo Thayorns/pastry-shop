@@ -1,6 +1,6 @@
 .settings-div{
     height: var(--height700);
-    padding-top: 60px;
+    padding-top: var(--px-60);
     display: var(--displayFlex);
     flex-direction: var(--flexColumn);
     align-items: var(--alignCenter);
@@ -9,43 +9,58 @@
         width: var(--width80);
         display: var(--displayFlex);
         justify-content: var(--spaceAround);
+        
         .right-arrow, .right-arrow svg {
-            width: 20px;
+            width: var(--px-20);
             height: auto;
             color: var(--color);
         }
+        .right-arrow{
+            padding-right: var(--px-20);
+        }
     }
-
     a:first-child{
-        margin-top: 60px;
+        margin-top: var(--px-60);
     }
     a:last-child{
-        margin-bottom: 100px;
+        margin-bottom: var(--px-100);
     }
 }
 .settings-card{
     color: var(--colorBlack);
     margin: var(--margin-0-auto);
-    padding: 20px;
-    width: 60%;
-    height: 100px;
+    padding: var(--px-20);
+    width: var(--width60);
+    height: var(--px-100);
     border: 1px dashed var(--colorBlack);
     display: var(--displayFlex);
     flex-direction: var(--flexColumn);
     justify-content: var(--spaceBetwen);
-    border-radius: var(--borderRadius);
+    border-radius: var(--border-radius);
     align-items: var(--alignCenter);
+
     .anticon, .anticon svg {
-        width: 60px;
-        height: 60px;
+        width: var(--px-60);
+        height: var(--px-60);
         color: var(--color);
     }
     cursor: pointer;
 }
-.settings-card:hover,
-.backward-button:hover{
+.settings-card:hover{
+    border: 1px dashed var(--hoverButtons);
     box-shadow: var(--box-shadow);
 }
 .add-settings-div{
     height: var(--height700);
+    padding-top: var(--px-60);
+    form{
+        height: var(--width70);
+        .form-button{
+            margin-top: var(--px-30);
+        }
+    }
+    .upload-div{
+        width: var(--width70);
+        margin: var(--margin-0-auto);
+    }
 }

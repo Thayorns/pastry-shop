@@ -9,6 +9,7 @@
     --colorLightpurple: #ebcfee;
     --colorDarkpurple: #605161;
     --colorRed: red;
+    --hoverButtons: blue;
     --maxWidth: 768px;
     --displayFlex: flex;
     --flexColumn: column;
@@ -18,14 +19,22 @@
     --fixedPosition: fixed;
     --borderRadius: 5px;
     --cursor: pointer;
-    --hoverButtons: rgba(17, 17, 201, 0.425);
     --margin-0-auto: 0 auto;
     --height700: 750px;
     --inlineBlock: inline-block;
+    --block: block;
+    --width50: 50%;
+    --width60: 60%;
+    --width70: 70%;
     --width80: 80%;
+    --width100: 100%;
+    --px-20: 20px;
+    --px-30: 30px;
+    --px-60: 60px;
+    --px-100: 100px;
     --text-align: start;
     --text-center: center;
     --textUnderline: underline;
     --height-auto: auto;
-    --box-shadow: rgba(19, 19, 204, 0.486) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+    --box-shadow: var(--colorLightpurple) 0px 2px 8px 0px;
 }

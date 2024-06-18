@@ -10,12 +10,8 @@
     }
     h2{
         padding: 20px;
-        font-size: 60px;
+        font-size: var(--px-60);
         color: var(--color);
-    }
-    span{
-        display: var(--inlineBlock);
-        width: var(--width80);
     }
 }
 .auth-error{

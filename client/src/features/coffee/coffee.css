@@ -13,7 +13,7 @@
     }
 }
 .ant-message .ant-message-notice-wrapper .ant-message-notice-content{
-    margin-top: 100px;
+    margin-top: var(--px-100);
 }
 .admin-coffee p{
     padding: 200px 0px 0px;
@@ -22,7 +22,7 @@
     font-size: 20px;
 }
 .coffee-cups{
-    width: 80%;
+    width: var(--width80);
     height: 50px;
     margin: 50px auto;
     
@@ -34,12 +34,10 @@
         display: block;
         margin: 40px auto;
         width: 80px;
-        height: 100px;
-        /* box-shadow: 0 0 10px rgba(255, 238, 0, 0.8), 0 0 20px rgba(255, 145, 0, 0.6), 0 0 30px rgba(255, 115, 0, 0.4);
-        animation: glow 1.5s infinite alternate; */
+        height: var(--px-100);
         svg{
             width: 80px;
-            height: 100px;
+            height: var(--px-100);
         }
     }
     svg{
@@ -57,11 +55,3 @@
         color: var(--colorOrange);
     }
 }
-/* @keyframes glow {
-    from {
-        box-shadow: 0 0 5px rgba(255, 145, 0, 0.5), 0 0 10px rgba(255, 153, 0, 0.4), 0 0 15px rgba(255, 115, 0, 0.3);
-    }
-    to {
-        box-shadow: 0 0 20px rgb(255, 166, 0), 0 0 30px rgba(255, 136, 0, 0.8), 0 0 40px rgba(255, 102, 0, 0.6);
-    }
-} */

@@ -23,7 +23,7 @@
     padding-top: 150px;
 }
 .account-logout-button{
-    margin-top: 60px;
+    margin-top: var(--px-60);
 }
 .success-login-h2{
     padding: 20px 20px 10px;

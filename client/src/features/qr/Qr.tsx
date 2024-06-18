@@ -42,7 +42,7 @@ const Qr: React.FC = () => {
             {(isAuth === true && role === false) && (
                 <div className="qr-div">
                     <h1>ВАШ КОД</h1>
-                    <span>Покажите или назовите код кассиру в "КРЕМ и КОРЖ", чтобы накопить подарочный кофе.</span>
+                    <p>Покажите или назовите код кассиру в "КРЕМ и КОРЖ", чтобы накопить подарочный кофе.</p>
                     <img src={qrUrlFromStore} alt="qr-code"/>
                     <h2>{numberFromStore}</h2>
                 </div>
