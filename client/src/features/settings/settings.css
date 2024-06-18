@@ -1,13 +1,31 @@
 .settings-div{
     height: var(--height700);
     padding-top: 60px;
+    display: var(--displayFlex);
+    flex-direction: var(--flexColumn);
+    align-items: var(--alignCenter);
+    justify-content: var(--spaceAround);
     a{
-        width: 60%;
+        width: var(--width80);
+        display: var(--displayFlex);
+        justify-content: var(--spaceAround);
+        .right-arrow, .right-arrow svg {
+            width: 20px;
+            height: auto;
+            color: var(--color);
+        }
+    }
+
+    a:first-child{
+        margin-top: 60px;
+    }
+    a:last-child{
+        margin-bottom: 100px;
     }
 }
 .settings-card{
     color: var(--colorBlack);
-    margin: 60px auto;
+    margin: var(--margin-0-auto);
     padding: 20px;
     width: 60%;
     height: 100px;
@@ -27,4 +45,7 @@
 .settings-card:hover,
 .backward-button:hover{
     box-shadow: var(--box-shadow);
+}
+.add-settings-div{
+    height: var(--height700);
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import { Spin, Result, Button } from 'antd';
-import { StepBackwardOutlined } from '@ant-design/icons';
+import { LeftOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 import { RootState } from "../../app/store/store";
 import { Link } from "react-router-dom";
@@ -16,9 +16,9 @@ const AddAdmin: React.FC = () => {
 
     return (
         <>
-            <div className="settings-div">
+            <div className="add-settings-div">
                 <Button type="dashed" className="backward-button">
-                    <Link to={'/admin-settings'}><StepBackwardOutlined/></Link>
+                    <Link to={'/admin-settings'}><LeftOutlined /></Link>
                 </Button>
             </div>
         

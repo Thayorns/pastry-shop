@@ -51,19 +51,20 @@ strong{
 .backward-button{
   padding: 0px;
   width: 60px;
-  margin-top: 15px;
+  margin-top: 80px;
   margin-left: 20px;
   float: left;
-  height: auto;
+  height: 42px;
   svg{
-    width: 40px;
-    height: auto;
+    padding-top: 4px;
+    width: 30px;
+    height: 30px;
     color: var(--color);
   }
   a{
     display: inline-block;
     width: 100%;
-    height: auto;
+    height: 100%;
   }
 }
 a{

@@ -1,6 +1,6 @@
 import React from "react";
 import { Spin, Result } from 'antd';
-import { AppstoreAddOutlined, ShareAltOutlined, ProductOutlined, CameraOutlined, UsergroupAddOutlined } from '@ant-design/icons';
+import { AppstoreAddOutlined, ShareAltOutlined, ProductOutlined, CameraOutlined, UsergroupAddOutlined, RightOutlined } from '@ant-design/icons';
 import { useSelector } from 'react-redux';
 import { RootState } from "../../app/store/store";
 import { Link } from "react-router-dom";
@@ -14,7 +14,7 @@ const AdminSettings: React.FC = () => {
     const isAuth = useSelector((state: RootState) => state.auth.isAuthenticated);
 
     const array = [
-        { icon: <AppstoreAddOutlined/>, description: 'Добавить новые позиции блюд с описанием.', link: '/admin-settings/add-product'},
+        { icon: <ProductOutlined/>, description: 'Добавить новые позиции блюд с описанием.', link: '/admin-settings/add-product'},
         { icon: <ShareAltOutlined/>, description: 'Добавить нового администратора.', link: '/admin-settings/add-admin'},
         { icon: <UsergroupAddOutlined/>, description: 'Добавить посетителя в друзья.', link: '/admin-settings/add-friend'},
     ]
@@ -29,6 +29,7 @@ const AdminSettings: React.FC = () => {
                                 {el.icon}
                                 <span>{el.description}</span>
                             </div>
+                            <RightOutlined className="right-arrow"/>
                         </Link>    
                     ))}
                 </div>
