@@ -21,6 +21,9 @@ const qrSlice = createSlice({
 
     extraReducers: (builder) => {
         builder
+        .addMatcher(apiSlice.endpoints.addQRcode.matchPending, (state: InitialState) => {
+            state.loadingStatus = 'loading';
+          })
         .addMatcher(apiSlice.endpoints.addQRcode.matchFulfilled, (state: InitialState, action: any) => {
             state.loadingStatus = 'succeeded';
             const {number, qrCode} = action.payload;

@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-
 import Navigation from '../features/navigation/Navigation'
 import AdminCoffee from '../features/coffee/Admin-coffee';
 import UserCoffee from '../features/coffee/User-coffee';
@@ -10,7 +9,11 @@ import Login from '../features/login/Login';
 import News from '../features/news/News';
 import Qr from '../features/qr/Qr';
 import Register from '../features/registration/Register';
-import Settings from '../features/settings/Settings';
+import AdminSettings from '../features/settings/AdminSettings';
+import AddAdmin from '../features/settings/AddAdmin';
+import AddFriend from '../features/settings/AddFriend';
+import AddProduct from '../features/settings/AddProduct';
+import UserSettings from '../features/settings/UserSettings';
 import Token from '../features/tokens/Token';
 
 import './App.css';
@@ -54,8 +57,20 @@ const App: React.FC = () => {
             <Route path="/register"
               element={<Register/>}
             />
-            <Route path="/settings"
-              element={<Settings/>}
+            <Route path="/admin-settings"
+              element={<AdminSettings/>}
+            />
+              <Route path="/admin-settings/add-product"
+                element={<AddProduct/>}
+              />
+              <Route path="/admin-settings/add-admin"
+                element={<AddAdmin/>}
+              />
+              <Route path="/admin-settings/add-friend"
+                element={<AddFriend/>}
+              />
+            <Route path="/user-settings"
+              element={<UserSettings/>}
             />
             
           </Routes>

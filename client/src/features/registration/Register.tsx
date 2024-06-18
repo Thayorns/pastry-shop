@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Input, Spin } from 'antd';
+import { Button, Input, Spin, Result } from 'antd';
 import { useAddUserMutation } from "../api/apiSlice";
 
 import './register.css';
@@ -30,10 +30,13 @@ const Register: React.FC = () => {
     }else if(isSuccess){
         content = (
             <div className="success-register">
-                <h2>Здравствуйте, <strong>{userName}</strong>! Вы успешно зарегистрировались!</h2>
+                <h2><strong>{userName}</strong></h2>
+                <Result
+                    status="success"
+                    title=" Вы успешно зарегистрировались!"
+                    subTitle="Активируйте свой аккаунт в течении 1 часа, чтобы использовать наши акции, например бесплатный кофе по qr-code."
+                />
                 <p>На почту <span className="email-underlined">{userEmail}</span> отправлено письмо с активацией аккаунта</p>
-                <p>Активируйте свой аккаунт, чтобы использовать наши акции, например бесплатный кофе по qr-code.</p>
-                <span>Пожалуйста, активируйте аккаунт в течении 1 часа!</span>
             </div>
         )
     }else{

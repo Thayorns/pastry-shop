@@ -35,6 +35,9 @@ form{
     display: var(--displayFlex);
     flex-direction: var(--flexColumn);
     justify-content: var(--spaceBetwen);
+    .ant-result{
+        padding-top: 0px;
+    }
     span{
         margin-top: 20px;
         color: var(--color);

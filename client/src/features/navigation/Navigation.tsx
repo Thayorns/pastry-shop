@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { CoffeeOutlined,HomeOutlined,SettingOutlined,BellOutlined,UserAddOutlined,UserSwitchOutlined,QrcodeOutlined,ContactsOutlined } from '@ant-design/icons';
 import { useSelector} from "react-redux";
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 import { RootState } from "../../app/store/store";
 
 import './navigation.css'
@@ -18,18 +18,18 @@ const Navigation: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     };
     
     // отрисовка верхней навигации в зависимости от состояния
-    const isAuthenticatedFromStore = useSelector((state: RootState) => state.auth.isAuthenticated);
+    const isAuth = useSelector((state: RootState) => state.auth.isAuthenticated);
     const userLogin = useSelector((state: RootState) => state.auth.login)
     const role = useSelector((state: RootState) => state.auth.role);
     const topNavIcons = [
         ...(role === true ? [] : [<Link to={`/qr`}><QrcodeOutlined /></Link>]),
         <Link to={`/login`}><UserSwitchOutlined /></Link>,
-        ...(isAuthenticatedFromStore === false ? [<Link to={`/register`}><UserAddOutlined /></Link>] : []),
+        ...(isAuth === false ? [<Link to={`/register`}><UserAddOutlined /></Link>] : []),
     ];
 
     // отрисовка нижней навигации в зависимости от состояния
     const bottomNavIcons = [
-        <Link to={`/settings`}><SettingOutlined /> </Link>,
+        ...(role === true ? [<Link to={`/admin-settings`}><SettingOutlined /></Link>] : [<Link to={`/user-settings`}><SettingOutlined /></Link>]),
         <Link to={`/contacts`}> <ContactsOutlined /> </Link>,
         <Link to={`/home`}><HomeOutlined /></Link>,
         <Link to={`/news`}><BellOutlined /></Link>,

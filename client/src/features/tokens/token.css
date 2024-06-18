@@ -1,3 +1,6 @@
 .token-div{
     height: var(--height700);
+    .ant-result{
+        padding-top: 230px;
+    }
 }

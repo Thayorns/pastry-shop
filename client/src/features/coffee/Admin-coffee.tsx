@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from "../../app/store/store";
-import { Button, Input, message } from 'antd';
+import { Button, Input, message, Result } from 'antd';
 import { useAddCoffeeMutation } from '../api/apiSlice';
 
 import './coffee.css'
@@ -93,9 +93,7 @@ const AdminCoffee: React.FC = () => {
             )}
             
             {isAuth === false && (
-                <div className='auth-error'>
-                    <h2>Пожалуйста, войдите в свой аккаунт, и Вам будет доступна акция подарочного кофе по qr-коду, возможность стать другом "КРЕМ и КОРЖ" и 15% скидкой на всю продукцию.</h2>
-                </div>
+                <Result status="403" title="403" subTitle="Простите, Вы не авторизованы и не можете зайти на эту страницу." />
             )}
         </>
     )

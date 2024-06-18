@@ -1,0 +1,30 @@
+.settings-div{
+    height: var(--height700);
+    padding-top: 60px;
+    a{
+        width: 60%;
+    }
+}
+.settings-card{
+    color: var(--colorBlack);
+    margin: 60px auto;
+    padding: 20px;
+    width: 60%;
+    height: 100px;
+    border: 1px dashed var(--colorBlack);
+    display: var(--displayFlex);
+    flex-direction: var(--flexColumn);
+    justify-content: var(--spaceBetwen);
+    border-radius: var(--borderRadius);
+    align-items: var(--alignCenter);
+    .anticon, .anticon svg {
+        width: 60px;
+        height: 60px;
+        color: var(--color);
+    }
+    cursor: pointer;
+}
+.settings-card:hover,
+.backward-button:hover{
+    box-shadow: var(--box-shadow);
+}

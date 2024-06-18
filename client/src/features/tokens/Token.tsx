@@ -1,7 +1,7 @@
 import React from "react";
 import { useGetTokenQuery } from "../api/apiSlice";
 import { useParams } from 'react-router-dom';
-import { Spin } from "antd";
+import { Spin, Result } from "antd";
 
 
 import './token.css'
@@ -19,18 +19,22 @@ const Token: React.FC = () => {
     }else if(isSuccess){
         content = (
             <div className="token-div">
-            <h2>Ваш аккаунт успешно активирован!<br/>  Добро пожаловать!</h2>
+                <Result
+                    status="success"
+                    title="Ваш аккаунт успешно активирован!"
+                    subTitle="Войдите под своим логином и паролем."
+                />
             </div>
         );
     }else if(isError){
         content = 
         <div>
-            <h2>Ошибка...</h2>
+            <Result status="500" title="Ошибка" subTitle="Простите, что-то пошло не так." />
         </div>
     }
     return (
         <div className="token-div">
-            <h2>{content}</h2>
+            {content}
         </div>
     );
 }

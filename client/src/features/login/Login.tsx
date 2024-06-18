@@ -19,13 +19,11 @@ const Login: React.FC = () => {
     const [userName, setUserName] = useState('');
     const [userPassword, setUserPassword] = useState('');
 
-    // const accessToken = useSelector((state: RootState) => state.auth.accessToken);
-    const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
+    const isAuth = useSelector((state: RootState) => state.auth.isAuthenticated);
     const role = useSelector((state: RootState) => state.auth.role);
     const userLoginFromStore = useSelector((state:RootState) => state.auth.login)
     const loginStatus = useSelector((state: RootState) => state.auth.loginStatus);
     
-    // функция аутентификации + логин
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try{
@@ -35,7 +33,6 @@ const Login: React.FC = () => {
         }
     }
     
-    // функция выхода из аккаунта
     const handleUserLogoutSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try{
@@ -46,13 +43,12 @@ const Login: React.FC = () => {
         }
     }
     
-    // отрисовка контента
     const errorDisplay: React.ReactNode = error as React.ReactNode;
     let content: React.ReactNode;
     
     if(loginStatus === 'loading'){
         content = <Spin/>
-    }else if(isAuthenticated === true && role === true){
+    }else if(isAuth === true && role === true){
         content = (
             <div className="success-login">
                 <h1 className="admin-role">
@@ -64,16 +60,16 @@ const Login: React.FC = () => {
                 <p>В разделе "настройки" Вы можете добавлять в друзья посетителей, достаточно ввести логин посетителя.</p>    
                 <p>В разделе "настройки" Вы можете добавлять пользователя в администраторы.</p>   
                 <p>В разделе "настройки" Вы в будущем сможете загружать фотографии для раздела "дом".</p>   
-                <p>В разделе "кофе" Вы можете добавлять подарочные кофе для пользователей, достаточно ввести номер, который озвучит посетитель.</p>
+                <p>В разделе "кофе" Вы можете добавлять подарочные кофе для посетителей, достаточно ввести номер, который озвучит посетитель.</p>
                 <Link to='/login' className="account-logout-button"><Button onClick={handleUserLogoutSubmit} htmlType="submit" type="primary" className="form-button" >Выйти</Button></Link>
             </div>
         )
-    }else if(isAuthenticated === true && role === false){
+    }else if(isAuth === true && role === false){
         content = (
             <div className="success-login-not-admin">
                 <h1 className="success-login-h1">{userLoginFromStore}</h1>
                 <h2 className="success-login-h2">Здравствуйте! Вы вошли в аккаунт "КРЕМ и КОРЖ".</h2>
-                <p>Теперь Вы можете пользоваться проводимыми в "Крем и Корж" акциями, такими как бесплатный кофе.</p>
+                <p>Теперь Вы можете пользоваться проводимыми в "КРЕМ и КОРЖ" акциями, такими как бесплатный кофе.</p>
                 <p>Кликните на раздел "qr-код" для дальнейших инструкций.</p>
                 <Link to='/login' className="account-logout-button"><Button onClick={handleUserLogoutSubmit} htmlType="submit" type="primary" className="form-button" >Выйти</Button></Link>
             </div>

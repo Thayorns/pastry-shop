@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Spin } from 'antd';
+import { Spin, Result } from 'antd';
 import { CoffeeOutlined } from '@ant-design/icons';
 import { useGetCoffeeQuery } from '../api/apiSlice';
 import { RootState } from '../../app/store/store';
@@ -51,9 +51,7 @@ const UserCoffee: React.FC = () => {
                 </div>
             )}
             {isAuth === false && (
-                <div className='auth-error'>
-                    <h2>Пожалуйста, войдите в свой аккаунт, и Вам будет доступна акция подарочного кофе по qr-коду, возможность стать другом "КРЕМ и КОРЖ" и 15% скидкой на всю продукцию.</h2>
-                </div>
+                <Result status="403" title="403" subTitle="Простите, Вы не авторизованы и не можете зайти на эту страницу." />
             )}
         </>
     );
