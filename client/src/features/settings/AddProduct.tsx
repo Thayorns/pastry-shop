@@ -65,7 +65,6 @@ const getBase64 = (file: FileType): Promise<string> =>
             duration: 5,
         });
     };
-    
     const error = () => {
         messageApi.open({
             type: 'error',
@@ -130,7 +129,7 @@ const getBase64 = (file: FileType): Promise<string> =>
                                 onPreview={handlePreview}
                                 onChange={handleChange}
                             >
-                                {fileList.length >= 3 ? null : uploadButton}
+                            {fileList.length >= 1 ? null : uploadButton}
                             </Upload>
                             {previewImage && (
                                 <Image
