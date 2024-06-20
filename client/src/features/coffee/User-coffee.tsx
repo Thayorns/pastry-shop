@@ -33,8 +33,8 @@ const UserCoffee: React.FC = () => {
 
     return (
         <>
-            {isLoading && <Spin />}
-            {isSuccess && isAuth && (
+            {(isLoading) && (<Spin />)}
+            {(isSuccess && isAuth) && (
                 <div className='user-coffee'>
                     <h1>КОФЕ В ПОДАРОК</h1>
                     <p>Заказывая кофе по qr-коду, вы накапливаете счётчик чашек.</p>
@@ -50,7 +50,7 @@ const UserCoffee: React.FC = () => {
                     }
                 </div>
             )}
-            {isAuth === false && (
+            {(isAuth === false && !isLoading) && (
                 <Result status="403" title="403" subTitle="Простите, Вы не авторизованы и не можете зайти на эту страницу." />
             )}
         </>

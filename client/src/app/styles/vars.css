@@ -13,6 +13,7 @@
     --maxWidth: 768px;
     --displayFlex: flex;
     --flexColumn: column;
+    --flexRow: row;
     --spaceAround: space-around;
     --spaceBetwen: space-between;
     --alignCenter: center;
@@ -33,6 +34,7 @@
     --px-30: 30px;
     --px-40: 40px;
     --px-60: 60px;
+    --px-80: 80px;
     --px-100: 100px;
     --text-align: start;
     --text-center: center;

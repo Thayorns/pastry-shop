@@ -1,0 +1,50 @@
+.home-div{
+    height: auto;
+    margin: var(--margin-0-auto);
+    display: var(--displayFlex);
+    flex-direction: var(--flexColumn);
+    
+    .horizontal-filter{
+        position: fixed;
+        background: var(--colorWhite);
+        margin-top: var(--px-60);
+        margin-bottom: var(--px-20);
+        display: var(--displayFlex);
+        flex-direction: var(--flexRow);
+        justify-content: var(--spaceBetwen);
+        width: var(--width100);
+        height: var(--px-60);
+        overflow-x: auto;
+        white-space: nowrap;
+        -ms-overflow-style: none; /* Для Internet Explorer и Edge */
+        scrollbar-width: none; /* Для Firefox */
+        
+        .horizontal-filter::-webkit-scrollbar {
+            display: none; /* Для Chrome, Safari и Opera */
+        }
+    }
+    .horizon-anchors{
+        margin-top: 12px;
+        display: var(--inlineBlock);
+        width: auto;
+        padding: 0px var(--px-30);
+        height: var(--px-30);
+        line-height: var(--px-30);
+        font-size: 14px;
+        font-weight: 600;
+        margin-right: var(--px-10);
+        margin-left: var(--px-10);
+        border-radius: 12px;
+        border: 2px solid var(--colorLightpurple);
+    }
+    .product-cards{
+        margin-top: 120px;
+        display: var(--displayFlex);
+        flex-direction: var(--flexColumn);
+        justify-content: var(--spaceBetwen);
+    }
+    img{
+        width: 150px;
+        height: 150px;
+    }
+}

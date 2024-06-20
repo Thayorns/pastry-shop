@@ -77,6 +77,11 @@ export const apiSlice = createApi({
       })
     }),
 
+    // получение всех продуктов из бд
+    getProducts: builder.query({
+      query: () => `/api/home`,
+    }),
+
     // добавление кофе администратором
     addCoffee: builder.mutation({
       query: (body: CoffeeRequest) => ({
@@ -140,4 +145,5 @@ export const {useAddUserMutation,
   useAddCoffeeMutation,
   useGetCoffeeQuery,
   useAddProductMutation,
+  useGetProductsQuery,
 } = apiSlice;

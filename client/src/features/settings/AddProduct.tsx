@@ -123,6 +123,7 @@ const getBase64 = (file: FileType): Promise<string> =>
 
                     <form onSubmit={handleSubmit}>
                         <div className="upload-div">
+                            
                             <Upload
                                 listType="picture-card"
                                 fileList={fileList}
@@ -132,6 +133,7 @@ const getBase64 = (file: FileType): Promise<string> =>
                             {fileList.length >= 1 ? null : uploadButton}
                             </Upload>
                             {previewImage && (
+                                
                                 <Image
                                 wrapperStyle={{ display: 'none' }}
                                 preview={{
@@ -144,7 +146,7 @@ const getBase64 = (file: FileType): Promise<string> =>
                             )}
                         </div>
                         <div className="form-select">
-                            <Select defaultValue="Торты"
+                            <Select defaultValue="Раздел"
                                 style={{ width: 120 }}
                                 onChange={handleSelectChange}
                                 options={[
@@ -152,7 +154,8 @@ const getBase64 = (file: FileType): Promise<string> =>
                                     { value: 'Выпечка', label: 'Выпечка' },
                                     { value: 'Десерты', label: 'Десерты' },
                                     { value: 'Напитки', label: 'Напитки' },
-                                    { value: 'Закуски', label: 'Закуски' },
+                                    { value: 'Сендвичи', label: 'Сендвичи' },
+                                    { value: 'Салаты', label: 'Салаты' },
                                 ]}
                             />
                         </div>

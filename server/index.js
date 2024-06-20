@@ -64,9 +64,20 @@ app.post('/api/admin-settings/add-product', upload.single('photo'), async (req, 
     console.error('Ошибка при добавлении продукта:', error);
     res.status(500).json({ error: 'Произошла ошибка при добавлении продукта' });
   }
-
 });
 
+// получение продуктов в роут "дом"
+app.get('/api/home', async (req, res) => {
+
+  try {
+    const products = await Product.findAll();
+    res.status(200).json(products);
+  } catch (error) {
+    console.error('Ошибка при получении продуктов:', error);
+    res.status(500).json({ error: 'Произошла ошибка при получении продуктов' });
+  }
+  
+});
 
 // получение количества кофе пользователем
 app.get('/api/user-coffee/:login', async (req, res) => {
