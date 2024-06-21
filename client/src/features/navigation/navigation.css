@@ -70,6 +70,6 @@ nav a{
     background-color: var(--colorWhite);
     svg{
         color: var(--colorDarkpurple);
-        transition: color 1.5s ease;
+        transition: var(--transition-1-5);
     }
 }

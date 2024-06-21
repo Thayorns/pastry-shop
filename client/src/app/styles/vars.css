@@ -44,5 +44,6 @@
     --text-center: center;
     --textUnderline: underline;
     --height-auto: auto;
+    --transition-1-5: color 1.5s ease;
     --box-shadow: var(--colorLightpurple) 0px 2px 8px 0px;
 }

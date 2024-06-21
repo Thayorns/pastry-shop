@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useGetProductsQuery } from "../api/apiSlice";
 import AnchorLink from "react-anchor-link-smooth-scroll";
 import { Spin, Result } from 'antd';
@@ -9,6 +9,13 @@ import '../../app/styles/normalize.css'
 import '../../app/styles/vars.css'
 
 const Home: React.FC = () => {
+
+    const [activeHorizonFilter, setActiveHorizonFilter] = useState<number | null>(0);
+    
+    const toggleActiveButton = (index: number, setAction: (num: number)=> void) => {
+        setAction(index)
+    };
+
     const {data, isError, isFetching, isSuccess, isLoading} = useGetProductsQuery({})
     interface ResultResponse {
         chapter: string;
@@ -20,14 +27,7 @@ const Home: React.FC = () => {
     }
     const result = data as ResultResponse[] || [];
 
-    const horizonAnchors = [
-        <AnchorLink offset={() => 100} href="#Торты">Торты</AnchorLink>, 
-        <AnchorLink offset={() => 100} href="#Выпечка">Выпечка</AnchorLink>, 
-        <AnchorLink offset={() => 100} href="#Десерты">Десерты</AnchorLink>, 
-        <AnchorLink offset={() => 100} href="#Напитки">Напитки</AnchorLink>, 
-        <AnchorLink offset={() => 100} href="#Сендвичи">Сендвичи</AnchorLink>, 
-        <AnchorLink offset={() => 100} href="#Салаты">Салаты</AnchorLink>
-    ];
+    const horizonAnchors = [ 'Торты', 'Выпечка', 'Десерты', 'Напитки', 'Сендвичи', 'Салаты' ];
 
     const chapterCake = result.filter(obj => obj.chapter === 'Торты');
     const chapterBakery = result.filter(obj => obj.chapter === 'Выпечка');
@@ -63,7 +63,13 @@ const Home: React.FC = () => {
 
                     <div className="horizontal-filter">
                         {horizonAnchors.map((anchor, index) => 
-                            <span key={index} className="horizon-anchors">{anchor}</span>
+                            <AnchorLink key={index} offset={() => 100} href={`#${anchor}`}>
+                                <span onClick={() => toggleActiveButton(index, setActiveHorizonFilter)}
+                                    className={activeHorizonFilter === index ? "horizon-anchors active" : "horizon-anchors"}>
+                                    {anchor}
+                                </span>
+                            </AnchorLink>
+                            
                         )}
                     </div>
 
