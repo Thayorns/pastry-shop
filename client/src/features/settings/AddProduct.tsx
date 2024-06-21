@@ -150,7 +150,7 @@ const getBase64 = (file: FileType): Promise<string> =>
                                 style={{ width: 120 }}
                                 onChange={handleSelectChange}
                                 options={[
-                                    { value: '', label: 'Раздел:' },
+                                    { value: '', label: 'Разделы:' },
                                     { value: 'Торты', label: 'Торты' },
                                     { value: 'Выпечка', label: 'Выпечка' },
                                     { value: 'Десерты', label: 'Десерты' },
