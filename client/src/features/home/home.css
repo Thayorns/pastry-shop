@@ -6,14 +6,15 @@
     
     .horizontal-filter{
         position: fixed;
+        z-index: 80;
         background: var(--colorWhite);
         margin-top: var(--px-60);
-        margin-bottom: var(--px-20);
         display: var(--displayFlex);
         flex-direction: var(--flexRow);
         justify-content: var(--spaceBetwen);
         width: var(--width100);
-        height: var(--px-60);
+        max-width: 768px;
+        height: 55px;
         overflow-x: auto;
         white-space: nowrap;
         -ms-overflow-style: none; /* Для Internet Explorer и Edge */
@@ -36,15 +37,61 @@
         margin-left: var(--px-10);
         border-radius: 12px;
         border: 2px solid var(--colorLightpurple);
+        
+        a{
+            color: var(--colorBlack);
+        }
     }
-    .product-cards{
-        margin-top: 120px;
+    .vertical-filter{
+        position: relative;/*обязателен для стики*/
+        margin-top: 115px;
+    }
+    .cards-wrapper{
         display: var(--displayFlex);
-        flex-direction: var(--flexColumn);
+        flex-direction: var(--flexRow);
         justify-content: var(--spaceBetwen);
+        flex-wrap: wrap;
+        
+        .title-arrow svg{
+            line-height: 60px;
+            width: 15px;
+            height: 12px;
+            padding-bottom: 1.5px;
+        }
+        
+        h3{
+            position: -webkit-sticky;/*для прилипающих заголовков*/
+            position: sticky;
+            top: 115px;
+            z-index: 10;
+            text-align: var(--text-align);
+            padding: 0px var(--px-40);
+            width: var(--width100);
+            line-height: 45px;
+            background: rgba(255, 255, 255, 0.897);
+        }
+
+        .single-card-inner{
+            margin: 15px auto;
+            
+
+            span{
+                display: var(--inlineBlock);
+                font-size: 12px;
+            }
+            p{
+                font-weight: 500;
+            }
+            p,span{
+                width: 170px;
+                text-align: var(--text-align);
+                padding-top: 3px;
+            }
+        }
     }
     img{
-        width: 150px;
-        height: 150px;
+        border-radius: var(--border-radius-15);
+        width: 170px;
+        height: 188px;
     }
 }

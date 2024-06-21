@@ -1,6 +1,6 @@
 .App {
   max-width: var(--maxWidth);
-  height: var(--height700);
+  /* height: var(--height700); */
   margin: var(--margin-0-auto);
   text-align: center;
   background: var(--colorWhite);
@@ -126,4 +126,7 @@ form{
   .coffee-cups .anticon:last-child{
     margin-top: 40px;
   }
+}
+@media screen and (min-width: 700px) {
+  
 }

@@ -1,5 +1,6 @@
 :root{
     --border-radius: 5px;
+    --border-radius-15: 15px;
     --color: #a171a6;
     --colorWhite: white;
     --colorGray: gray;
@@ -16,6 +17,7 @@
     --flexRow: row;
     --spaceAround: space-around;
     --spaceBetwen: space-between;
+    --justify-start: start;
     --alignCenter: center;
     --fixedPosition: fixed;
     --borderRadius: 5px;
@@ -33,6 +35,7 @@
     --px-20: 20px;
     --px-30: 30px;
     --px-40: 40px;
+    --px-50: 50px;
     --px-60: 60px;
     --px-80: 80px;
     --px-100: 100px;

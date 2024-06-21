@@ -5,6 +5,7 @@ nav{
     max-width: var(--maxWidth);
     width: var(--width100);
     color: var(--colorWhite);
+    z-index: 99;
   }
 .logo{
     margin-left: 20px;

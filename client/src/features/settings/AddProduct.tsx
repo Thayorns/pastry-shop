@@ -23,7 +23,7 @@ const getBase64 = (file: FileType): Promise<string> =>
 
 
   const AddProduct: React.FC = () => {
-    const [addProduct, {isError, isSuccess}] = useAddProductMutation();
+    const [addProduct, {isError, isSuccess, isLoading}] = useAddProductMutation();
 
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
@@ -146,10 +146,11 @@ const getBase64 = (file: FileType): Promise<string> =>
                             )}
                         </div>
                         <div className="form-select">
-                            <Select defaultValue="Раздел"
+                            <Select value={activeSelect}
                                 style={{ width: 120 }}
                                 onChange={handleSelectChange}
                                 options={[
+                                    { value: '', label: 'Раздел:' },
                                     { value: 'Торты', label: 'Торты' },
                                     { value: 'Выпечка', label: 'Выпечка' },
                                     { value: 'Десерты', label: 'Десерты' },
@@ -191,7 +192,7 @@ const getBase64 = (file: FileType): Promise<string> =>
                                 name="ingredients" placeholder="Ингредиенты продукта, через запятую." required
                             ></Input>
                         </div>
-                        <Button htmlType="submit" type="primary" className="form-button">Добавить</Button>
+                        <Button htmlType="submit" type="primary" className="form-button" disabled={isLoading}>Добавить</Button>
                     </form>
                 </div>
             )}
