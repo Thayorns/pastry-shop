@@ -73,9 +73,6 @@ strong{
     height: var(--width100);
   }
 }
-.backward-button:hover{
-  box-shadow: var(--box-shadow);
-}
 a{
   text-decoration: none;
 }
@@ -102,7 +99,12 @@ form{
   }
 }
 
-
+.navigation-button:hover:not(.active),
+.horizon-anchors:hover:not(.active),
+.backward-button:hover,
+.settings-card:hover{
+  background-color: rgba(16, 130, 236, 0.336);
+}
 
 
 

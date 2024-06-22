@@ -37,7 +37,7 @@
         margin-left: var(--px-10);
         border-radius: 12px;
         border: 2px solid var(--colorLightpurple);
-        color: var(--colorBlack);
+        color: var(--colorDarkpurple);
         transition: var(--transition-1-5);
     }
     .vertical-filter{

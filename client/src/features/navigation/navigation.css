@@ -61,11 +61,7 @@ nav a{
     height: auto;
     width: 25px;
 }
-/* псевдоклассы navigation-button */
 
-.navigation-button:hover:not(.active){
-    background-color: rgba(16, 130, 236, 0.336);
-}
 .active{
     background-color: var(--colorWhite);
     svg{

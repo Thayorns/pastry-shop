@@ -46,10 +46,7 @@
     }
     cursor: pointer;
 }
-.settings-card:hover{
-    border: 1px dashed var(--hoverButtons);
-    box-shadow: var(--box-shadow);
-}
+
 .add-settings-div{
     height: var(--height700);
     padding-top: var(--px-60);
