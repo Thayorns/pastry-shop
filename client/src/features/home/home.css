@@ -73,7 +73,33 @@
         .single-card-inner{
             margin: 15px auto;
             
+            .card-description{
+                width: 170px;
+                display: var(--displayFlex);
+                justify-content: var(--spaceBetwen);
+                
+                .description-div{
+                    width: 80%;
+                    display: var(--displayFlex);
+                    flex-direction: var(--flexColumn);
+                }
 
+                .delete-button{
+                    cursor: var(--cursor);
+                    margin-right: 5px;
+                    padding-top: 8px;
+                    svg{
+                        color: var(--colorDarkpurple);
+                        transition: var(--transition-0-5);
+                        width: var(--px-30);
+                        height: var(--px-30);
+                    }
+                    svg:hover{
+                        color: var(--colorRed);
+                        transition: var(--transition-0-5);
+                    }
+                }
+            }
             span{
                 display: var(--inlineBlock);
                 font-size: 12px;
@@ -82,9 +108,9 @@
                 font-weight: 500;
             }
             p,span{
-                width: 170px;
                 text-align: var(--text-align);
                 padding-top: 3px;
+                margin: 0;
             }
         }
     }

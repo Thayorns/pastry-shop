@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import { useGetProductsQuery } from "../api/apiSlice";
 import AnchorLink from "react-anchor-link-smooth-scroll";
 import { Spin, Result } from 'antd';
-import {RightOutlined } from '@ant-design/icons';
+import { RightOutlined, DeleteOutlined } from '@ant-design/icons';
+import { useSelector} from "react-redux";
+import { RootState } from "../../app/store/store";
 
-import './home.css'
-import '../../app/styles/normalize.css'
-import '../../app/styles/vars.css'
+import './home.css';
+import '../../app/styles/normalize.css';
+import '../../app/styles/vars.css';
 
 const Home: React.FC = () => {
 
@@ -17,6 +19,7 @@ const Home: React.FC = () => {
     };
 
     const {data, isError, isFetching, isSuccess, isLoading} = useGetProductsQuery({})
+    const role = useSelector((state: RootState) => state.auth.role);
     interface ResultResponse {
         chapter: string;
         description: string;
@@ -38,8 +41,13 @@ const Home: React.FC = () => {
         const result = arr.map((obj, index) => (
             <div className="single-card-inner" key={index}>
                 <img src={require(`../../../../product-photos/${obj.photo}`)} alt=""/>
-                <p>{obj.title}</p>
-                <span>{obj.price} руб.</span>
+                <div className="card-description">
+                    <div className="description-div">
+                        <p>{obj.title}</p>
+                        <span>{obj.price} руб.</span>
+                    </div>
+                    {role === true ? <DeleteOutlined className="delete-button"/> : null}
+                </div>   
             </div>    
         ));
         return result;
