@@ -82,16 +82,30 @@
                     width: 80%;
                     display: var(--displayFlex);
                     flex-direction: var(--flexColumn);
+
+                    span{
+                        display: var(--inlineBlock);
+                        font-size: 12px;
+                    }
+                    p{
+                        width: var(--width100);
+                        font-weight: 500;
+                    }
+                    p,span{
+                        text-align: var(--text-align);
+                        padding-top: 3px;
+                        margin: 0;
+                    }
                 }
 
                 .delete-button{
                     cursor: var(--cursor);
                     margin-right: 5px;
-                    padding-top: 8px;
+                    /* padding-top: 8px; */
                     svg{
                         color: var(--colorDarkpurple);
                         transition: var(--transition-0-5);
-                        width: var(--px-30);
+                        width: var(--px-20);
                         height: var(--px-30);
                     }
                     svg:hover{
@@ -99,18 +113,6 @@
                         transition: var(--transition-0-5);
                     }
                 }
-            }
-            span{
-                display: var(--inlineBlock);
-                font-size: 12px;
-            }
-            p{
-                font-weight: 500;
-            }
-            p,span{
-                text-align: var(--text-align);
-                padding-top: 3px;
-                margin: 0;
             }
         }
     }

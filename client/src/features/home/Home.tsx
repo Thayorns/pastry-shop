@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useGetProductsQuery } from "../api/apiSlice";
+import { useGetProductsQuery, useDeleteProductMutation } from "../api/apiSlice";
 import AnchorLink from "react-anchor-link-smooth-scroll";
 import { Spin, Result } from 'antd';
 import { RightOutlined, DeleteOutlined } from '@ant-design/icons';
@@ -13,12 +13,13 @@ import '../../app/styles/vars.css';
 const Home: React.FC = () => {
 
     const [activeHorizonFilter, setActiveHorizonFilter] = useState<number | null>(0);
+    const [deleteProduct] = useDeleteProductMutation();
     
     const toggleActiveButton = (index: number, setAction: (num: number)=> void) => {
         setAction(index)
     };
 
-    const {data, isError, isFetching, isSuccess, isLoading} = useGetProductsQuery({})
+    const {data, isError, refetch, isSuccess, isLoading} = useGetProductsQuery({})
     const role = useSelector((state: RootState) => state.auth.role);
     interface ResultResponse {
         chapter: string;
@@ -37,6 +38,16 @@ const Home: React.FC = () => {
         return accumulator;
     }, {} as Record<string, ResultResponse[]>);
 
+    const handleDeleteProduct = async (title: string) => {
+        
+        try {
+            await deleteProduct(title);
+            refetch();
+        } catch (error) {
+            console.error('Failed to delete product:', error);
+        }
+    };
+
     const mapFunction = (arr: ResultResponse[]) => {
         const result = arr.map((obj, index) => (
             <div className="single-card-inner" key={index}>
@@ -46,13 +57,19 @@ const Home: React.FC = () => {
                         <p>{obj.title}</p>
                         <span>{obj.price} руб.</span>
                     </div>
-                    {role === true ? <DeleteOutlined className="delete-button"/> : null}
+                    {role === true 
+                    ? <DeleteOutlined disabled={isLoading} onClick={() => handleDeleteProduct(obj.title)} className="delete-button"/> 
+                    : null}
                 </div>   
             </div>    
         ));
         return result;
     };
 
+    useEffect(() => {
+        refetch();
+    }, [refetch]);
+    
     return (
         <>
             {isLoading && (<Spin/>)}

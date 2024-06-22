@@ -55,11 +55,11 @@ const Login: React.FC = () => {
                     АДМИНИСТРАТОР <br/>
                     {userLoginFromStore}
                 </h1>
-                <h2 className="success-login-h2">Здравствуйте! Вы вошли в аккаунт "КРЕМ и КОРЖ".</h2>
-                <p>Для администраторов приложение несколько отличается своим расширенным функционалом, в отличии от клиентов.</p>
+                <p>Для администраторов приложение несколько отличается своим расширенным функционалом, <strong>недоступным</strong> для клиентов.</p>
                 <p>В разделе "настройки" Вы можете добавлять в друзья клиентов, достаточно ввести его логин.</p>    
-                <p>В разделе "настройки" Вы можете добавлять пользователя в администраторы.</p>   
+                <p>В разделе "настройки" Вы можете наделять пользователя правами администратора. Будьте избирательны в своём решении.</p>   
                 <p>В разделе "настройки" Вы можете добавлять новые позиции продукции с фотографией, ценой, ингредиентами и описанием.</p>   
+                <p>В разделе "дом" Вы можете удалять продукты из ленты нажатием на "корзину".</p>   
                 <p>В разделе "кофе" Вы можете добавлять подарочные кофе для клиентов, достаточно ввести номер, который он озвучит.</p>
                 <Link to='/login' className="account-logout-button"><Button onClick={handleUserLogoutSubmit} htmlType="submit" type="primary" className="form-button" >Выйти</Button></Link>
             </div>
@@ -67,8 +67,7 @@ const Login: React.FC = () => {
     }else if(isAuth === true && role === false){
         content = (
             <div className="success-login-not-admin">
-                <h1 className="success-login-h1">{userLoginFromStore}</h1>
-                <h2 className="success-login-h2">Здравствуйте! Вы вошли в аккаунт "КРЕМ и КОРЖ".</h2>
+                <h1 className="success-login-h1">{userLoginFromStore},</h1>
                 <p>Теперь Вы можете пользоваться проводимыми в "КРЕМ и КОРЖ" акциями, такими как бесплатный кофе.</p>
                 <p>Кликните на раздел "qr-код" для дальнейших инструкций.</p>
                 <Link to='/login' className="account-logout-button"><Button onClick={handleUserLogoutSubmit} htmlType="submit" type="primary" className="form-button" >Выйти</Button></Link>

@@ -28,6 +28,7 @@ app.use(cookieParser());
 app.use(cors());
 
 const uploadDir = './product-photos';
+
 if (!fs.existsSync(uploadDir)){
     fs.mkdirSync(uploadDir);
 }
@@ -66,6 +67,32 @@ app.post('/api/admin-settings/add-product', upload.single('photo'), async (req, 
   }
 });
 
+// удаление продукта админом
+app.post('/api/home', async (req, res) => {
+  const { title } = req.body;
+
+  try {
+    const product = await Product.findOne({ where: { title } });
+    if(product) {
+      if (product.photo) {
+        const photoPath = path.join(uploadDir, product.photo);
+        if (fs.existsSync(photoPath)) {
+          fs.unlinkSync(photoPath);
+        }
+      }
+
+      await product.destroy();
+
+      res.status(200).json({ message: 'Продукт успешно удален' });
+    } else {
+      res.status(404).json({ error: 'Продукт не найден' });
+    }
+  } catch (error) {
+    console.error('Ошибка при удалении продуктов:', error);
+    res.status(500).json({ error: 'Произошла ошибка при удалении продуктов' });
+  }
+});
+
 // получение продуктов в роут "дом"
 app.get('/api/home', async (req, res) => {
 
@@ -76,7 +103,7 @@ app.get('/api/home', async (req, res) => {
     console.error('Ошибка при получении продуктов:', error);
     res.status(500).json({ error: 'Произошла ошибка при получении продуктов' });
   }
-  
+
 });
 
 // получение количества кофе пользователем

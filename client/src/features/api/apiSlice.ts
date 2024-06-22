@@ -7,20 +7,24 @@ interface AddUserRequest {
   email: string;
   login: string;
   password: string;
-}
+};
 interface LogInUserRequest {
   login: string;
   password: string;
-}
+};
 
 interface AddQRCodeRequest {
   login: string;
-}
+};
 
 interface CoffeeRequest {
   number: number;
   selectedCoffee: number;
-}
+};
+
+interface DeleteProductRequest {
+  title: string;
+};
 
 const baseQuery = fetchBaseQuery({
   baseUrl: 'http://localhost:3001',
@@ -74,6 +78,18 @@ export const apiSlice = createApi({
         url: `/api/admin-settings/add-product`,
         method: 'POST',
         body: formData,
+      })
+    }),
+
+    // удаление продукта админом
+    deleteProduct: builder.mutation({
+      query: (title: string) => ({
+        url: `/api/home`,
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ title })//без него не удаляет и ошибка json формата
       })
     }),
 
@@ -146,4 +162,5 @@ export const {useAddUserMutation,
   useGetCoffeeQuery,
   useAddProductMutation,
   useGetProductsQuery,
+  useDeleteProductMutation,
 } = apiSlice;
