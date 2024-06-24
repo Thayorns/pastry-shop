@@ -25,11 +25,18 @@ const Home: React.FC = () => {
     const sectionRefs = useRef<(HTMLElement | null)[]>([]);
     const horizonRefs = useRef<(HTMLElement | null)[]>([]);
     const horizontalFilterRef = useRef<HTMLDivElement | null>(null);
+
+    const isScrolling = useRef(false);
+    const isClicking = useRef(false);
     
-    const toggleActiveButton = (index: number, setAction: (num: number)=> void) => {
-        setAction(index);
-        scrollToCenter(index);
+    const toggleActiveButton = (index: number) => {
+        isClicking.current = true;
+        setActiveHorizonFilter(index);
+        setTimeout(() => {
+            isClicking.current = false;
+        }, 1000);
     };
+
     const scrollToCenter = (index: number) => {
         const element = horizonRefs.current[index];
         const container = horizontalFilterRef.current;
@@ -99,13 +106,16 @@ const Home: React.FC = () => {
         };
     
         const observerCallback = (entries: IntersectionObserverEntry[]) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
+            entries.forEach(entry => {
+              if (entry.isIntersecting && !isClicking.current) {
                 const index = sectionRefs.current.indexOf(entry.target as HTMLElement);
                 setActiveHorizonFilter(index);
-                scrollToCenter(index);
-            }
-          });
+
+                if (isScrolling.current) {
+                    scrollToCenter(index);
+                }
+              }
+            });
         };
     
         const observer = new IntersectionObserver(observerCallback, observerOptions);
@@ -122,6 +132,22 @@ const Home: React.FC = () => {
           }
         };
     }, []);
+
+    useEffect(() => {
+        const handleScroll = () => {
+          if (!isScrolling.current) {
+            isScrolling.current = true;
+            setTimeout(() => {
+              isScrolling.current = false;
+            }, 1000);
+          }
+        };
+    
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+          window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
     
     return (
         <>
@@ -132,7 +158,7 @@ const Home: React.FC = () => {
                     <div className="horizontal-filter" ref={horizontalFilterRef}>
                         {horizonAnchors.map((anchor, index) => 
                             <AnchorLink key={index} offset={() => 100} href={`#${anchor}`}>
-                                <span onClick={() => toggleActiveButton(index, setActiveHorizonFilter)}
+                                <span onClick={() => toggleActiveButton(index)}
                                     ref={el => horizonRefs.current[index] = el}
                                     className={activeHorizonFilter === index ? "horizon-anchors active" : "horizon-anchors"}>
                                     {anchor}
