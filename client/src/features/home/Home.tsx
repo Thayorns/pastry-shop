@@ -34,15 +34,16 @@ const Home: React.FC = () => {
         const element = horizonRefs.current[index];
         const container = horizontalFilterRef.current;
         if (element && container) {
-          const elementOffset = element.offsetLeft;
-          const elementWidth = element.clientWidth;
-          const containerWidth = container.clientWidth;
-          const scrollPosition = elementOffset - (containerWidth / 2) + (elementWidth / 2);
-    
-          container.scrollTo({
-            left: scrollPosition,
-            behavior: 'smooth'
-          });
+            const elementOffset = element.offsetLeft;
+            const elementWidth = element.clientWidth;
+            const containerWidth = container.clientWidth;
+            const scrollPosition = elementOffset - (containerWidth / 2) + (elementWidth / 2);
+            
+            container.scrollTo({
+                left: scrollPosition,
+                behavior: 'smooth'
+            });
+            
         }
     };
 
@@ -60,7 +61,6 @@ const Home: React.FC = () => {
     }, {} as Record<string, ResultResponse[]>);
 
     const handleDeleteProduct = async (title: string) => {
-        
         try {
             await deleteProduct(title);
             refetch();
@@ -90,20 +90,20 @@ const Home: React.FC = () => {
     useEffect(() => {
         refetch();
     }, [refetch]);
-
+     
     useEffect(() => {
         const observerOptions = {
-          root: null,
-          rootMargin: '0px',
-          threshold: 0.5,
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.5,
         };
     
         const observerCallback = (entries: IntersectionObserverEntry[]) => {
           entries.forEach(entry => {
             if (entry.isIntersecting) {
-              const index = sectionRefs.current.indexOf(entry.target as HTMLElement);
-              setActiveHorizonFilter(index);
-              scrollToCenter(index);
+                const index = sectionRefs.current.indexOf(entry.target as HTMLElement);
+                setActiveHorizonFilter(index);
+                scrollToCenter(index);
             }
           });
         };
@@ -111,7 +111,7 @@ const Home: React.FC = () => {
         const observer = new IntersectionObserver(observerCallback, observerOptions);
     
         sectionRefs.current.forEach(section => {
-          if (section) observer.observe(section);
+            if (section) observer.observe(section);
         });
     
         return () => {
