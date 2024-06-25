@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
-// import { useIntersectionObserver } from 'usehooks-ts';
+import { Link } from "react-router-dom";
 import { useGetProductsQuery, useDeleteProductMutation } from "../api/apiSlice";
 import AnchorLink from "react-anchor-link-smooth-scroll";
 import { Spin, Result } from 'antd';
@@ -79,7 +79,9 @@ const Home: React.FC = () => {
     const mapFunction = (arr: ResultResponse[]) => {
         const result = arr.map((obj, index) => (
             <div className="single-card-inner" key={index}>
-                <img src={require(`../../../../product-photos/${obj.photo}`)} alt=""/>
+                <Link to={`/home/${obj.title}`}>
+                    <img src={require(`../../../../product-photos/${obj.photo}`)} alt=""/>
+                </Link>
                 <div className="card-description">
                     <div className="description-div">
                         <p>{obj.title}</p>

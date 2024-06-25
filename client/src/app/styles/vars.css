@@ -47,4 +47,5 @@
     --transition-1-5: color 1.5s ease;
     --transition-0-5: color 0.5s ease;
     --box-shadow: var(--colorLightpurple) 0px 2px 8px 0px;
+    --background-transparent: rgba(255, 255, 255, 0.897);
 }

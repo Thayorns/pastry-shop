@@ -55,14 +55,21 @@ strong{
   padding-top: 180px;
 }
 .backward-button{
+  position: fixed;
   display: var(--block);
   padding: 0px;
-  width: var(--px-60);
-  margin-top: var(--px-10);
-  margin-left: var(--px-10);
+  width: var(--width100);
+  max-width: var(--maxWidth);
+  background: var(--background-transparent);
   height: 42px;
+  border-radius: 0%;
+  border: none;
+  span{
+    float: left;
+    padding-left: var(--px-10);
+  }
   svg{
-    padding-top: 4px;
+    padding-top: 5px;
     width: var(--px-30);
     height: var(--px-30);
     color: var(--color);

@@ -50,6 +50,10 @@
 .add-settings-div{
     height: var(--height700);
     padding-top: var(--px-60);
+
+    p{
+        padding-top: var(--px-60);
+    }
     
     form{
         height: var(--width70);

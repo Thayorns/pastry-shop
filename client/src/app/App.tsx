@@ -5,6 +5,7 @@ import AdminCoffee from '../features/coffee/Admin-coffee';
 import UserCoffee from '../features/coffee/User-coffee';
 import Contacts from '../features/contacts/Contacts';
 import Home from '../features/home/Home';
+import Product from '../features/home/Product';
 import Login from '../features/login/Login';
 import News from '../features/news/News';
 import Qr from '../features/qr/Qr';
@@ -45,6 +46,9 @@ const App: React.FC = () => {
             <Route path="/home"
               element={<Home/>}
             />
+              <Route path="/home/:productTitle"
+                element={<Product/>}
+              />
             <Route path="/login"
               element={<Login/>}
             />
@@ -57,6 +61,7 @@ const App: React.FC = () => {
             <Route path="/register"
               element={<Register/>}
             />
+
             <Route path="/admin-settings"
               element={<AdminSettings/>}
             />

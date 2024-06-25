@@ -106,6 +106,27 @@ app.get('/api/home', async (req, res) => {
 
 });
 
+// получение отдельного продукта пользователем
+app.get('/api/home/:productTitle', async (req, res) => {
+  const {productTitle} = req.params;
+
+  try {
+    const product = await Product.findOne({ where: { title: productTitle } });
+    if(product) {
+      res.json({ 
+        title: product.title,
+        photo: product.photo,
+        description: product.description,
+        ingredients: product.ingredients
+      });
+    }else{
+      res.status(404).json({ message: 'Product not found' });
+    }
+  } catch (error) {
+    console.error('Ошибка при получении информации о продукте:', error);
+  }
+});
+
 // получение количества кофе пользователем
 app.get('/api/user-coffee/:login', async (req, res) => {
   const {login} = req.params;

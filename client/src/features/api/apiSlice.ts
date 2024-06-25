@@ -22,7 +22,7 @@ interface CoffeeRequest {
   selectedCoffee: number;
 };
 
-interface DeleteProductRequest {
+interface ProductTitleRequest{
   title: string;
 };
 
@@ -98,6 +98,11 @@ export const apiSlice = createApi({
       query: () => `/api/home`,
     }),
 
+    // получение отдельного продукта пользователем
+    getProduct: builder.query({
+      query: (productTitle: ProductTitleRequest) => `/api/home/${productTitle}`,
+    }),
+
     // добавление кофе администратором
     addCoffee: builder.mutation({
       query: (body: CoffeeRequest) => ({
@@ -163,4 +168,5 @@ export const {useAddUserMutation,
   useAddProductMutation,
   useGetProductsQuery,
   useDeleteProductMutation,
+  useGetProductQuery,
 } = apiSlice;
