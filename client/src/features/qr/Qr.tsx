@@ -10,9 +10,8 @@ import '../../app/styles/vars.css';
 
 const Qr: React.FC = () => {
 
-    const [addQRcode, { isLoading, isError }] = useAddQRcodeMutation();
+    const [addQRcode, { isError }] = useAddQRcodeMutation();
     
-    // использую глобал-стейт авторизованного
     const isAuth = useSelector((state: RootState) => state.auth.isAuthenticated);
     const loading = useSelector((state: RootState) => state.qr.loadingStatus);
     const role = useSelector((state: RootState) => state.auth.role);

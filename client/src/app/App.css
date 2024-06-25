@@ -24,7 +24,6 @@ h1,h2{
   line-height: 35px;
   width: var(--width80);
   margin: var(--margin-0-auto);
-  padding: 150px 20px 10px;
   font-size: var(--px-20);
   color: var(--colorBlack);
 }
@@ -99,7 +98,7 @@ form{
   border-radius: 18px;
 }
 .form-button{
-  margin-top: var(--px-60);
+  /* margin-top: var(--px-60); */
   background-color: var(--color);
   span{
       font-size: 18px;

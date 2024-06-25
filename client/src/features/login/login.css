@@ -1,43 +1,50 @@
-.login-div{
+.admin-logged,
+.user-logged,
+.login-form {
     height: var(--height700);
+    display: var(--displayFlex);
+    flex-direction: var(--flexColumn);
+    justify-content: var(--justify-center);
+}
+.login-form{
     span{
         display: var(--inlineBlock);
+        margin: var(--margin-0-auto);
         width: var(--width80);
     }
 }
-.success-login,
-.success-login-not-admin {
-    padding: 0px 20px 80px 20px;
-    span{
-        margin-top: 20px;
+.admin-logged{
+    h1{
+       padding-top: var(--px-60);
+       text-align: var(--text-align);
+    }
+}
+
+.user-logged-wrapper{
+    margin: var(--px-20);
+    padding: var(--px-60);
+    border: 2px dashed var(--color);
+    h1{
         color: var(--color);
-        text-decoration: var(--textUnderline);
     }
-    .form-button{
-        margin-bottom: var(--px-60);
-    }
-    .form-button span{
-        margin-top: 0px;
-        color: var(--colorWhite);
-        text-decoration: none;
+    p{
+        text-align: var(--text-center);
+        
     }
 }
-.success-login-not-admin h1{
-    padding-top: 150px;
-}
-.account-logout-button{
-    margin-top: var(--px-60);
-}
-.success-login-h2{
-    padding: 20px 20px 10px;
-    text-align: var(--text-align);
-}
-.success-login-h1,
-.admin-role{
-    padding-top: 120px;
-    font-size: 25px;
-    color: var(--color);
-}
-.success-login-h1{
-    padding-top: 20px;
+.user-friend-logged-wrapper{
+    margin: auto 10px;
+    background: var(--color);
+    
+    .user-friend-logged-inner{
+        background: var(--color);
+        margin: var(--px-20);
+        padding: var(--px-60);
+        border: 4px solid var(--colorWhite);
+        
+        h1,p{
+            color: var(--colorWhite);
+            text-align: var(--text-center);
+        }
+    } 
 }

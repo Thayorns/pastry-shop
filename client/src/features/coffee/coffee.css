@@ -1,6 +1,10 @@
 .admin-coffee,
 .user-coffee{
     height: var(--height700);
+    display: var(--displayFlex);
+    flex-direction: var(--flexColumn);
+    justify-content: var(--justify-center);
+
     p{
         text-align: var(--text-center);
     }
@@ -14,9 +18,6 @@
 }
 .ant-message .ant-message-notice-wrapper .ant-message-notice-content{
     margin-top: var(--px-100);
-}
-.admin-coffee p{
-    padding: 200px 0px 0px;
 }
 .user-coffee .count-coffee{
     font-size: 20px;

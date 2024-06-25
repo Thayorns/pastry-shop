@@ -2,7 +2,6 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import {FetchArgs, FetchBaseQueryError, BaseQueryFn} from '@reduxjs/toolkit/query';
 import { RootState } from '../../app/store/store';
 import { setToken, logout } from './authSlice';
-import { query } from 'express';
 interface AddUserRequest {
   email: string;
   login: string;

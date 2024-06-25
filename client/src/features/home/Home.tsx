@@ -25,9 +25,17 @@ const Home: React.FC = () => {
     const sectionRefs = useRef<(HTMLElement | null)[]>([]);
     const horizonRefs = useRef<(HTMLElement | null)[]>([]);
     const horizontalFilterRef = useRef<HTMLDivElement | null>(null);
-
+    const {data, isError, refetch, isSuccess, isLoading} = useGetProductsQuery({})
+    const role = useSelector((state: RootState) => state.auth.role);
+    const result = data as ResultResponse[] || [];
+    const horizonAnchors = [ 'Торты', 'Выпечка', 'Десерты', 'Напитки', 'Сендвичи', 'Салаты' ];
     const isScrolling = useRef(false);
     const isClicking = useRef(false);
+
+    useEffect(() => {
+        refetch();
+    }, [refetch]);
+    
     
     const toggleActiveButton = (index: number) => {
         isClicking.current = true;
@@ -52,15 +60,7 @@ const Home: React.FC = () => {
             });
             
         }
-    };
-
-    const {data, isError, refetch, isSuccess, isLoading} = useGetProductsQuery({})
-    const role = useSelector((state: RootState) => state.auth.role);
-    
-    const result = data as ResultResponse[] || [];
-
-    const horizonAnchors = [ 'Торты', 'Выпечка', 'Десерты', 'Напитки', 'Сендвичи', 'Салаты' ];
-    
+    };    
 
     const chapterMap = horizonAnchors.reduce((accumulator, chapter) => {
         accumulator[chapter] = result.filter(obj => obj.chapter === chapter);
@@ -95,10 +95,6 @@ const Home: React.FC = () => {
         ));
         return result;
     };
-
-    useEffect(() => {
-        refetch();
-    }, [refetch]);
      
     useEffect(() => {
         const observerOptions = {

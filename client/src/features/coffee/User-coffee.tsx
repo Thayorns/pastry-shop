@@ -45,7 +45,7 @@ const UserCoffee: React.FC = () => {
                         ))}
                     </div>
                     {(activeCups[7] === true) 
-                        ? <p className='diff-coffee-paragraph'>Вам доступен кофе в подарок!</p>
+                        ? <p className='diff-coffee-paragraph'><strong>Вам доступен кофе в подарок!</strong></p>
                         : <p className='diff-coffee-paragraph'>Чашек до подарочного кофе: <strong className='count-coffee'>{coffeeDiff}</strong></p>
                     }
                 </div>

@@ -1,8 +1,13 @@
 .register{
     height: var(--height700);
+    display: var(--displayFlex);
+    flex-direction: var(--flexColumn);
+    justify-content: var(--justify-center);
+
     span{
         display: var(--inlineBlock);
         width: var(--width80);
+        margin: var(--margin-0-auto);
     }
 }
 
@@ -11,9 +16,10 @@
     color: var(--color);
 }
 .success-register{
+    height: var(--height700);
     display: var(--displayFlex);
     flex-direction: var(--flexColumn);
-    justify-content: var(--spaceBetwen);
+    justify-content: var(--justify-center);
     .ant-result{
         padding-top: 0px;
     }

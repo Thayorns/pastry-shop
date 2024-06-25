@@ -1,7 +1,11 @@
 .qr-div{
     height: var(--height700);
+    display: var(--displayFlex);
+    flex-direction: var(--flexColumn);
+    justify-content: var(--justify-center);
+
     img{
-        margin-top: 20px;
+        margin: var(--margin-0-auto);
         width: 270px;
         height: var(--height-auto);
     }
@@ -12,6 +16,9 @@
         padding: 20px;
         font-size: var(--px-60);
         color: var(--color);
+    }
+    p{
+        text-align: var(--text-center);
     }
 }
 .auth-error{

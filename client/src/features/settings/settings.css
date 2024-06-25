@@ -63,12 +63,14 @@
             margin-bottom: var(--px-20);
         }
     }
+
     .upload-div, .form-select{
         width: var(--width70);
         margin: var(--margin-0-auto);
     }
+
     .form-select{
-       
+        
         .ant-select-single{
             float: left;
         }
