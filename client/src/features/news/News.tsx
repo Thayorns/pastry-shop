@@ -10,16 +10,21 @@ const News: React.FC = () => {
             <div className="news-wrapper">
                 <div className="news-bg-wrapper">
 
-                    <p>На данный момент у нас проводятся акции:</p>
+
                     <div className="news-inner">
                         <div className="coffee">
                             <p>каждый <strong>восьмой</strong> кофе в подарок</p>
-                            <span>для любого зарегистрированного пользователя нашего приложения</span>
+                            <span>для авторизованных пользователей приложения</span>
                         </div>
                         <div className="bakery">
                             <p>скидка <strong>30%</strong> на вчерашнюю выпечку</p>
                         </div>
+                        <div className="order-cake">
+                            <p><strong>торт на заказ</strong></p>
+                            <span>для авторизованных пользователей приложения</span>
+                        </div>
                     </div>
+                    
                 </div>
             </div>
         </div>

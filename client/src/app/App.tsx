@@ -16,6 +16,21 @@ import AddFriend from '../features/settings/AddFriend';
 import AddProduct from '../features/settings/AddProduct';
 import UserSettings from '../features/settings/UserSettings';
 import Token from '../features/tokens/Token';
+// const Token = lazy(() => import('../features/tokens/Token'));
+// const AdminCoffee = lazy(() => import('../features/coffee/Admin-coffee'));
+// const UserCoffee = lazy(() => import('../features/coffee/User-coffee'));
+// const Contacts = lazy(() => import('../features/contacts/Contacts'));
+// const Home = lazy(() => import('../features/home/Home'));
+// const Product = lazy(() => import('../features/home/Product'));
+// const Login = lazy(() => import('../features/login/Login'));
+// const News = lazy(() => import('../features/news/News'));
+// const Qr = lazy(() => import('../features/qr/Qr'));
+// const Register = lazy(() => import('../features/registration/Register'));
+// const AdminSettings = lazy(() => import('../features/settings/AdminSettings'));
+// const AddProduct = lazy(() => import('../features/settings/AddProduct'));
+// const AddAdmin = lazy(() => import('../features/settings/AddAdmin'));
+// const AddFriend = lazy(() => import('../features/settings/AddFriend'));
+// const UserSettings = lazy(() => import('../features/settings/UserSettings'));
 
 import './App.css';
 import './styles/normalize.css'
