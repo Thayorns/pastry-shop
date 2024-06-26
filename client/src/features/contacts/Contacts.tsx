@@ -5,6 +5,7 @@ import '../../app/styles/normalize.css'
 import '../../app/styles/vars.css'
 
 const Contacts: React.FC = () => {
+    
     return (
         <div className="contacts-wrapper">
             <div className="contacts-bg-wrapper">
@@ -31,6 +32,7 @@ const Contacts: React.FC = () => {
                     Кстати, на бармена Антон тоже выучился, но в своей кондитерской из напитков предлагает пока только кофе...
                 </p>
             </div>
+            
         </div>
     )
 }

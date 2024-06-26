@@ -4,9 +4,9 @@ import { RootState } from "../../app/store/store";
 import { Button, Input, message, Result } from 'antd';
 import { useAddCoffeeMutation } from '../api/apiSlice';
 
-import './coffee.css'
-import '../../app/styles/normalize.css'
-import '../../app/styles/vars.css'
+import './coffee.css';
+import '../../app/styles/normalize.css';
+import '../../app/styles/vars.css';
 
 const AdminCoffee: React.FC = () => {
 

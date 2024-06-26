@@ -6,6 +6,10 @@ import { CoffeeOutlined } from '@ant-design/icons';
 import { useGetCoffeeQuery } from '../api/apiSlice';
 import { RootState } from '../../app/store/store';
 
+import './coffee.css';
+import '../../app/styles/normalize.css';
+import '../../app/styles/vars.css';
+
 const UserCoffee: React.FC = () => {
     const { login } = useParams<{ login: string }>();
     const { data, isLoading, isSuccess, refetch } = useGetCoffeeQuery(login);
@@ -41,11 +45,11 @@ const UserCoffee: React.FC = () => {
                     <p>Каждая восьмая чашка кофе - <strong>бесплатно</strong>!</p>
                     <div className='coffee-cups'>
                         {activeCups.map((isActive, index) => (
-                            <CoffeeOutlined key={index} className={isActive ? 'anticon glowing-cup' : ''}/>
+                            <img key={index} src={isActive ? require('./gifted-coffee.png') : require('./gifted-coffee-outlined.png')} alt=''/>
                         ))}
                     </div>
                     {(activeCups[7] === true) 
-                        ? <p className='diff-coffee-paragraph'><strong>Вам доступен кофе в подарок!</strong></p>
+                        ? <p className='diff-coffee-paragraph'>Вам доступен <strong>кофе в подарок!</strong></p>
                         : <p className='diff-coffee-paragraph'>Чашек до подарочного кофе: <strong className='count-coffee'>{coffeeDiff}</strong></p>
                     }
                 </div>

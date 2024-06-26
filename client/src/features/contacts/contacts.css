@@ -1,27 +1,27 @@
 .contacts-wrapper{
-    height: auto;
+    height: var(--height-auto);
     background-image: url('./bg-shef.jpg');
-    background-size: cover;
+    background-size: var(--bg-size);
 }
 .contacts-bg-wrapper{
     background-color: rgba(255, 255, 255, 0.747);
-    height: auto;
+    height: var(--height-auto);
 }
 .contacts-inner{
-    padding: 100px 10px 40px;
+    padding: var(--px-100) var(--px-10) var(--px-40);
     display: var(--displayFlex);
     flex-direction: var(--flexRow);
     justify-content: var(--spaceBetwen);
     
     .hello-div{
         display: var(--displayFlex);
-        flex-direction: column;
-        justify-content: center;
-        padding: 10px;
+        flex-direction: var(--flexColumn);
+        justify-content: var(--justify-center);
+        padding: var(--px-10);
     }
     img{
-        width: 60%;
-        height: auto;
+        width: var(--width60);
+        height: var(--height-auto);
         border: 1px solid var(--color);
         border-radius: var(--border-radius-15);
     }
