@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navigation from '../features/navigation/Navigation'
 import AdminCoffee from '../features/coffee/Admin-coffee';
 import UserCoffee from '../features/coffee/User-coffee';
@@ -28,9 +28,6 @@ const App: React.FC = () => {
         <Navigation>
           <Routes>
           
-            <Route path="/" 
-              element={<Navigate to="/home" />}
-            />
             <Route path="/activate/:token"
               element={<Token/>}
             />

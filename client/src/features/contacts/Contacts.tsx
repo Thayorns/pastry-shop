@@ -1,8 +1,8 @@
 import React from "react";
 
-import './contacts.css'
-import '../../app/styles/normalize.css'
-import '../../app/styles/vars.css'
+import './contacts.css';
+import '../../app/styles/normalize.css';
+import '../../app/styles/vars.css';
 
 const Contacts: React.FC = () => {
     

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useGetProductsQuery, useDeleteProductMutation } from "../api/apiSlice";
 import AnchorLink from "react-anchor-link-smooth-scroll";
 import { Spin, Result } from 'antd';
-import { RightOutlined, DeleteOutlined } from '@ant-design/icons';
+import { RightOutlined, DeleteOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { useSelector} from "react-redux";
 import { RootState } from "../../app/store/store";
 
@@ -27,6 +27,7 @@ const Home: React.FC = () => {
     const horizontalFilterRef = useRef<HTMLDivElement | null>(null);
     const {data, isError, refetch, isSuccess, isLoading} = useGetProductsQuery({})
     const role = useSelector((state: RootState) => state.auth.role);
+    const isAuth = useSelector((state: RootState) => state.auth.isAuthenticated);
     const result = data as ResultResponse[] || [];
     const horizonAnchors = [ 'Торты', 'Выпечка', 'Десерты', 'Напитки', 'Сендвичи', 'Салаты' ];
     const isScrolling = useRef(false);
@@ -89,7 +90,8 @@ const Home: React.FC = () => {
                     </div>
                     {role === true 
                     ? <DeleteOutlined disabled={isLoading} onClick={() => handleDeleteProduct(obj.title)} className="delete-button"/> 
-                    : null}
+                    : (obj.chapter === 'Торты' && isAuth === true) ? <ShoppingCartOutlined className="shopping-button"/> : null
+                    }
                 </div>   
             </div>    
         ));

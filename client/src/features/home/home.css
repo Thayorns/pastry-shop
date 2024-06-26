@@ -98,7 +98,7 @@
                     }
                 }
 
-                .delete-button{
+                .delete-button,.shopping-button {
                     cursor: var(--cursor);
                     margin-right: 5px;
 
@@ -110,6 +110,12 @@
                     }
                     svg:hover{
                         color: var(--colorRed);
+                        transition: var(--transition-0-5);
+                    }
+                }
+                .shopping-button{
+                    svg:hover{
+                        color: var(--color);
                         transition: var(--transition-0-5);
                     }
                 }

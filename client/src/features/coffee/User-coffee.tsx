@@ -21,7 +21,7 @@ const UserCoffee: React.FC = () => {
     
     const coffee = data as CoffeeResponse;
     const needToGlow = coffee?.coffee || 0;
-    const coffeeDiff = 8 - needToGlow; 
+    const coffeeDiff = 7 - needToGlow; 
     const isAuth = useSelector((state: RootState) => state.auth.isAuthenticated);
 
     useEffect(() => { 
