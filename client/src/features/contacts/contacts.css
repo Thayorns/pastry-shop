@@ -29,6 +29,9 @@
         text-align: var(--text-align);
     }
 }
+p{
+    font-weight: 500;
+}
 .contacts-bg-wrapper:last-child{
     padding-bottom: 150px;
 }
