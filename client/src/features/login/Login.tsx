@@ -19,6 +19,7 @@ const Login: React.FC = () => {
 
     const isAuth = useSelector((state: RootState) => state.auth.isAuthenticated);
     const role = useSelector((state: RootState) => state.auth.role);
+    const friend = useSelector((state: RootState) => state.auth.friend);
     const userLoginFromStore = useSelector((state:RootState) => state.auth.login)
     const loginStatus = useSelector((state: RootState) => state.auth.loginStatus);
     
@@ -58,7 +59,7 @@ const Login: React.FC = () => {
             {(isAuth === true && role === false) && (
                 <div className="user-logged">
 
-                    {role === false ? (
+                    {friend === true ? (
                         <div className="user-friend-logged-wrapper">
                             <div className="user-friend-logged-inner">
                                 <p>карта друга</p>

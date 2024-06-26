@@ -15,6 +15,12 @@ interface LogInUserRequest {
 interface AddQRCodeRequest {
   login: string;
 };
+interface AddAdminRequest {
+  login: string;
+};
+interface AddFriendRequest {
+  login: string;
+};
 
 interface CoffeeRequest {
   number: number;
@@ -77,6 +83,24 @@ export const apiSlice = createApi({
         url: `/api/admin-settings/add-product`,
         method: 'POST',
         body: formData,
+      })
+    }),
+
+    // добавление нового админа
+    addAdmin: builder.mutation({
+      query: (body: AddAdminRequest) => ({
+        url: `/api/admin-settings/add-admin`,
+        method: 'POST',
+        body,
+      })
+    }),
+
+    // добавление пользователя в друзья
+    addFriend: builder.mutation({
+      query: (body: AddFriendRequest) => ({
+        url: `/api/admin-settings/add-friend`,
+        method: 'POST',
+        body,
       })
     }),
 
@@ -168,4 +192,6 @@ export const {useAddUserMutation,
   useGetProductsQuery,
   useDeleteProductMutation,
   useGetProductQuery,
+  useAddAdminMutation,
+  useAddFriendMutation,
 } = apiSlice;

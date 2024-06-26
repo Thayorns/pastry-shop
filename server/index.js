@@ -12,6 +12,7 @@ const QRCode = require('qrcode');
 const { where } = require('sequelize');
 const multer = require('multer');
 const fs = require('fs');
+const { log } = require('console');
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -65,6 +66,47 @@ app.post('/api/admin-settings/add-product', upload.single('photo'), async (req, 
     console.error('Ошибка при добавлении продукта:', error);
     res.status(500).json({ error: 'Произошла ошибка при добавлении продукта' });
   }
+});
+
+// добавление пользователя в друзья
+app.post('/api/admin-settings/add-friend', async (req, res) => {
+  const {login} = req.body;
+  try {
+    const user = await User.findOne({ where: { login: login } });
+    if (!user) {
+      return res.status(404).json({ error: 'Пользователь не найден' });
+    }
+    
+    user.friend = true;
+    await user.save();
+
+    res.status(200).json({ message: 'Пользователь добавлен в друзья' });
+  } catch(error) {
+    console.error('Ошибка при добавлении пользователя в друзья:', error);
+    res.status(500).json({ error: 'Произошла ошибка при добавлении пользователя в друзья' });
+  }
+
+});
+
+// добавление пользователя в администраторы
+app.post('/api/admin-settings/add-admin', async (req, res) => {
+  const {login} = req.body;
+
+  try {
+    const user = await User.findOne({ where: { login: login } });
+    if (!user) {
+      return res.status(404).json({ error: 'Пользователь не найден' });
+    }
+    
+    user.admin = true;
+    await user.save();
+
+    res.status(200).json({ message: 'Пользователь добавлен в администраторы' });
+  } catch(error) {
+    console.error('Ошибка при добавлении нового администратора:', error);
+    res.status(500).json({ error: 'Произошла ошибка при добавлении нового администратора' });
+  }
+
 });
 
 // удаление продукта админом
@@ -315,8 +357,9 @@ app.post('/api/login', async (req, res) => {
       });
       
       const role = user.admin;
+      const friend = user.friend;
 
-      return res.json({ accessToken, login, role });
+      return res.json({ accessToken, login, role, friend });
     } else {
       return res.status(401).json({ error: 'Invalid login or password' });
     }
