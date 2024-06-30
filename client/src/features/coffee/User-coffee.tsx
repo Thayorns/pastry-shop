@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Spin, Result } from 'antd';
-import { CoffeeOutlined } from '@ant-design/icons';
 import { useGetCoffeeQuery } from '../api/apiSlice';
 import { RootState } from '../../app/store/store';
+// import { webSocketConnected } from '../api/webSocketSlice';
 
 import './coffee.css';
 import '../../app/styles/normalize.css';
@@ -14,11 +14,14 @@ const UserCoffee: React.FC = () => {
     const { login } = useParams<{ login: string }>();
     const { data, isLoading, isSuccess, refetch } = useGetCoffeeQuery(login);
     const [activeCups, setActiveCups] = useState<boolean[]>(Array(8).fill(false));
-
+    
     type CoffeeResponse = {
         coffee: number;
     }
     
+    // const dispatch = useDispatch();
+    // const messages = useSelector((state: RootState) => state.webSocket.messages);
+
     const coffee = data as CoffeeResponse;
     const needToGlow = coffee?.coffee || 0;
     const coffeeDiff = 7 - needToGlow; 

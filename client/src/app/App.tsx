@@ -1,4 +1,7 @@
-import React from 'react';
+import React
+// , { Suspense, lazy }
+ from 'react';
+
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navigation from '../features/navigation/Navigation'
 import AdminCoffee from '../features/coffee/Admin-coffee';
@@ -16,6 +19,7 @@ import AddFriend from '../features/settings/AddFriend';
 import AddProduct from '../features/settings/AddProduct';
 import UserSettings from '../features/settings/UserSettings';
 import Token from '../features/tokens/Token';
+import Shop from '../features/shop/Shop';
 // const Token = lazy(() => import('../features/tokens/Token'));
 // const AdminCoffee = lazy(() => import('../features/coffee/Admin-coffee'));
 // const UserCoffee = lazy(() => import('../features/coffee/User-coffee'));
@@ -37,10 +41,16 @@ import './styles/normalize.css'
 import './styles/vars.css'
 
 const App: React.FC = () => {
+
   return (
     <Router>
       <div className="App">
         <Navigation>
+          {/* <Suspense fallback={
+            <div className="spinner-wrapper">
+              <Spin size="large" />
+            </div>
+          }> */}
           <Routes>
           
             <Route path="/activate/:token"
@@ -73,6 +83,9 @@ const App: React.FC = () => {
             <Route path="/register"
               element={<Register/>}
             />
+            <Route path="/shop"
+              element={<Shop/>}
+            />
 
             <Route path="/admin-settings"
               element={<AdminSettings/>}
@@ -91,6 +104,7 @@ const App: React.FC = () => {
             />
             
           </Routes>
+          {/* </Suspense> */}
         </Navigation>
       </div>
     </Router>

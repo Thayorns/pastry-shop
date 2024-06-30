@@ -2,10 +2,11 @@ import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useGetProductsQuery, useDeleteProductMutation } from "../api/apiSlice";
 import AnchorLink from "react-anchor-link-smooth-scroll";
-import { Spin, Result } from 'antd';
+import { Spin, Result, message } from 'antd';
 import { RightOutlined, DeleteOutlined, ShoppingCartOutlined } from '@ant-design/icons';
-import { useSelector} from "react-redux";
+import { useSelector, useDispatch} from "react-redux";
 import { RootState } from "../../app/store/store";
+import { buyCake } from "../api/productSlice";
 
 import './home.css';
 import '../../app/styles/normalize.css';
@@ -21,22 +22,51 @@ interface ResultResponse {
 const Home: React.FC = () => {
 
     const [activeHorizonFilter, setActiveHorizonFilter] = useState<number | null>(0);
-    const [deleteProduct] = useDeleteProductMutation();
+    const [cakeAddedToBasket, setCakeAddedToBasket] = useState(false);
+
+    const {data, isError, refetch, isSuccess, isLoading} = useGetProductsQuery({})
+    const [deleteProduct, {isError: deleteError, isSuccess: deleteSuccess}] = useDeleteProductMutation();
+
     const sectionRefs = useRef<(HTMLElement | null)[]>([]);
     const horizonRefs = useRef<(HTMLElement | null)[]>([]);
     const horizontalFilterRef = useRef<HTMLDivElement | null>(null);
-    const {data, isError, refetch, isSuccess, isLoading} = useGetProductsQuery({})
     const role = useSelector((state: RootState) => state.auth.role);
     const isAuth = useSelector((state: RootState) => state.auth.isAuthenticated);
+    const productArray = useSelector((state: RootState) => state.product.productArray);
     const result = data as ResultResponse[] || [];
     const horizonAnchors = [ 'Торты', 'Выпечка', 'Десерты', 'Напитки', 'Сендвичи', 'Салаты' ];
     const isScrolling = useRef(false);
     const isClicking = useRef(false);
-
-    useEffect(() => {
-        refetch();
-    }, [refetch]);
-    
+    const dispatch = useDispatch();
+    const [messageApi, contextHolder] = message.useMessage();
+    const successDelete = () => {
+        messageApi.open({
+            type: 'success',
+            content: `Вы успешно удалили продукт!`,
+            duration: 5,
+        });
+    };
+    const errorDelete = () => {
+        messageApi.open({
+            type: 'error',
+            content: 'Не удалось удалить..',
+            duration: 5,
+        });
+    };
+    const successBuy = () => {
+        messageApi.open({
+            type: 'success',
+            content: `Вы добавили торт в корзину!`,
+            duration: 5,
+        });
+    };
+    const errorBuy = () => {
+        messageApi.open({
+            type: 'error',
+            content: 'Вы уже добавили этот торт в корзину..',
+            duration: 5,
+        });
+    };    
     
     const toggleActiveButton = (index: number) => {
         isClicking.current = true;
@@ -76,6 +106,13 @@ const Home: React.FC = () => {
             console.error('Failed to delete product:', error);
         }
     };
+    const handleBuyProduct = async (title: string, price: number, photo: string) => {
+        try {
+            await dispatch(buyCake({ title,price,photo }));
+        } catch (error){
+            console.error('Failed to add product:', error);
+        }
+    };
 
     const mapFunction = (arr: ResultResponse[]) => {
         const result = arr.map((obj, index) => (
@@ -90,13 +127,28 @@ const Home: React.FC = () => {
                     </div>
                     {role === true 
                     ? <DeleteOutlined disabled={isLoading} onClick={() => handleDeleteProduct(obj.title)} className="delete-button"/> 
-                    : (obj.chapter === 'Торты' && isAuth === true) ? <ShoppingCartOutlined className="shopping-button"/> : null
+                    : (obj.chapter === 'Торты' && isAuth === true) 
+                        ? <ShoppingCartOutlined className="shopping-button" onClick={() => {
+                            handleBuyProduct(obj.title,obj.price,obj.photo);
+                            setCakeAddedToBasket(true);
+                        }}/> 
+                        : null
                     }
                 </div>   
             </div>    
         ));
         return result;
     };
+
+    useEffect(() => {
+        refetch();
+        if(deleteSuccess) successDelete();
+        if(deleteError) errorDelete();
+        if(cakeAddedToBasket === true) successBuy();
+        setTimeout(() => {
+            setCakeAddedToBasket(false);
+        }, 100);
+    }, [refetch, cakeAddedToBasket, deleteSuccess, deleteError]);
      
     useEffect(() => {
         const observerOptions = {
@@ -104,26 +156,21 @@ const Home: React.FC = () => {
             rootMargin: '0px',
             threshold: 0.5,
         };
-    
         const observerCallback = (entries: IntersectionObserverEntry[]) => {
             entries.forEach(entry => {
               if (entry.isIntersecting && !isClicking.current) {
                 const index = sectionRefs.current.indexOf(entry.target as HTMLElement);
                 setActiveHorizonFilter(index);
-
                 if (isScrolling.current) {
                     scrollToCenter(index);
                 }
               }
             });
         };
-    
         const observer = new IntersectionObserver(observerCallback, observerOptions);
-    
         sectionRefs.current.forEach(section => {
             if (section) observer.observe(section);
         });
-    
         return () => {
           if (observer) {
             sectionRefs.current.forEach(section => {
@@ -155,6 +202,7 @@ const Home: React.FC = () => {
             
             {isSuccess && (
                 <div className="home-div">
+                    {contextHolder}
                     <div className="horizontal-filter" ref={horizontalFilterRef}>
                         {horizonAnchors.map((anchor, index) => 
                             <AnchorLink key={index} offset={() => 100} href={`#${anchor}`}>

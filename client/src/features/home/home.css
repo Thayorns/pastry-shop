@@ -47,9 +47,9 @@
     }
     .cards-wrapper{
         display: var(--displayFlex);
-        flex-direction: var(--flexRow);
         justify-content: var(--spaceBetwen);
-        flex-wrap: wrap;
+        flex-flow: row wrap;
+        align-items: flex-start;
         
         .title-arrow svg{
             line-height: 60px;
@@ -75,9 +75,10 @@
             
             .card-description{
                 width: 170px;
+                height: 61px;
                 display: var(--displayFlex);
                 justify-content: var(--spaceBetwen);
-                
+                align-items: center;
                 .description-div{
                     width: var(--width80);
                     display: var(--displayFlex);
@@ -93,7 +94,7 @@
                     }
                     p,span{
                         text-align: var(--text-align);
-                        padding-top: 3px;
+                        padding-top: 0px;
                         margin: 0;
                     }
                 }
@@ -114,6 +115,10 @@
                     }
                 }
                 .shopping-button{
+                    svg{
+                        width: var(--px-30);
+                        height: var(--px-40);
+                    }
                     svg:hover{
                         color: var(--color);
                         transition: var(--transition-0-5);

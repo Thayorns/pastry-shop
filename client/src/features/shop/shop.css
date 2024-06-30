@@ -1,0 +1,37 @@
+.bascket-wrapper{
+    height: var(--height-auto);
+    display: var(--displayFlex);
+    flex-direction: var(--flexColumn);
+    padding-top: var(--px-100);
+    padding-bottom: var(--px-100);
+
+    .bascket-inner{
+        display: var(--displayFlex);
+        justify-content: var(--spaceBetwen);
+        align-items: center;
+        padding: 10px;
+        margin: 30px 10px 0;
+        border: 1px dashed var(--colorLightpurple);
+
+        p, span{
+            padding: 0 15px;
+            font-size: 12px;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        .order-link{
+            text-align: end;
+            white-space: nowrap;
+            overflow: visible;
+        }
+        p{
+            width: 30%;
+        }
+
+        img{
+            width: 80px;
+            height: auto;
+            border-radius: var(--border-radius);
+        }
+    }
+}

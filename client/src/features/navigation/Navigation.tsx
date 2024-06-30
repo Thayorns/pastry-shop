@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { CoffeeOutlined,HomeOutlined,SettingOutlined,BellOutlined,UserAddOutlined,UserOutlined,QrcodeOutlined,ContactsOutlined, LogoutOutlined, UserSwitchOutlined } from '@ant-design/icons';
+import { CoffeeOutlined,HomeOutlined,SettingOutlined,BellOutlined,UserAddOutlined,UserOutlined,QrcodeOutlined,ContactsOutlined, LogoutOutlined, UserSwitchOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector} from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { RootState } from "../../app/store/store";
@@ -15,19 +15,17 @@ const Navigation: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [userLogout] = useUserLogoutMutation();
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
-    useEffect(() => {
-        navigate('/home');
-        dispatch(setActiveBottom(2));
-    }, []);
     
-    
-    // отрисовка верхней навигации в зависимости от состояния
     const isAuth = useSelector((state: RootState) => state.auth.isAuthenticated);
     const userLogin = useSelector((state: RootState) => state.auth.login)
     const role = useSelector((state: RootState) => state.auth.role);
     const top = useSelector((state: RootState) => state.button.top);
     const bottom = useSelector((state: RootState) => state.button.bottom);
+
+    useEffect(() => {
+        navigate('/home');
+        dispatch(setActiveBottom(2));
+    }, []);
     
     const handleUserLogoutSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -47,7 +45,9 @@ const Navigation: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         ...(isAuth === false ? [<Link to={`/register`}><UserAddOutlined /></Link>] : [<LogoutOutlined onClick={handleUserLogoutSubmit} />]),
     ];
     const bottomNavIcons = [
-        ...(role === true ? [<Link to={`/admin-settings`}><SettingOutlined /></Link>] : [<Link to={`/user-settings`}><SettingOutlined /></Link>]),
+        ...(role === true 
+            ? [<Link to={`/admin-settings`}><SettingOutlined /></Link>] 
+            : [<Link to={`/shop`}><ShoppingCartOutlined/></Link>]),
         <Link to={`/contacts`}> <ContactsOutlined /> </Link>,
         <Link to={`/home`}><HomeOutlined /></Link>,
         <Link to={`/news`}><BellOutlined /></Link>,

@@ -13,16 +13,14 @@ const { where } = require('sequelize');
 const multer = require('multer');
 const fs = require('fs');
 const { log } = require('console');
+const http = require('http');
+const WebSocket = require('ws');
 
 const PORT = process.env.PORT || 3001;
 const app = express();
 const JWT_SECRET = 'k0raelstrazSfu110f1ight5Darkne5Ss';
 const ACCESS_TOKEN_SECRET = 'k0raelstrazSfu110f1ight5Darkne5Ss'
 const REFRESH_TOKEN_SECRET = 'k0raelstrazSfu110f1ight5Darkne5Ss'
-// const corsOptions = {
-//   origin: 'http://localhost:3000',
-//   credentials: true,
-// };
 
 app.use(express.json());
 app.use(cookieParser());
@@ -45,6 +43,57 @@ const storage = multer.diskStorage({
 });
 
 const upload = multer({ storage: storage });
+
+
+// WEBSOCKET
+// const userSockets = {};
+
+// const server = http.createServer(app);
+// const wss = new WebSocket.Server({ server });
+
+// wss.on('connection', (ws, req) => {
+//   const login = new URL(req.url, `http://${req.headers.host}`).searchParams.get('login');
+
+//   if (login) {
+//     userSockets[login] = ws;
+//   }
+
+//   ws.on('message', message => {
+//       console.log('Received:', message);
+//   });
+
+//   ws.on('close', () => {
+//     if (login) {
+//       delete userSockets[login];
+//     }
+//     console.log('Client disconnected');
+//   });
+// });
+
+// добавить продукт в корзину
+app.post('/api/home', async (req, res) => {
+  const {object, login} = req.body;
+
+  try{
+    const user = await User.findOne({ where: { login } });
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Уведомление конкретного пользователя
+    // const userSocket = userSockets[login];
+    // if (userSocket && userSocket.readyState === WebSocket.OPEN) {
+    //   userSocket.send(JSON.stringify({ type: 'cake-added', data: { object } }));
+    // }
+    res.json({ object: object });
+
+  } catch (error) {
+
+    console.error('Ошибка при добавлении продукта:', error);
+    res.status(500).json({ error: 'Произошла ошибка при добавлении продукта' });
+  }
+});
 
 // добавление новых позиций продуктов
 app.post('/api/admin-settings/add-product', upload.single('photo'), async (req, res) => {
@@ -230,6 +279,12 @@ app.post('/api/admin-coffee', async (req, res) => {
     // Завершить транзакцию
     await transaction.commit();
 
+    // Уведомление конкретного пользователя
+    // const userSocket = userSockets[userLogin];
+    // if (userSocket && userSocket.readyState === WebSocket.OPEN) {
+    //   userSocket.send(JSON.stringify({ type: 'coffee-added', data: { login: userLogin, coffeeCount: currentCoffeeCount } }));
+    // }
+
     res.status(200).json({ userLogin: userLogin });
   } catch (error) {
     console.error('Ошибка при зачислении кофе:', error);
@@ -343,7 +398,7 @@ app.post('/api/login', async (req, res) => {
     }
 
     if (await bcrypt.compare(password, user.password)) {
-      const accessToken = jwt.sign({ userId: user.id }, ACCESS_TOKEN_SECRET, { expiresIn: '10s' });
+      const accessToken = jwt.sign({ userId: user.id }, ACCESS_TOKEN_SECRET, { expiresIn: '15m' });
       const refreshToken = jwt.sign({ userId: user.id }, REFRESH_TOKEN_SECRET, { expiresIn: '60d' });
 
       user.refresh_token = refreshToken;
@@ -384,7 +439,7 @@ app.post('/api/refresh-token', async (req, res) => {
       return res.status(401).json({ error: 'Invalid refresh token or user not found' });
     }
 
-    const newAccessToken = jwt.sign({ userId: user.id }, ACCESS_TOKEN_SECRET, { expiresIn: '10s' });
+    const newAccessToken = jwt.sign({ userId: user.id }, ACCESS_TOKEN_SECRET, { expiresIn: '15m' });
 
     return res.json({ accessToken: newAccessToken }); 
   } catch (err) {

@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import {FetchArgs, FetchBaseQueryError, BaseQueryFn} from '@reduxjs/toolkit/query';
 import { RootState } from '../../app/store/store';
 import { setToken, logout } from './authSlice';
+import { query } from 'express';
 interface AddUserRequest {
   email: string;
   login: string;
@@ -30,6 +31,13 @@ interface CoffeeRequest {
 interface ProductTitleRequest{
   title: string;
 };
+
+interface BuyProductRequest{
+  object: object;
+  login: string;
+};
+
+
 
 const baseQuery = fetchBaseQuery({
   baseUrl: 'http://localhost:3001',
@@ -76,6 +84,15 @@ export const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: baseQueryWithReauth,
   endpoints: (builder: any) => ({
+
+    // добавление в корзину
+    // buyProduct: builder.mutation({
+    //   query: (body: BuyProductRequest) => ({
+    //     url: `/api/home`,
+    //     method: 'POST',
+    //     body
+    //   })
+    // }),
 
     // добавление новых продуктов
     addProduct: builder.mutation({
@@ -194,4 +211,5 @@ export const {useAddUserMutation,
   useGetProductQuery,
   useAddAdminMutation,
   useAddFriendMutation,
+  // useBuyProductMutation
 } = apiSlice;
