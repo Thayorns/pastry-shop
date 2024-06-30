@@ -6,6 +6,10 @@ type ProductPayload = {
     price: number,
 };
 
+type DeletePayload = {
+    title: string;
+};
+
 type InitialState = {
     productArray: ProductPayload[];
 };
@@ -25,8 +29,12 @@ const productSlice = createSlice({
                 state.productArray.push(cake);
             }
         },
+        deleteCake(state, action) {
+            const { title } = action.payload as DeletePayload;
+            state.productArray = state.productArray.filter((el) => el.title !== title);
+        }
     },
 });
 
-export const { buyCake } = productSlice.actions;
+export const { buyCake, deleteCake } = productSlice.actions;
 export default productSlice.reducer;

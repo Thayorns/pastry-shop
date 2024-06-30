@@ -21,6 +21,7 @@ const Navigation: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const role = useSelector((state: RootState) => state.auth.role);
     const top = useSelector((state: RootState) => state.button.top);
     const bottom = useSelector((state: RootState) => state.button.bottom);
+    const productArray = useSelector((state: RootState) => state.product.productArray);
 
     useEffect(() => {
         navigate('/home');
@@ -47,7 +48,7 @@ const Navigation: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const bottomNavIcons = [
         ...(role === true 
             ? [<Link to={`/admin-settings`}><SettingOutlined /></Link>] 
-            : [<Link to={`/shop`}><ShoppingCartOutlined/></Link>]),
+            : [<Link to={`/shop`}><ShoppingCartOutlined className={productArray.length !== 0 ? 'basket-notificated' : ''}/></Link>]),
         <Link to={`/contacts`}> <ContactsOutlined /> </Link>,
         <Link to={`/home`}><HomeOutlined /></Link>,
         <Link to={`/news`}><BellOutlined /></Link>,

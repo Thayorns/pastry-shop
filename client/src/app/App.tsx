@@ -20,6 +20,7 @@ import AddProduct from '../features/settings/AddProduct';
 import UserSettings from '../features/settings/UserSettings';
 import Token from '../features/tokens/Token';
 import Shop from '../features/shop/Shop';
+import BasketItem from '../features/shop/BasketItem';
 // const Token = lazy(() => import('../features/tokens/Token'));
 // const AdminCoffee = lazy(() => import('../features/coffee/Admin-coffee'));
 // const UserCoffee = lazy(() => import('../features/coffee/User-coffee'));
@@ -86,19 +87,22 @@ const App: React.FC = () => {
             <Route path="/shop"
               element={<Shop/>}
             />
+                <Route path="/shop/:cakeTitle"
+                  element={<BasketItem/>}
+                />
 
             <Route path="/admin-settings"
               element={<AdminSettings/>}
             />
-              <Route path="/admin-settings/add-product"
-                element={<AddProduct/>}
-              />
-              <Route path="/admin-settings/add-admin"
-                element={<AddAdmin/>}
-              />
-              <Route path="/admin-settings/add-friend"
-                element={<AddFriend/>}
-              />
+                <Route path="/admin-settings/add-product"
+                  element={<AddProduct/>}
+                />
+                <Route path="/admin-settings/add-admin"
+                  element={<AddAdmin/>}
+                />
+                <Route path="/admin-settings/add-friend"
+                  element={<AddFriend/>}
+                />
             <Route path="/user-settings"
               element={<UserSettings/>}
             />
