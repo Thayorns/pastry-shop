@@ -1,55 +1,72 @@
 import React, { useState, useEffect } from "react";
-import { Spin, Result, Button, Input, message } from 'antd';
-import { useSelector } from 'react-redux';
+import { Spin, Result, Button, Input, message, DatePicker } from 'antd';
+import type { DatePickerProps } from 'antd';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from "../../app/store/store";
-import { RightOutlined, LeftOutlined } from '@ant-design/icons';
-import { Link, useParams  } from "react-router-dom";
+import { LeftOutlined } from '@ant-design/icons';
+import { Link, useParams, useNavigate } from "react-router-dom";
+import { useBuyProductMutation } from "../api/apiSlice";
+import { deleteCake } from "../api/productSlice";
 
 import './shop.css';
 import '../../app/styles/normalize.css';
 import '../../app/styles/vars.css';
 
+
 const BasketItem: React.FC = () => {
-
+    
     const { cakeTitle } = useParams<{cakeTitle: string}>();
-
+    const [buyProduct, {isError, isLoading, isSuccess}] = useBuyProductMutation();
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
-
+    const [date, setDate] = useState<string | string[]>('');
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const isAuth = useSelector((state: RootState) => state.auth.isAuthenticated);
-    const productArray = useSelector((state: RootState) => state.product.productArray);
-    const product = productArray.find(el => el.title === cakeTitle)
     
-
+    const onChange: DatePickerProps['onChange'] = (date, dateString) => {
+        setDate(dateString);
+    };
+    
     const [messageApi, contextHolder] = message.useMessage();
     
-    // const success = () => {
-    //     messageApi.open({
-    //         type: 'success',
-    //         content: `Вы добавили новую позицию в ленту продуктов!`,
-    //         duration: 5,
-    //     });
-    // };
-    // const error = () => {
-    //     messageApi.open({
-    //         type: 'error',
-    //         content: 'Произошла ошибка! Не добавилось..',
-    //         duration: 5,
-    //     });
-    // };
-    // useEffect(() => {
-    //     if (isSuccess) {
-    //         success();
-    //     }
-    //     if (isError) {
-    //         error();
-    //     }
-    // }, [isSuccess, isError]);
+    const success = () => {
+        messageApi.open({
+            type: 'success',
+            content: `Мы свяжемся с Вами для подтверждения заказа.`,
+            duration: 5,
+        });
+    };
+    const error = () => {
+        messageApi.open({
+            type: 'error',
+            content: 'Не удалось оформить, произошла ошибка..',
+            duration: 5,
+        });
+    };
+    useEffect(() => {
+        if (isSuccess) {
+            success();
+        }
+        if (isError) {
+            error();
+        }
+    }, [isSuccess, isError]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            // await orderedCake({ title: title, name: name, phone: phone });
+            await buyProduct({ title: cakeTitle, date: date, name: name, phone: phone });
+            
+            setTimeout(() => {
+                dispatch(deleteCake( { title: cakeTitle } ));
+            }, 1000);
+            
+            setTimeout(() => {
+                navigate('/shop');
+            }, 5000);
+
+            setDate('');
             setName('');
             setPhone('');
         } catch (err) {
@@ -70,8 +87,13 @@ const BasketItem: React.FC = () => {
 
                     <div className="basket-item">
                         <h3>Оформление заказа</h3>
-                        <p>на <strong>{product?.title}</strong></p>
+                        <p>на <strong>{cakeTitle}</strong></p>
+
                         <form onSubmit={handleSubmit}>
+                            <div className="date-picker">
+                                <DatePicker onChange={onChange}/>
+                                <span className="date-description"> - Выберите дату, на которую нужен торт.</span>
+                            </div>
                             <div>
                                 <Input 
                                     onChange={(e:React.ChangeEvent<HTMLInputElement>) => setName(e.target.value) } 
@@ -89,7 +111,7 @@ const BasketItem: React.FC = () => {
                                 ></Input>
                             </div>
                             <Button htmlType="submit" type="primary" className="form-button" 
-                                // disabled={isLoading}
+                                disabled={isLoading}
                             >Заказать</Button>
                         </form>
                     </div>

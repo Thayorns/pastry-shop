@@ -44,6 +44,7 @@ const getBase64 = (file: FileType): Promise<string> =>
     };
     
     const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) => setFileList(newFileList);
+    
     const handleSelectChange = (value: string) => {
         setActiveSelect(value);
     };

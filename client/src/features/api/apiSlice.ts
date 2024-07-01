@@ -33,8 +33,10 @@ interface ProductTitleRequest{
 };
 
 interface BuyProductRequest{
-  object: object;
-  login: string;
+  title: string;
+  date: string;
+  name: string;
+  phone: string;
 };
 
 
@@ -85,14 +87,14 @@ export const apiSlice = createApi({
   baseQuery: baseQueryWithReauth,
   endpoints: (builder: any) => ({
 
-    // добавление в корзину
-    // buyProduct: builder.mutation({
-    //   query: (body: BuyProductRequest) => ({
-    //     url: `/api/home`,
-    //     method: 'POST',
-    //     body
-    //   })
-    // }),
+    // добавление заказа пользователем
+    buyProduct: builder.mutation({
+      query: (body: BuyProductRequest) => ({
+        url: `/api/shop`,
+        method: 'POST',
+        body
+      })
+    }),
 
     // добавление новых продуктов
     addProduct: builder.mutation({
@@ -211,5 +213,5 @@ export const {useAddUserMutation,
   useGetProductQuery,
   useAddAdminMutation,
   useAddFriendMutation,
-  // useBuyProductMutation
+  useBuyProductMutation
 } = apiSlice;

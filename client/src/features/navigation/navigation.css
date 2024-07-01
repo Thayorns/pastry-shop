@@ -69,8 +69,8 @@ nav a{
         transition: var(--transition-1-5);
     }
 }
-.basket-notificated{
+/* .basket-notificated{
     svg{
         color: red;
     }
-}
+} */

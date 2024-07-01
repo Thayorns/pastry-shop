@@ -32,9 +32,13 @@ const productSlice = createSlice({
         deleteCake(state, action) {
             const { title } = action.payload as DeletePayload;
             state.productArray = state.productArray.filter((el) => el.title !== title);
+        },
+        dropCakes(state) {
+            state.productArray = [];
         }
+
     },
 });
 
-export const { buyCake, deleteCake } = productSlice.actions;
+export const { buyCake, deleteCake, dropCakes } = productSlice.actions;
 export default productSlice.reducer;

@@ -86,6 +86,21 @@
         p{
             text-align: var(--text-center);
         }
+        .date-description{
+            font-size: var(--px-10);
+            margin: 5px;
+            color: var(--colorGray);
+            float: left;
+        }
+        
+        .date-picker{
+            margin: 0 auto;
+            width: var(--width70);
+
+            .ant-picker-outlined{
+                float: left;
+            }
+        }
     }
 }
 .empty-basket-wrapper{

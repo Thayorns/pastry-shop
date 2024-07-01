@@ -6,6 +6,8 @@ import { RootState } from "../../app/store/store";
 import { logout } from "../api/authSlice";
 import { setActiveBottom, setActiveTop } from "../api/buttonSlice";
 import { useUserLogoutMutation } from "../api/apiSlice";
+import { Badge } from 'antd';
+import { dropCakes } from "../api/productSlice";
 
 import './navigation.css'
 import '../../app/styles/vars.css'
@@ -35,6 +37,7 @@ const Navigation: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             dispatch(logout());
             navigate('/login');
             dispatch(setActiveTop(1));
+            dispatch(dropCakes());
         }catch (err){
             console.error('Ошибка выхода: ', err);
         }
@@ -48,11 +51,18 @@ const Navigation: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const bottomNavIcons = [
         ...(role === true 
             ? [<Link to={`/admin-settings`}><SettingOutlined /></Link>] 
-            : [<Link to={`/shop`}><ShoppingCartOutlined className={productArray.length !== 0 ? 'basket-notificated' : ''}/></Link>]),
+            : [<Link to={`/shop`}>
+                <Badge count={productArray.length}>
+                    <ShoppingCartOutlined />
+                </Badge>
+            </Link>]),
         <Link to={`/contacts`}> <ContactsOutlined /> </Link>,
         <Link to={`/home`}><HomeOutlined /></Link>,
         <Link to={`/news`}><BellOutlined /></Link>,
-        ...(role === true ? [<Link to={`/admin-coffee`}><CoffeeOutlined /></Link>] : [<Link to={`/user-coffee/${userLogin}`}><CoffeeOutlined /></Link>]),
+        ...(role === true 
+            ? [<Link to={`/admin-coffee`}><CoffeeOutlined /></Link>] 
+            : [<Link to={`/user-coffee/${userLogin}`}><CoffeeOutlined /></Link>]
+        ),
     ];
 
     return (

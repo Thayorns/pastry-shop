@@ -4,7 +4,7 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const path = require('path');
 const bcrypt = require('bcrypt');
-const { sequelize, User, Product } = require('./models');
+const { sequelize, User, Product, Order } = require('./models');
 const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 const transporter = require('./mailer');
@@ -70,29 +70,18 @@ const upload = multer({ storage: storage });
 //   });
 // });
 
-// добавить продукт в корзину
-app.post('/api/home', async (req, res) => {
-  const {object, login} = req.body;
+// оформить заказ
+app.post('/api/shop', async (req, res) => {
+  const { title, name, phone, date } = req.body;
 
   try{
-    const user = await User.findOne({ where: { login } });
+    const newOrder = await Order.create({ title, name, phone, date });
 
-    if (!user) {
-      return res.status(404).json({ error: 'User not found' });
-    }
-
-    // Уведомление конкретного пользователя
-    // const userSocket = userSockets[login];
-    // if (userSocket && userSocket.readyState === WebSocket.OPEN) {
-    //   userSocket.send(JSON.stringify({ type: 'cake-added', data: { object } }));
-    // }
-    res.json({ object: object });
-
-  } catch (error) {
-
-    console.error('Ошибка при добавлении продукта:', error);
-    res.status(500).json({ error: 'Произошла ошибка при добавлении продукта' });
-  }
+    res.status(201).json(newOrder);
+  }catch{
+    console.error('Ошибка при закаке торта:', error);
+    res.status(500).json({ error: 'Произошла ошибка при заказе торта' });
+  };
 });
 
 // добавление новых позиций продуктов
