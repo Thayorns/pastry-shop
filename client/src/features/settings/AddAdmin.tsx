@@ -19,7 +19,7 @@ const AddAdmin: React.FC = () => {
     const success = () => {
         messageApi.open({
             type: 'success',
-            content: `Вы добавили новую позицию в ленту продуктов!`,
+            content: `Вы добавили нового администратора!`,
             duration: 5,
         });
     };

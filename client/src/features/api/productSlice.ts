@@ -1,4 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { apiSlice } from './apiSlice';
 
 type ProductPayload = {
     photo: string,
@@ -12,6 +13,7 @@ type DeletePayload = {
 
 type InitialState = {
     productArray: ProductPayload[];
+    orderedArray: ProductPayload[];
 };
 
 const productSlice = createSlice({
@@ -19,6 +21,7 @@ const productSlice = createSlice({
 
     initialState: {
         productArray: [],
+        orderedArray: [],
     } as InitialState,
 
     reducers: {
@@ -35,9 +38,19 @@ const productSlice = createSlice({
         },
         dropCakes(state) {
             state.productArray = [];
-        }
-
+            state.orderedArray = [];
+        },
     },
+
+    extraReducers: (builder) => {
+        builder.addMatcher(apiSlice.endpoints.buyProduct.matchFulfilled, (state, action) => {
+            const cake = action.payload as ProductPayload;
+            const isDuplicate = state.orderedArray.find(el => el.title === cake.title);
+            if (!isDuplicate) {
+                state.orderedArray.push(cake);
+            }
+        })
+    }
 });
 
 export const { buyCake, deleteCake, dropCakes } = productSlice.actions;

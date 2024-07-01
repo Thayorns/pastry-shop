@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Spin, Result, Button, Input, message, DatePicker } from 'antd';
+import { Result, Button, Input, message, DatePicker } from 'antd';
 import type { DatePickerProps } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from "../../app/store/store";
@@ -7,6 +7,7 @@ import { LeftOutlined } from '@ant-design/icons';
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { useBuyProductMutation } from "../api/apiSlice";
 import { deleteCake } from "../api/productSlice";
+import { setActiveBottom } from "../api/buttonSlice";
 
 import './shop.css';
 import '../../app/styles/normalize.css';
@@ -23,6 +24,9 @@ const BasketItem: React.FC = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const isAuth = useSelector((state: RootState) => state.auth.isAuthenticated);
+    const login = useSelector((state: RootState) => state.auth.login);
+    const productArray = useSelector((state: RootState) => state.product.productArray);
+    const product = productArray.find(el => el.title === cakeTitle); 
     
     const onChange: DatePickerProps['onChange'] = (date, dateString) => {
         setDate(dateString);
@@ -34,14 +38,14 @@ const BasketItem: React.FC = () => {
         messageApi.open({
             type: 'success',
             content: `Мы свяжемся с Вами для подтверждения заказа.`,
-            duration: 5,
+            duration: 2,
         });
     };
     const error = () => {
         messageApi.open({
             type: 'error',
             content: 'Не удалось оформить, произошла ошибка..',
-            duration: 5,
+            duration: 2,
         });
     };
     useEffect(() => {
@@ -56,7 +60,9 @@ const BasketItem: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            await buyProduct({ title: cakeTitle, date: date, name: name, phone: phone });
+            await buyProduct({ title: cakeTitle, date: date, name: name, phone: phone, login: login, photo: product?.photo });
+            
+            // dispatch(orderedCake( { title: product?.title, photo: product?.photo, price: product?.price} ));
             
             setTimeout(() => {
                 dispatch(deleteCake( { title: cakeTitle } ));
@@ -64,7 +70,8 @@ const BasketItem: React.FC = () => {
             
             setTimeout(() => {
                 navigate('/shop');
-            }, 5000);
+                dispatch(setActiveBottom(0));
+            }, 2000);
 
             setDate('');
             setName('');

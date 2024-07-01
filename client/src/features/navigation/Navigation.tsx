@@ -24,6 +24,7 @@ const Navigation: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const top = useSelector((state: RootState) => state.button.top);
     const bottom = useSelector((state: RootState) => state.button.bottom);
     const productArray = useSelector((state: RootState) => state.product.productArray);
+    const orderedArray = useSelector((state: RootState) => state.product.orderedArray);
 
     useEffect(() => {
         navigate('/home');
@@ -58,7 +59,11 @@ const Navigation: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             </Link>]),
         <Link to={`/contacts`}> <ContactsOutlined /> </Link>,
         <Link to={`/home`}><HomeOutlined /></Link>,
-        <Link to={`/news`}><BellOutlined /></Link>,
+        <Link to={`/news/${userLogin}`}>
+            <Badge count={orderedArray.length}>
+                <BellOutlined />
+            </Badge>
+        </Link>,
         ...(role === true 
             ? [<Link to={`/admin-coffee`}><CoffeeOutlined /></Link>] 
             : [<Link to={`/user-coffee/${userLogin}`}><CoffeeOutlined /></Link>]

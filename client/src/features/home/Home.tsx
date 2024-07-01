@@ -32,7 +32,7 @@ const Home: React.FC = () => {
     const horizontalFilterRef = useRef<HTMLDivElement | null>(null);
     const role = useSelector((state: RootState) => state.auth.role);
     const isAuth = useSelector((state: RootState) => state.auth.isAuthenticated);
-    const productArray = useSelector((state: RootState) => state.product.productArray);
+    // const productArray = useSelector((state: RootState) => state.product.productArray);
     const result = data as ResultResponse[] || [];
     const horizonAnchors = [ 'Торты', 'Выпечка', 'Десерты', 'Напитки', 'Сендвичи', 'Салаты' ];
     const isScrolling = useRef(false);

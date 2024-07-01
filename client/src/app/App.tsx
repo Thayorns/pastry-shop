@@ -75,7 +75,7 @@ const App: React.FC = () => {
             <Route path="/login"
               element={<Login/>}
             />
-            <Route path="/news"
+            <Route path="/news/:login"
               element={<News/>}
             />
             <Route path="/qr"

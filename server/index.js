@@ -72,15 +72,41 @@ const upload = multer({ storage: storage });
 
 // оформить заказ
 app.post('/api/shop', async (req, res) => {
-  const { title, name, phone, date } = req.body;
+  const { title, name, phone, date, login, photo } = req.body;
 
   try{
-    const newOrder = await Order.create({ title, name, phone, date });
+    const newOrder = await Order.create({ title, name, phone, date, login, photo });
 
     res.status(201).json(newOrder);
   }catch{
     console.error('Ошибка при закаке торта:', error);
     res.status(500).json({ error: 'Произошла ошибка при заказе торта' });
+  };
+});
+
+// получить свои\все заказы пользователем\администратором
+app.get('/api/news/:login', async (req, res) => {
+  const { login } = req.params;
+
+  try{
+    const user = await User.findOne({ where: { login: login } });
+    if (!user) {
+      return res.status(404).json({ error: 'Пользователь не найден' });
+    };
+    
+    const isAdmin = user.admin;
+    
+    if(isAdmin){
+      const orders = await Order.findAll();
+      res.status(200).json(orders);
+    }else{
+      const userOrders = await Order.findAll({ where: { login: login }});
+      res.status(200).json(userOrders);
+    }
+
+  }catch(error){
+    console.error('Ошибка при получении заказа:', error);
+    res.status(500).json({ error: 'Произошла ошибка при получении заказа' });
   };
 });
 

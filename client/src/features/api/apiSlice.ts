@@ -37,6 +37,8 @@ interface BuyProductRequest{
   date: string;
   name: string;
   phone: string;
+  login: string;
+  photo: string;
 };
 
 
@@ -86,6 +88,11 @@ export const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: baseQueryWithReauth,
   endpoints: (builder: any) => ({
+
+    // получение заказов клиентом\админом
+    getOrders: builder.query({
+      query: (login: string) => `/api/news/${login}`
+    }),
 
     // добавление заказа пользователем
     buyProduct: builder.mutation({
@@ -213,5 +220,6 @@ export const {useAddUserMutation,
   useGetProductQuery,
   useAddAdminMutation,
   useAddFriendMutation,
-  useBuyProductMutation
+  useBuyProductMutation,
+  useGetOrdersQuery
 } = apiSlice;

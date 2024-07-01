@@ -2,7 +2,7 @@
     height: var(--height-auto);
 }
 .news-bg-wrapper{
-    padding-top: var(--px-100);
+    padding-top: var(--px-60);
     padding-bottom: var(--px-100);
 }
 .news-inner{
@@ -10,14 +10,22 @@
     flex-direction: var(--flexColumn);
     justify-content: var(--justify-center);
 
+    .ant-empty{
+        padding-top: 150px;
+        .ant-empty-description{
+            color: var(--colorWhite)
+        }
+        
+    }
+    .empty-news-description{
+        color: var(--colorGray);
+    }
+
     .bakery, .coffee, .order-cake{
-        margin: var(--px-10) var(--height-auto);
-        padding: var(--px-20);
-        width: var(--width80);
+        padding: var(--px-50);
         height: 150px;
         display: var(--displayFlex);
         flex-direction: var(--flexColumn);
-        justify-content:end;
 
         p,span{
             width: var(--width80);
@@ -38,17 +46,50 @@
     .bakery{
         background-image: url('./welcome.jpg');
         background-size: cover;
-        border-radius: var(--border-radius-15);
     }
     .coffee{
         background-image: url('./coffee.jpg');
         background-size: cover;
-        border-radius: var(--border-radius-15);
     }
     .order-cake{
         background-image: url('./order-cake.jpg');
         background-size: cover;
-        border-radius: var(--border-radius-15);
+    }
+
+    .news-order-inner{
+        display: var(--displayFlex);
+        justify-content: var(--spaceBetwen);
+        align-items: center;
+        padding: var(--px-10);
+        margin: var(--px-30) var(--px-10) 0;
+        border: 1px dashed var(--colorLightpurple);
+        border-radius: var(--border-radius);
+
+        img{
+            width: var(--px-100);
+            height: var(--height-auto);
+            border-radius: var(--border-radius);
+        }
+        
+        .order-description{
+            width: 60%;
+            padding: var(--px-10);
+            p{
+                margin: 0;
+                text-align: var(--text-align);
+                padding-top: 0;
+                padding-bottom: 10px;
+            }
+            .order-in-progress{
+                color: var(--color);
+            }
+            span{
+                display: var(--block);
+                color: var(--colorGray);
+                text-align: var(--text-align);
+                font-weight: 500;
+            }
+        }
     }
 
 }
