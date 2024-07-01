@@ -5,13 +5,25 @@
     padding-top: var(--px-60);
     padding-bottom: var(--px-100);
 }
+.carousel-wrapper{
+    top: 60px;
+    margin: var(--margin-0-auto);
+    width: var(--width100);
+    max-width: 768px;
+    height: 200px;
+    position: fixed;
+}
+.news-inner:first-child{
+    padding-top: 200px;
+}
 .news-inner{
     display: var(--displayFlex);
     flex-direction: var(--flexColumn);
     justify-content: var(--justify-center);
 
     .ant-empty{
-        padding-top: 150px;
+       margin-top: 150px;
+
         .ant-empty-description{
             color: var(--colorWhite)
         }
@@ -23,7 +35,7 @@
 
     .bakery, .coffee, .order-cake{
         padding: var(--px-50);
-        height: 150px;
+        height: 80px;
         display: var(--displayFlex);
         flex-direction: var(--flexColumn);
 
@@ -55,22 +67,57 @@
         background-image: url('./order-cake.jpg');
         background-size: cover;
     }
-
+    
     .news-order-inner{
         display: var(--displayFlex);
         justify-content: var(--spaceBetwen);
         align-items: center;
         padding: var(--px-10);
-        margin: var(--px-30) var(--px-10) 0;
+        margin: var(--px-10) var(--px-10) 0;
         border: 1px dashed var(--colorLightpurple);
         border-radius: var(--border-radius);
+        
+        .accept-order-button{
+            svg{
+                color: var(--colorGreen);
+            }
+        }
+        .delete-order-button{
+            svg{
+                color: var(--colorRed);
+            }
+        }
+
+        .order-buttons{
+            display: var(--displayFlex);
+            flex-direction: var(--flexColumn);
+            justify-content: var(--spaceBetwen);
+
+            .anticon{
+                margin-top: 15px;
+                margin-bottom: 15px;
+            }
+            svg{
+                width: 20px;
+                height: 20px;
+            }
+        }
 
         img{
             width: var(--px-100);
             height: var(--height-auto);
             border-radius: var(--border-radius);
         }
-        
+        .order-description-admin{
+            width: 60%;
+            display: var(--displayFlex);
+            flex-direction: var(--flexColumn);
+            justify-content: var(--spaceAround);
+
+            p{
+                padding: 0;
+            }
+        }
         .order-description{
             width: 60%;
             padding: var(--px-10);

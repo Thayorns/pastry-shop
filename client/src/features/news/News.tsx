@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { Spin, Empty, Carousel } from 'antd';
+import { DeleteOutlined, CheckCircleOutlined } from '@ant-design/icons';
 import { RootState } from "../../app/store/store";
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useParams, useNavigate } from "react-router-dom";
@@ -23,13 +24,12 @@ const News: React.FC = () => {
     const { login } = useParams<{login: string}>()
     const {data, isError, isLoading, isSuccess, refetch} = useGetOrdersQuery(login);
 
-    const resultArray = data as OrderedArrayRequest[];
+    const resultArray = data as OrderedArrayRequest[] || [];
     
     useEffect(() => {
         refetch();
     },[refetch]);
 
-    const orderedArray = useSelector((state: RootState) => state.product.orderedArray);
     const isAuth = useSelector((state: RootState) => state.auth.isAuthenticated);
     const isAdmin = useSelector((state: RootState) => state.auth.role);
 
@@ -40,19 +40,23 @@ const News: React.FC = () => {
 
 
                     <div className="news-inner">
-                        <Carousel autoplay autoplaySpeed={5000} fade speed={1000}>
-                            <div className="coffee">
-                                <p>каждый <strong>восьмой</strong> кофе в подарок</p>
-                                <span>для авторизованных пользователей приложения</span>
-                            </div>
-                            <div className="bakery">
-                                <p>скидка <strong>30%</strong> на вчерашнюю выпечку</p>
-                            </div>
-                            <div className="order-cake">
-                                <p><strong>торт на заказ</strong></p>
-                                <span>для авторизованных пользователей приложения</span>
-                            </div>
-                        </Carousel>
+                        <div className="carousel-wrapper">
+                            <Carousel autoplay autoplaySpeed={7000} speed={1000}>
+                                <div className="coffee">
+                                    <p>каждый <strong>восьмой</strong> кофе в подарок</p>
+                                    <span>для авторизованных пользователей приложения</span>
+                                </div>
+                                <div className="bakery">
+                                    <p>скидка <strong>30%</strong> на вчерашнюю выпечку</p>
+                                </div>
+                                <div className="order-cake">
+                                    <p><strong>торт на заказ</strong></p>
+                                    <span>для авторизованных пользователей приложения</span>
+                                </div>
+                            </Carousel>
+                        </div>
+
+                        {(isLoading) && (<Spin />)}
 
                         {isAuth === false && (
                             <>
@@ -65,10 +69,15 @@ const News: React.FC = () => {
                             resultArray.map((el, index) => (
                                 <div key={index} className="news-order-inner">
                                     <img src={require(`../../../../product-photos/${el.photo}`)} alt=""/>
-                                    <div className="order-description">
+                                    <div className="order-description-admin">
                                         <p>{el.title}</p>
-                                        <p className="order-in-progress"></p>
-                                        <span></span>
+                                        <p className="order-in-progress">{el.name}</p>
+                                        <p>{el.phone}</p>
+                                        <p>нужен на {el.date.split('-').reverse().join('-')}</p>
+                                    </div>
+                                    <div className="order-buttons">
+                                        <CheckCircleOutlined className="accept-order-button"/>
+                                        <DeleteOutlined className="delete-order-button"/>
                                     </div>
                                 </div>
                             ))

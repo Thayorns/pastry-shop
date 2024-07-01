@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 import { Spin, Result } from 'antd';
 import { useGetCoffeeQuery } from '../api/apiSlice';
 import { RootState } from '../../app/store/store';
-// import { webSocketConnected } from '../api/webSocketSlice';
 
 import './coffee.css';
 import '../../app/styles/normalize.css';
@@ -18,9 +17,6 @@ const UserCoffee: React.FC = () => {
     type CoffeeResponse = {
         coffee: number;
     }
-    
-    // const dispatch = useDispatch();
-    // const messages = useSelector((state: RootState) => state.webSocket.messages);
 
     const coffee = data as CoffeeResponse;
     const needToGlow = coffee?.coffee || 0;
