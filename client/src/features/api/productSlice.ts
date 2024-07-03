@@ -7,6 +7,10 @@ type ProductPayload = {
     price: number,
 };
 
+type IncreasedByCountPayload = {
+    count: number;
+};
+
 type DeletePayload = {
     title: string;
 };
@@ -40,6 +44,15 @@ const productSlice = createSlice({
             state.productArray = [];
             state.orderedArray = [];
         },
+        increaseCount(state, action) {
+            const { count } = action.payload as IncreasedByCountPayload;
+            const originalArray = state.productArray;
+            const newArray = [];
+            for (let i = 0; i < count; i++) {
+                newArray.push(...originalArray);
+            }
+            state.productArray = newArray;
+        }
     },
 
     extraReducers: (builder) => {
@@ -53,5 +66,5 @@ const productSlice = createSlice({
     }
 });
 
-export const { buyCake, deleteCake, dropCakes } = productSlice.actions;
+export const { buyCake, deleteCake, dropCakes, increaseCount } = productSlice.actions;
 export default productSlice.reducer;

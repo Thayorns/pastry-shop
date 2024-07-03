@@ -14,6 +14,34 @@
         border: 1px dashed var(--colorLightpurple);
         border-radius: var(--border-radius);
 
+       
+        .count-buttons-wrapper{
+            width: 80%;
+            margin-left: 15%;
+            display: var(--displayFlex);
+            justify-content: var(--spaceAround);
+            align-items: center;
+            height: 30px;
+            text-align: var(--text-center);
+            color: var(--color);
+
+            .ant-btn-default{
+                border-color: var(--colorLightpurple);
+            }
+        }
+        .count-button{
+            padding: 0;
+            width: 30px;
+            height: 22px;
+            span{
+                color: var(--color);
+            }
+        }
+        .count-button span{
+            padding: 0;
+        }
+        
+
         .bascket-description{
             width: 30%;
             display: var(--displayFlex);
@@ -57,9 +85,14 @@
             text-align: end;
             white-space: nowrap;
             overflow: visible;
+            margin-top: 15px;
 
             .anticon{
                 padding: 0px 5px;
+            }
+
+            svg{
+                color: var(--color);
             }
         }
 
@@ -99,6 +132,8 @@
 
             .ant-picker-outlined{
                 float: left;
+                margin-right: 5px;
+                margin-top: 5px;
             }
         }
     }

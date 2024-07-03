@@ -117,6 +117,11 @@
             p{
                 padding: 0;
             }
+            span{
+                width: var(--width80);
+                margin: 0 auto;
+                text-align: var(--text-align);
+            }
         }
         .order-description{
             width: 60%;

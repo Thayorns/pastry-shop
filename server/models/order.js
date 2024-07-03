@@ -16,6 +16,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
+        time: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
         login: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -24,6 +28,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
+        count: {
+            type: DataTypes.INTEGER,
+            allowNull: false,
+        }
     }, {});
 
     return Order;

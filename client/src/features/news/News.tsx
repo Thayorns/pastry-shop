@@ -17,6 +17,8 @@ type OrderedArrayRequest = {
     phone: string;
     login: string;
     photo: string;
+    count: number;
+    time: string;
 }
 
 const News: React.FC = () => {
@@ -70,10 +72,11 @@ const News: React.FC = () => {
                                 <div key={index} className="news-order-inner">
                                     <img src={require(`../../../../product-photos/${el.photo}`)} alt=""/>
                                     <div className="order-description-admin">
-                                        <p>{el.title}</p>
+                                        <p><strong>{el.title}</strong> ({el.count} шт.)</p>
                                         <p className="order-in-progress">{el.name}</p>
                                         <p>{el.phone}</p>
-                                        <p>нужен на {el.date.split('-').reverse().join('-')}</p>
+                                        <p>на {el.date.split('-').reverse().join('-')}</p>
+                                        <span>к {el.time}</span>
                                     </div>
                                     <div className="order-buttons">
                                         <CheckCircleOutlined className="accept-order-button"/>
@@ -88,7 +91,8 @@ const News: React.FC = () => {
                                 <div key={index} className="news-order-inner">
                                     <img src={require(`../../../../product-photos/${el.photo}`)} alt=""/>
                                     <div className="order-description">
-                                        <p>{el.title}</p>
+                                        <p>{el.title} ({el.count} шт.)</p>
+                                        <span>{el.date.split('-').reverse().join('-')} к {el.time}</span>
                                         <p className="order-in-progress">ЗАКАЗ В ОБРАБОТКЕ</p>
                                         <span>Пожалуйста, ожидайте звонок для подтверждения заказа.</span>
                                     </div>

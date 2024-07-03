@@ -39,13 +39,13 @@ interface BuyProductRequest{
   phone: string;
   login: string;
   photo: string;
+  count: number;
+  time: string;
 };
-
-
 
 const baseQuery = fetchBaseQuery({
   baseUrl: 'http://localhost:3001',
-  // credentials: 'include',
+  credentials: 'include',
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.accessToken;
     if (token) {
@@ -65,7 +65,7 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
       const refreshResult = await baseQuery({
         url: `/api/refresh-token`,
         method: "POST",
-        // credentials: 'include',
+        credentials: 'include',
       }, api, extraOptions);
       
       if (refreshResult.data) {

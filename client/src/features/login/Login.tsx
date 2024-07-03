@@ -22,6 +22,7 @@ const Login: React.FC = () => {
     const friend = useSelector((state: RootState) => state.auth.friend);
     const userLoginFromStore = useSelector((state:RootState) => state.auth.login)
     const loginStatus = useSelector((state: RootState) => state.auth.loginStatus);
+    const accessToken = useSelector((state: RootState) => state.auth.accessToken);
     
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -53,6 +54,7 @@ const Login: React.FC = () => {
                     <p>В разделе "настройки" Вы можете добавлять новые позиции продукции с фотографией, ценой, ингредиентами и описанием.</p>   
                     <p>В разделе "дом" Вы можете удалять продукты из ленты нажатием на "корзину".</p>   
                     <p>В разделе "кофе" Вы можете добавлять подарочные кофе для клиентов, достаточно ввести номер, который он озвучит.</p>
+                    <p>В разделе "уведомления" Вы можете подтверждать или удалять заказы тортов от клиентов.</p>
                 </div>
             )}
 

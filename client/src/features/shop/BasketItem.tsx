@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Result, Button, Input, message, DatePicker } from 'antd';
-import type { DatePickerProps } from 'antd';
+import { Result, Button, Input, message, DatePicker, TimePicker } from 'antd';
+import type { DatePickerProps, TimePickerProps } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from "../../app/store/store";
 import { LeftOutlined } from '@ant-design/icons';
@@ -21,6 +21,7 @@ const BasketItem: React.FC = () => {
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
     const [date, setDate] = useState<string | string[]>('');
+    const [time, setTime] = useState<string | string[]>('');
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const isAuth = useSelector((state: RootState) => state.auth.isAuthenticated);
@@ -31,6 +32,10 @@ const BasketItem: React.FC = () => {
     const onChange: DatePickerProps['onChange'] = (date, dateString) => {
         setDate(dateString);
     };
+    const onTimeChange: TimePickerProps['onChange'] = (time, timeString) => {
+        setTime(timeString);
+    };
+
     
     const [messageApi, contextHolder] = message.useMessage();
     
@@ -60,7 +65,7 @@ const BasketItem: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            await buyProduct({ title: cakeTitle, date: date, name: name, phone: phone, login: login, photo: product?.photo });
+            await buyProduct({ title: cakeTitle, date: date, name: name, phone: phone, login: login, photo: product?.photo, count: productArray.length, time: time });
             
             // dispatch(orderedCake( { title: product?.title, photo: product?.photo, price: product?.price} ));
             
@@ -98,8 +103,9 @@ const BasketItem: React.FC = () => {
 
                         <form onSubmit={handleSubmit}>
                             <div className="date-picker">
-                                <DatePicker onChange={onChange}/>
-                                <span className="date-description"> - Выберите дату, на которую нужен торт.</span>
+                                <TimePicker placeholder='Время' format='HH:mm' onChange={onTimeChange}/>
+                                <DatePicker placeholder='Дата' onChange={onChange}/>
+                                <span className="date-description"> - Выберите дату и время.</span>
                             </div>
                             <div>
                                 <Input 

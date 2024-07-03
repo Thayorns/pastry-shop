@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { CoffeeOutlined,HomeOutlined,SettingOutlined,BellOutlined,UserAddOutlined,UserOutlined,QrcodeOutlined,ContactsOutlined, LogoutOutlined, UserSwitchOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector} from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
@@ -25,6 +25,30 @@ const Navigation: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const bottom = useSelector((state: RootState) => state.button.bottom);
     const productArray = useSelector((state: RootState) => state.product.productArray);
     const orderedArray = useSelector((state: RootState) => state.product.orderedArray);
+    const [orderCount, setOrderCount] = useState(orderedArray.length);
+
+    useEffect(() => {
+        const ws = new WebSocket(`ws://${window.location.hostname}:${window.location.port}/ws`);
+        ws.onopen = () => {
+          console.log('WebSocket connection opened');
+        };
+        ws.onmessage = (event) => {
+        //   console.log('WebSocket message received:', event);
+          const message = JSON.parse(event.data);
+          if (message.type === 'newOrder') {
+            setOrderCount((prevCount) => prevCount + 1);
+          }
+        };
+        ws.onerror = (error) => {
+          console.error('WebSocket error:', error);
+        };
+        ws.onclose = (event) => {
+          console.log(`WebSocket connection closed: code=${event.code}, reason=${event.reason}`);
+        };
+        return () => {
+          ws.close();
+        };
+    }, []);
 
     useEffect(() => {
         navigate('/home');
@@ -60,9 +84,10 @@ const Navigation: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         <Link to={`/contacts`}> <ContactsOutlined /> </Link>,
         <Link to={`/home`}><HomeOutlined /></Link>,
         <Link to={`/news/${userLogin}`}>
-            <Badge count={orderedArray.length}>
-                <BellOutlined />
-            </Badge>
+            {role === true 
+                ? <Badge count={orderCount}><BellOutlined /></Badge>
+                : <Badge count={orderedArray.length}><BellOutlined /></Badge>
+            }
         </Link>,
         ...(role === true 
             ? [<Link to={`/admin-coffee`}><CoffeeOutlined /></Link>] 

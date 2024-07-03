@@ -5,33 +5,44 @@ const cookieParser = require('cookie-parser');
 const path = require('path');
 const bcrypt = require('bcrypt');
 const { sequelize, User, Product, Order } = require('./models');
-const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 const transporter = require('./mailer');
 const QRCode = require('qrcode');
-const { where } = require('sequelize');
 const multer = require('multer');
 const fs = require('fs');
-const { log } = require('console');
-const http = require('http');
-const WebSocket = require('ws');
+const { createServer } = require('http');
+const { Server } = require('ws');
 
-const PORT = process.env.PORT || 3001;
 const app = express();
+const PORT = process.env.PORT || 3001;
 const JWT_SECRET = 'k0raelstrazSfu110f1ight5Darkne5Ss';
 const ACCESS_TOKEN_SECRET = 'k0raelstrazSfu110f1ight5Darkne5Ss'
 const REFRESH_TOKEN_SECRET = 'k0raelstrazSfu110f1ight5Darkne5Ss'
 
+const allowedOrigins = ['http://localhost:3000', 'http://localhost:3002'];
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders:  ['Content-Type', 'Authorization'],
+  credentials: true
+};
+// middleware
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 
+// сохранение в папку фотографий
 const uploadDir = './product-photos';
-
 if (!fs.existsSync(uploadDir)){
     fs.mkdirSync(uploadDir);
 }
-
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
       cb(null, uploadDir);
@@ -41,41 +52,47 @@ const storage = multer.diskStorage({
       cb(null, uniqueSuffix + '-' + file.originalname);
   }
 });
-
 const upload = multer({ storage: storage });
 
+// ПОПРОБОВАТЬ install express-ws???
+// WEBSOCKET сервер
+const server = createServer(app);
+const wss = new Server({ server });
 
-// WEBSOCKET
-// const userSockets = {};
+wss.on('connection', (ws) => {
+  console.log('New client connected');
 
-// const server = http.createServer(app);
-// const wss = new WebSocket.Server({ server });
+  ws.on('message', (message) => {
+    console.log('Received message:', message);
+  });
 
-// wss.on('connection', (ws, req) => {
-//   const login = new URL(req.url, `http://${req.headers.host}`).searchParams.get('login');
+  ws.on('error', (error) => {
+    console.error('WebSocket error:', error);
+  });
 
-//   if (login) {
-//     userSockets[login] = ws;
-//   }
+  ws.on('close', (code, reason) => {
+    console.log(`Client disconnected with code: ${code}, reason: ${reason}`);
+  });
+});
 
-//   ws.on('message', message => {
-//       console.log('Received:', message);
-//   });
+const broadcast = (data) => {
+  wss.clients.forEach((client) => {
+    if (client.readyState === Server.OPEN) {
+      client.send(JSON.stringify(data));
+    }
+  });
+};
 
-//   ws.on('close', () => {
-//     if (login) {
-//       delete userSockets[login];
-//     }
-//     console.log('Client disconnected');
-//   });
-// });
 
-// оформить заказ
+// оформить заказ клиентом
 app.post('/api/shop', async (req, res) => {
-  const { title, name, phone, date, login, photo } = req.body;
+  const { title, name, phone, date, login, photo, count, time } = req.body;
 
   try{
-    const newOrder = await Order.create({ title, name, phone, date, login, photo });
+    const newOrder = await Order.create({ title, name, phone, date, login, photo, count, time });
+
+    // Отправка уведомления всем клиентам о новом заказе
+    broadcast({ type: 'newOrder', order: newOrder });
 
     res.status(201).json(newOrder);
   }catch{
@@ -413,7 +430,7 @@ app.post('/api/login', async (req, res) => {
     }
 
     if (await bcrypt.compare(password, user.password)) {
-      const accessToken = jwt.sign({ userId: user.id }, ACCESS_TOKEN_SECRET, { expiresIn: '15m' });
+      const accessToken = jwt.sign({ userId: user.id }, ACCESS_TOKEN_SECRET, { expiresIn: '10s' });
       const refreshToken = jwt.sign({ userId: user.id }, REFRESH_TOKEN_SECRET, { expiresIn: '60d' });
 
       user.refresh_token = refreshToken;
@@ -454,7 +471,7 @@ app.post('/api/refresh-token', async (req, res) => {
       return res.status(401).json({ error: 'Invalid refresh token or user not found' });
     }
 
-    const newAccessToken = jwt.sign({ userId: user.id }, ACCESS_TOKEN_SECRET, { expiresIn: '15m' });
+    const newAccessToken = jwt.sign({ userId: user.id }, ACCESS_TOKEN_SECRET, { expiresIn: '10s' });
 
     return res.json({ accessToken: newAccessToken }); 
   } catch (err) {
