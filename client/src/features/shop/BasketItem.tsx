@@ -27,7 +27,8 @@ const BasketItem: React.FC = () => {
     const isAuth = useSelector((state: RootState) => state.auth.isAuthenticated);
     const login = useSelector((state: RootState) => state.auth.login);
     const productArray = useSelector((state: RootState) => state.product.productArray);
-    const product = productArray.find(el => el.title === cakeTitle); 
+    const product = productArray.find(el => el.title === cakeTitle);
+    const counts = useSelector((state: RootState) => state.product.counts);    
     
     const onChange: DatePickerProps['onChange'] = (date, dateString) => {
         setDate(dateString);
@@ -65,10 +66,9 @@ const BasketItem: React.FC = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            await buyProduct({ title: cakeTitle, date: date, name: name, phone: phone, login: login, photo: product?.photo, count: productArray.length, time: time });
+            await buyProduct({ title: cakeTitle, date: date, name: name, phone: phone, login: login, photo: product?.photo, count: counts[product?.title || 1], time: time });
             
-            // dispatch(orderedCake( { title: product?.title, photo: product?.photo, price: product?.price} ));
-            
+            // через секунду после покупки удаляет из корзины торт
             setTimeout(() => {
                 dispatch(deleteCake( { title: cakeTitle } ));
             }, 1000);
@@ -76,7 +76,7 @@ const BasketItem: React.FC = () => {
             setTimeout(() => {
                 navigate('/shop');
                 dispatch(setActiveBottom(0));
-            }, 2000);
+            }, 1000);
 
             setDate('');
             setName('');

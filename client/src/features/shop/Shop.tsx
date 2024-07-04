@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from "../../app/store/store";
 import { RightOutlined, DeleteOutlined } from '@ant-design/icons';
 import { Link, useNavigate } from "react-router-dom";
-import { deleteCake, increaseCount } from "../api/productSlice";
+import { deleteCake, increaseCount, decreaseCount } from "../api/productSlice";
 import { setActiveBottom, clearBasketButton } from "../api/buttonSlice";
 
 import './shop.css';
@@ -15,39 +15,29 @@ const Shop: React.FC = () => {
     
     const isAuth = useSelector((state: RootState) => state.auth.isAuthenticated);
     const productArray = useSelector((state: RootState) => state.product.productArray);
-    // Создаем массив состояний для каждого элемента в корзине
-    const [counts, setCounts] = useState<number[]>(productArray.map(() => 1));
+    const counts = useSelector((state: RootState) => state.product.counts);
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const increaseButton = (index: number) => {
-        setCounts(prev => {
-            const newCount = [...prev];
-            newCount[index] += 1;
-            return newCount;
-        });
-    };
-    const decreaseButton = (index: number) => {
-        setCounts(prev => {
-            const newCount = [...prev];
-            newCount[index] = newCount[index] === 1 ? 1 : newCount[index] - 1;
-            return newCount;
-        });
-    };
-
-    const handleOrderRenewed = (num: number) => {
-        dispatch(increaseCount({ count: counts[num] } ));
-    };
-
     const handleDeleteProduct = async (title: string) => {
         try{
+            // удаляем корзинкой из "корзины"
             await dispatch(deleteCake( {title} ));
+            
+            // очищаем иконку в "дом"
             dispatch(clearBasketButton({ title }));
         }catch(error){
             console.error('Ошибка при удалении:', error);
         }
     }
 
+    const handleIncrease = (title: string) => {
+        dispatch(increaseCount({ title }));
+    }
+    const handleDecrease = (title: string) => {
+        dispatch(decreaseCount({ title }));
+    }
     return (
         <>  
             {(productArray.length === 0 && isAuth === true) && (
@@ -72,22 +62,19 @@ const Shop: React.FC = () => {
                             <img src={require(`../../../../product-photos/${el.photo}`)} alt=""/>
                             <div className="bascket-description">
                                 <p>{el.title}</p>
-                                <span>{counts[index]}шт / {counts[index]}кг</span>
+                                <span>{counts[el.title] || 1}шт / {counts[el.title] || 1}кг</span>
                                 <span className="bascket-price">
-                                    ~{(el.price * 10) * counts[index]} руб <DeleteOutlined onClick={() => handleDeleteProduct(el.title)}/>
+                                    ~{(el.price * 10) * counts[el.title] || 1} руб <DeleteOutlined onClick={() => handleDeleteProduct(el.title)}/>
                                 </span>
                             </div>
                             <div>
                                 <div className="count-buttons-wrapper">
-                                    <Button className="count-button" onClick={() => decreaseButton(index)}>-</Button>
-                                    {counts[index]}
-                                    <Button className="count-button" onClick={() => increaseButton(index)}>+</Button>
+                                    <Button className="count-button" onClick={() => handleDecrease(el.title)}>-</Button>
+                                    {counts[el.title] || 1}
+                                    <Button className="count-button" onClick={() => handleIncrease(el.title)}>+</Button>
                                 </div>
                                 <Link to={`/shop/${el.title}`}>
-                                    <p className="order-link" 
-                                        onClick={() => handleOrderRenewed(index)}
-                                        ><strong>ЗАКАЗАТЬ</strong><RightOutlined className="right-arrow"/>
-                                    </p>
+                                    <p className="order-link" ><strong>ЗАКАЗАТЬ</strong><RightOutlined className="right-arrow"/></p>
                                 </Link>
                             </div>
                         </div>

@@ -7,8 +7,8 @@ type ProductPayload = {
     price: number,
 };
 
-type IncreasedByCountPayload = {
-    count: number;
+type IncreasedPayload = {
+    title: string;
 };
 
 type DeletePayload = {
@@ -17,7 +17,7 @@ type DeletePayload = {
 
 type InitialState = {
     productArray: ProductPayload[];
-    orderedArray: ProductPayload[];
+    counts: Record<string, number>;
 };
 
 const productSlice = createSlice({
@@ -25,46 +25,45 @@ const productSlice = createSlice({
 
     initialState: {
         productArray: [],
-        orderedArray: [],
+        counts: {},
     } as InitialState,
 
     reducers: {
+        // редюсер для "дом"
         buyCake(state, action) {
-            const cake = action.payload;
+            const cake = action.payload as ProductPayload;
             const isDuplicate = state.productArray.find(el => el.title === cake.title);
             if (!isDuplicate) {
                 state.productArray.push(cake);
+                state.counts[cake.title] = 1;
             }
         },
+        // удалить из корзины
         deleteCake(state, action) {
             const { title } = action.payload as DeletePayload;
             state.productArray = state.productArray.filter((el) => el.title !== title);
+            delete state.counts[title];
         },
+        // очистить весь слайс
         dropCakes(state) {
             state.productArray = [];
-            state.orderedArray = [];
+            state.counts = {};
         },
+        // прибавить 1 торт
         increaseCount(state, action) {
-            const { count } = action.payload as IncreasedByCountPayload;
-            const originalArray = state.productArray;
-            const newArray = [];
-            for (let i = 0; i < count; i++) {
-                newArray.push(...originalArray);
-            }
-            state.productArray = newArray;
+            const { title } = action.payload as IncreasedPayload;
+            if (state.counts[title] !== undefined) state.counts[title] += 1;
+        },
+        // убрать 1 торт
+        decreaseCount(state, action) {
+            const { title } = action.payload as IncreasedPayload;
+            if(state.counts[title] > 1 && state.counts[title] !== undefined) state.counts[title] -= 1;
         }
     },
 
     extraReducers: (builder) => {
-        builder.addMatcher(apiSlice.endpoints.buyProduct.matchFulfilled, (state, action) => {
-            const cake = action.payload as ProductPayload;
-            const isDuplicate = state.orderedArray.find(el => el.title === cake.title);
-            if (!isDuplicate) {
-                state.orderedArray.push(cake);
-            }
-        })
     }
 });
 
-export const { buyCake, deleteCake, dropCakes, increaseCount } = productSlice.actions;
+export const { buyCake, deleteCake, dropCakes, increaseCount, decreaseCount } = productSlice.actions;
 export default productSlice.reducer;
