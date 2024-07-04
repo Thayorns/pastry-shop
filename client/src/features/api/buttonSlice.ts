@@ -1,8 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+type BasketIsClickedPayload = {
+    title: string;
+}
+
 type InitialState = {
     top: number | null;
     bottom: number | null;
+    basketIsClicked: string[];
 };
 
 const buttonSlice = createSlice({
@@ -12,6 +17,7 @@ const buttonSlice = createSlice({
     initialState: {
         top: null,
         bottom: null,
+        basketIsClicked: [],
     } as InitialState,
 
     reducers: {
@@ -22,6 +28,14 @@ const buttonSlice = createSlice({
         setActiveBottom(state: InitialState, action) {
             state.bottom = action.payload;
             state.top = null;
+        },
+        setBasketButtonIsClicked(state, action) {
+            const { title } = action.payload as BasketIsClickedPayload;
+            state.basketIsClicked = [...state.basketIsClicked, title];
+        },
+        clearBasketButton(state, action) {
+            const { title } = action.payload as BasketIsClickedPayload;
+            state.basketIsClicked = state.basketIsClicked.filter(el => el !== title);
         }
     },
 
@@ -29,5 +43,5 @@ const buttonSlice = createSlice({
     
     },
 });
-export const {setActiveTop, setActiveBottom} = buttonSlice.actions;
+export const {setActiveTop, setActiveBottom, setBasketButtonIsClicked, clearBasketButton} = buttonSlice.actions;
 export default buttonSlice.reducer;

@@ -3,10 +3,11 @@ import { Link } from "react-router-dom";
 import { useGetProductsQuery, useDeleteProductMutation } from "../api/apiSlice";
 import AnchorLink from "react-anchor-link-smooth-scroll";
 import { Spin, Result, message } from 'antd';
-import { RightOutlined, DeleteOutlined, ShoppingCartOutlined } from '@ant-design/icons';
+import { RightOutlined, DeleteOutlined, ShoppingCartOutlined, CheckCircleOutlined } from '@ant-design/icons';
 import { useSelector, useDispatch} from "react-redux";
 import { RootState } from "../../app/store/store";
 import { buyCake } from "../api/productSlice";
+import { setBasketButtonIsClicked } from "../api/buttonSlice";
 
 import './home.css';
 import '../../app/styles/normalize.css';
@@ -22,17 +23,16 @@ interface ResultResponse {
 const Home: React.FC = () => {
 
     const [activeHorizonFilter, setActiveHorizonFilter] = useState<number | null>(0);
-    const [cakeAddedToBasket, setCakeAddedToBasket] = useState(false);
-
+    // const [cakesAddedToBasket, setCakesAddedToBasket] = useState<string[]>([]);
     const {data, isError, refetch, isSuccess, isLoading} = useGetProductsQuery({})
     const [deleteProduct, {isError: deleteError, isSuccess: deleteSuccess}] = useDeleteProductMutation();
-
     const sectionRefs = useRef<(HTMLElement | null)[]>([]);
     const horizonRefs = useRef<(HTMLElement | null)[]>([]);
     const horizontalFilterRef = useRef<HTMLDivElement | null>(null);
     const role = useSelector((state: RootState) => state.auth.role);
     const isAuth = useSelector((state: RootState) => state.auth.isAuthenticated);
-    // const productArray = useSelector((state: RootState) => state.product.productArray);
+    const basketIsClicked = useSelector((state: RootState) => state.button.basketIsClicked);
+    
     const result = data as ResultResponse[] || [];
     const horizonAnchors = [ 'Торты', 'Выпечка', 'Десерты', 'Напитки', 'Сендвичи', 'Салаты' ];
     const isScrolling = useRef(false);
@@ -59,14 +59,7 @@ const Home: React.FC = () => {
             content: `Вы добавили торт в корзину!`,
             duration: 5,
         });
-    };
-    const errorBuy = () => {
-        messageApi.open({
-            type: 'error',
-            content: 'Вы уже добавили этот торт в корзину..',
-            duration: 5,
-        });
-    };    
+    };  
     
     const toggleActiveButton = (index: number) => {
         isClicking.current = true;
@@ -109,6 +102,9 @@ const Home: React.FC = () => {
     const handleBuyProduct = async (title: string, price: number, photo: string) => {
         try {
             await dispatch(buyCake({ title,price,photo }));
+            dispatch(setBasketButtonIsClicked({ title }));
+            // setCakesAddedToBasket([...cakesAddedToBasket, title]);
+            successBuy();
         } catch (error){
             console.error('Failed to add product:', error);
         }
@@ -127,12 +123,11 @@ const Home: React.FC = () => {
                     </div>
                     {role === true 
                     ? <DeleteOutlined disabled={isLoading} onClick={() => handleDeleteProduct(obj.title)} className="delete-button"/> 
-                    : (obj.chapter === 'Торты' && isAuth === true) 
-                        ? <ShoppingCartOutlined className="shopping-button" onClick={() => {
-                            handleBuyProduct(obj.title,obj.price,obj.photo);
-                            setCakeAddedToBasket(true);
-                        }}/> 
-                        : null
+                    : (obj.chapter === 'Торты' && isAuth === true)
+                        ?   basketIsClicked.includes(obj.title) 
+                            ? <CheckCircleOutlined className="shopping-button"/> 
+                            : <ShoppingCartOutlined className="shopping-button" onClick={() => handleBuyProduct(obj.title, obj.price, obj.photo)}/>
+                        :   null
                     }
                 </div>   
             </div>    
@@ -144,11 +139,7 @@ const Home: React.FC = () => {
         refetch();
         if(deleteSuccess) successDelete();
         if(deleteError) errorDelete();
-        if(cakeAddedToBasket === true) successBuy();
-        setTimeout(() => {
-            setCakeAddedToBasket(false);
-        }, 100);
-    }, [refetch, cakeAddedToBasket, deleteSuccess, deleteError]);
+    }, [refetch, deleteSuccess, deleteError]);
      
     useEffect(() => {
         const observerOptions = {

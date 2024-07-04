@@ -75,7 +75,7 @@ const News: React.FC = () => {
                                         <p><strong>{el.title}</strong> ({el.count} шт.)</p>
                                         <p className="order-in-progress">{el.name}</p>
                                         <p>{el.phone}</p>
-                                        <p>на {el.date.split('-').reverse().join('-')}</p>
+                                        <span>на {el.date.split('-').reverse().join('-')}</span>
                                         <span>к {el.time}</span>
                                     </div>
                                     <div className="order-buttons">

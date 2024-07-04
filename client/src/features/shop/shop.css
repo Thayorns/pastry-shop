@@ -16,12 +16,12 @@
 
        
         .count-buttons-wrapper{
-            width: 80%;
+            width: var(--width80);
             margin-left: 15%;
             display: var(--displayFlex);
             justify-content: var(--spaceAround);
             align-items: center;
-            height: 30px;
+            height: var(--px-30);
             text-align: var(--text-center);
             color: var(--color);
 
@@ -31,7 +31,7 @@
         }
         .count-button{
             padding: 0;
-            width: 30px;
+            width: var(--px-30);
             height: 22px;
             span{
                 color: var(--color);
@@ -66,6 +66,10 @@
 
             .anticon{
                 padding: 0 var(--px-10);
+            }
+            .anticon svg{
+                width: 18px;
+                height: 18px;
             }
             svg:hover{
                 cursor: var(--cursor);
