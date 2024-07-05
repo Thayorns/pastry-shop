@@ -78,12 +78,20 @@
         border-radius: var(--border-radius);
         
         .accept-order-button{
+            cursor: var(--cursor);
             svg{
+                color: var(--color);
+            }
+            svg:hover{
                 color: var(--colorGreen);
             }
         }
         .delete-order-button{
+            cursor: var(--cursor);
             svg{
+                color: var(--color);
+            }
+            svg:hover{
                 color: var(--colorRed);
             }
         }

@@ -7,7 +7,7 @@ import { LeftOutlined } from '@ant-design/icons';
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { useBuyProductMutation } from "../api/apiSlice";
 import { deleteCake } from "../api/productSlice";
-import { setActiveBottom } from "../api/buttonSlice";
+import { setActiveBottom, clearBasketButton } from "../api/buttonSlice";
 
 import './shop.css';
 import '../../app/styles/normalize.css';
@@ -71,6 +71,7 @@ const BasketItem: React.FC = () => {
             // через секунду после покупки удаляет из корзины торт
             setTimeout(() => {
                 dispatch(deleteCake( { title: cakeTitle } ));
+                dispatch(clearBasketButton( { title: cakeTitle }));
             }, 1000);
             
             setTimeout(() => {

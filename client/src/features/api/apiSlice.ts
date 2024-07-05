@@ -43,6 +43,11 @@ interface BuyProductRequest{
   time: string;
 };
 
+interface DeleteOrderRequest{
+  title: string;
+  name: string;
+};
+
 const baseQuery = fetchBaseQuery({
   baseUrl: 'http://localhost:3001',
   credentials: 'include',
@@ -88,6 +93,15 @@ export const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: baseQueryWithReauth,
   endpoints: (builder: any) => ({
+
+    // удалить заказ админом
+    deleteOrder: builder.mutation({
+      query: (body: DeleteOrderRequest) => ({
+        url: `/api/news`,
+        method: 'DELETE',
+        body
+      })
+    }),
 
     // получение заказов клиентом\админом
     getOrders: builder.query({
@@ -221,5 +235,6 @@ export const {useAddUserMutation,
   useAddAdminMutation,
   useAddFriendMutation,
   useBuyProductMutation,
-  useGetOrdersQuery
+  useGetOrdersQuery,
+  useDeleteOrderMutation
 } = apiSlice;

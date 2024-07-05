@@ -101,6 +101,23 @@ app.post('/api/shop', async (req, res) => {
   };
 });
 
+// удалить заказ админом
+app.delete('/api/news', async (req, res) => {
+  const { title, name } = req.body;
+
+  try{
+    const result = await Order.destroy({ where: { title: title, name: name } });
+    if (result > 0) {
+      res.status(200).json({ message: 'Заказ успешно удален' });
+    } else {
+      res.status(404).json({ error: 'Заказ не найден' });
+    }
+  }catch(error){
+    console.error('Ошибка при удалении заказа:', error);
+    res.status(500).json({ error: 'Произошла ошибка при удалении заказа' });
+  }
+});
+
 // получить свои\все заказы пользователем\администратором
 app.get('/api/news/:login', async (req, res) => {
   const { login } = req.params;

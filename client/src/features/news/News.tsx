@@ -4,7 +4,9 @@ import { DeleteOutlined, CheckCircleOutlined } from '@ant-design/icons';
 import { RootState } from "../../app/store/store";
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { useGetOrdersQuery } from "../api/apiSlice";
+import { useGetOrdersQuery, useDeleteOrderMutation } from "../api/apiSlice";
+import { dropCakes, deleteCake } from "../api/productSlice";
+import { clearBasketButton } from "../api/buttonSlice";
 
 import './news.css';
 import '../../app/styles/normalize.css';
@@ -24,9 +26,20 @@ type OrderedArrayRequest = {
 const News: React.FC = () => {
 
     const { login } = useParams<{login: string}>()
-    const {data, isError, isLoading, isSuccess, refetch} = useGetOrdersQuery(login);
+    const {data, isLoading, refetch} = useGetOrdersQuery(login);
+    const [deleteOrder, {isSuccess}] = useDeleteOrderMutation();
+    const dispatch = useDispatch();
 
     const resultArray = data as OrderedArrayRequest[] || [];
+
+    const handleDeleteOrder = async (title: string, name: string) => {
+        try{
+            await deleteOrder({ title: title, name: name });
+            refetch();
+        }catch(error){
+            console.error('Ошибка при удалении заказа:', error);
+        }
+    };
     
     useEffect(() => {
         refetch();
@@ -80,7 +93,7 @@ const News: React.FC = () => {
                                     </div>
                                     <div className="order-buttons">
                                         <CheckCircleOutlined className="accept-order-button"/>
-                                        <DeleteOutlined className="delete-order-button"/>
+                                        <DeleteOutlined className="delete-order-button" onClick={() => handleDeleteOrder(el.title, el.name)}/>
                                     </div>
                                 </div>
                             ))

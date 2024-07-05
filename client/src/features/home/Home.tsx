@@ -23,7 +23,6 @@ interface ResultResponse {
 const Home: React.FC = () => {
 
     const [activeHorizonFilter, setActiveHorizonFilter] = useState<number | null>(0);
-    // const [cakesAddedToBasket, setCakesAddedToBasket] = useState<string[]>([]);
     const {data, isError, refetch, isSuccess, isLoading} = useGetProductsQuery({})
     const [deleteProduct, {isError: deleteError, isSuccess: deleteSuccess}] = useDeleteProductMutation();
     const sectionRefs = useRef<(HTMLElement | null)[]>([]);
@@ -103,7 +102,6 @@ const Home: React.FC = () => {
         try {
             await dispatch(buyCake({ title,price,photo }));
             dispatch(setBasketButtonIsClicked({ title }));
-            // setCakesAddedToBasket([...cakesAddedToBasket, title]);
             successBuy();
         } catch (error){
             console.error('Failed to add product:', error);
