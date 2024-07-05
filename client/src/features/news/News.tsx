@@ -2,11 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Spin, Empty, Carousel, message } from 'antd';
 import { DeleteOutlined, CheckCircleOutlined } from '@ant-design/icons';
 import { RootState } from "../../app/store/store";
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { useGetOrdersQuery, useDeleteOrderMutation, useAcceptOrderMutation } from "../api/apiSlice";
-import { dropCakes, deleteCake } from "../api/productSlice";
-import { clearBasketButton } from "../api/buttonSlice";
 
 import './news.css';
 import '../../app/styles/normalize.css';
@@ -30,9 +28,7 @@ const News: React.FC = () => {
     const {data, isLoading, refetch} = useGetOrdersQuery(login);
     const [deleteOrder] = useDeleteOrderMutation();
     const [acceptOrder, {isSuccess: isAccepted, isError: errorAccept}] = useAcceptOrderMutation();
-    const dispatch = useDispatch();
     const [active, setActive] = useState<string | null>(null);
-    const [act, setAct] = useState(false);
     const [messageApi, contextHolder] = message.useMessage();
     const success = () => {
         messageApi.open({
@@ -79,10 +75,6 @@ const News: React.FC = () => {
 
     const isAuth = useSelector((state: RootState) => state.auth.isAuthenticated);
     const isAdmin = useSelector((state: RootState) => state.auth.role);
-    
-    const activeSwitch = () => {
-        setAct(!act);
-    };
 
     return (
         <div>
@@ -121,10 +113,7 @@ const News: React.FC = () => {
                                 <div key={index} className="news-order-inner">
                                     {contextHolder}
                                     <img src={require(`../../../../product-photos/${el.photo}`)} alt=""
-                                        onClick={() => {
-                                            setActive(el.title);
-                                            activeSwitch();
-                                        }}
+                                        onClick={() => setActive(el.title)}
                                     />
                                     <div className="order-description-admin">
                                         <p><strong>{el.title}</strong> ({el.count} шт.)</p>
