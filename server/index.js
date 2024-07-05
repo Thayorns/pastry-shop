@@ -12,6 +12,7 @@ const multer = require('multer');
 const fs = require('fs');
 const { createServer } = require('http');
 const { Server } = require('ws');
+const { where } = require('sequelize');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -91,13 +92,36 @@ app.post('/api/shop', async (req, res) => {
   try{
     const newOrder = await Order.create({ title, name, phone, date, login, photo, count, time });
 
-    // Отправка уведомления всем клиентам о новом заказе
-    broadcast({ type: 'newOrder', order: newOrder });
+    // Отправка уведомления всем клиентам о новом заказе//////////////////////////////////////////////////////////////////////////////////
+    // broadcast({ type: 'newOrder', order: newOrder });
 
     res.status(201).json(newOrder);
   }catch{
     console.error('Ошибка при закаке торта:', error);
     res.status(500).json({ error: 'Произошла ошибка при заказе торта' });
+  };
+});
+
+// подтвердить заказ клиента админом
+app.post('/api/news', async (req, res) => {
+  const { title, name } = req.body;
+
+  try{
+    const anOrder = await Order.findOne({ where: { title: title, name: name } });
+    if(!anOrder){
+      res.status(404).json({ error: 'Заказ не найден' });
+    }
+
+    anOrder.isaccepted = true;
+    await anOrder.save();
+
+    // Отправка уведомления всем клиентам о новом заказе//////////////////////////////////////////////////////////////////////////////////
+    // broadcast({ type: 'newOrder', order: newOrder });
+
+    res.status(200).json({ message: `Заказ клиента ${name} - подтверждён` });
+  }catch(error){
+    console.error('Ошибка при подтверждении заказа:', error);
+    res.status(500).json({ error: 'Произошла ошибка при подтверждении заказа' });
   };
 });
 

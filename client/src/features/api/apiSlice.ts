@@ -94,6 +94,15 @@ export const apiSlice = createApi({
   baseQuery: baseQueryWithReauth,
   endpoints: (builder: any) => ({
 
+    // подтвердить заказ клиента админом
+    acceptOrder: builder.mutation({
+      query: (body: DeleteOrderRequest) => ({
+        url: `/api/news`,
+        method: 'POST',
+        body
+      })
+    }),
+
     // удалить заказ админом
     deleteOrder: builder.mutation({
       query: (body: DeleteOrderRequest) => ({
@@ -236,5 +245,6 @@ export const {useAddUserMutation,
   useAddFriendMutation,
   useBuyProductMutation,
   useGetOrdersQuery,
-  useDeleteOrderMutation
+  useDeleteOrderMutation,
+  useAcceptOrderMutation
 } = apiSlice;

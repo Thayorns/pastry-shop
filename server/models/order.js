@@ -31,6 +31,10 @@ module.exports = (sequelize, DataTypes) => {
         count: {
             type: DataTypes.INTEGER,
             allowNull: false,
+        },
+        isaccepted: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false,
         }
     }, {});
 

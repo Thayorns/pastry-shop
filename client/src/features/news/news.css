@@ -109,6 +109,20 @@
                 width: 20px;
                 height: 20px;
             }
+            .order-accepted{
+                width: 40px;
+                height: 40px;
+                svg{
+                    width: 40px;
+                    height: 40px;
+                    color: var(--colorGreen);
+                }
+            }
+            .order-accepted:last-child{
+                svg{
+                    color: var(--colorRed);
+                }
+            }
         }
 
         img{

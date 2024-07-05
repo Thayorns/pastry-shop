@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
-import { Spin, Empty, Carousel } from 'antd';
+import React, { useEffect, useState } from "react";
+import { Spin, Empty, Carousel, message } from 'antd';
 import { DeleteOutlined, CheckCircleOutlined } from '@ant-design/icons';
 import { RootState } from "../../app/store/store";
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useParams, useNavigate } from "react-router-dom";
-import { useGetOrdersQuery, useDeleteOrderMutation } from "../api/apiSlice";
+import { useGetOrdersQuery, useDeleteOrderMutation, useAcceptOrderMutation } from "../api/apiSlice";
 import { dropCakes, deleteCake } from "../api/productSlice";
 import { clearBasketButton } from "../api/buttonSlice";
 
@@ -21,14 +21,37 @@ type OrderedArrayRequest = {
     photo: string;
     count: number;
     time: string;
+    isaccepted: boolean;
 }
 
 const News: React.FC = () => {
 
     const { login } = useParams<{login: string}>()
     const {data, isLoading, refetch} = useGetOrdersQuery(login);
-    const [deleteOrder, {isSuccess}] = useDeleteOrderMutation();
+    const [deleteOrder] = useDeleteOrderMutation();
+    const [acceptOrder, {isSuccess: isAccepted, isError: errorAccept}] = useAcceptOrderMutation();
     const dispatch = useDispatch();
+    const [active, setActive] = useState<string | null>(null);
+    const [act, setAct] = useState(false);
+    const [messageApi, contextHolder] = message.useMessage();
+    const success = () => {
+        messageApi.open({
+            type: 'success',
+            content: `Заказ принят!`,
+            duration: 5,
+        });
+    };
+    const error = () => {
+        messageApi.open({
+            type: 'error',
+            content: 'Не удалось принять заказ, произошла ошибка..',
+            duration: 5,
+        });
+    };
+    useEffect(() => {
+        if(isAccepted) success();
+        if(errorAccept) error();
+    }, [isAccepted, errorAccept]);
 
     const resultArray = data as OrderedArrayRequest[] || [];
 
@@ -40,6 +63,15 @@ const News: React.FC = () => {
             console.error('Ошибка при удалении заказа:', error);
         }
     };
+
+    const handleAcceptOrder = async (title: string, name: string) => {
+        try{
+            await acceptOrder({ title: title, name: name });
+            refetch();
+        }catch(error){
+            console.error('Ошибка при подтверждении заказа:', error);
+        };
+    };
     
     useEffect(() => {
         refetch();
@@ -47,6 +79,10 @@ const News: React.FC = () => {
 
     const isAuth = useSelector((state: RootState) => state.auth.isAuthenticated);
     const isAdmin = useSelector((state: RootState) => state.auth.role);
+    
+    const activeSwitch = () => {
+        setAct(!act);
+    };
 
     return (
         <div>
@@ -83,7 +119,13 @@ const News: React.FC = () => {
                         {(isAdmin === true && isAuth === true) && (
                             resultArray.map((el, index) => (
                                 <div key={index} className="news-order-inner">
-                                    <img src={require(`../../../../product-photos/${el.photo}`)} alt=""/>
+                                    {contextHolder}
+                                    <img src={require(`../../../../product-photos/${el.photo}`)} alt=""
+                                        onClick={() => {
+                                            setActive(el.title);
+                                            activeSwitch();
+                                        }}
+                                    />
                                     <div className="order-description-admin">
                                         <p><strong>{el.title}</strong> ({el.count} шт.)</p>
                                         <p className="order-in-progress">{el.name}</p>
@@ -92,8 +134,22 @@ const News: React.FC = () => {
                                         <span>к {el.time}</span>
                                     </div>
                                     <div className="order-buttons">
-                                        <CheckCircleOutlined className="accept-order-button"/>
-                                        <DeleteOutlined className="delete-order-button" onClick={() => handleDeleteOrder(el.title, el.name)}/>
+                                        {el.isaccepted === true 
+                                            ?   <>
+                                                <CheckCircleOutlined className="order-accepted"
+                                                    style={{ display: active === el.title ? 'none' : 'inline-block' }}
+                                                />
+                                                <DeleteOutlined 
+                                                    className="order-accepted"
+                                                    style={{ display: active === el.title ? 'inline-block' : 'none' }}
+                                                    onClick={() => handleDeleteOrder(el.title, el.name)}
+                                                />
+                                            </>
+                                            :   <>
+                                                <CheckCircleOutlined className="accept-order-button" onClick={() => handleAcceptOrder(el.title, el.name)}/>
+                                                <DeleteOutlined className="delete-order-button" onClick={() => handleDeleteOrder(el.title, el.name)}/>
+                                            </>
+                                        }                                        
                                     </div>
                                 </div>
                             ))
@@ -106,8 +162,13 @@ const News: React.FC = () => {
                                     <div className="order-description">
                                         <p>{el.title} ({el.count} шт.)</p>
                                         <span>{el.date.split('-').reverse().join('-')} к {el.time}</span>
-                                        <p className="order-in-progress">ЗАКАЗ В ОБРАБОТКЕ</p>
-                                        <span>Пожалуйста, ожидайте звонок для подтверждения заказа.</span>
+                                        {el.isaccepted === true 
+                                            ? <p className="order-in-progress">ЗАКАЗ ПРИНЯТ</p>
+                                            : <>
+                                                <p className="order-in-progress">ЗАКАЗ В ОБРАБОТКЕ</p>
+                                                <span>Пожалуйста, ожидайте звонок для подтверждения заказа.</span>
+                                            </>
+                                        }
                                     </div>
                                 </div>
                             ))
