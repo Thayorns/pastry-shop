@@ -17,7 +17,7 @@
     "username": "postgres",
     "password": "k0raelstrazS",
     "database": "postgres",
-    "host": "localhost",
+    "host": "195.24.65.188",
     "dialect": "postgres"
   }
 }
