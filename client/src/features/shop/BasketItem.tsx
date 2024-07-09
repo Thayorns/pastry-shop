@@ -44,14 +44,14 @@ const BasketItem: React.FC = () => {
         messageApi.open({
             type: 'success',
             content: `Мы свяжемся с Вами для подтверждения заказа.`,
-            duration: 2,
+            duration: 3,
         });
     };
     const error = () => {
         messageApi.open({
             type: 'error',
             content: 'Не удалось оформить, произошла ошибка..',
-            duration: 2,
+            duration: 3,
         });
     };
     useEffect(() => {
@@ -77,7 +77,7 @@ const BasketItem: React.FC = () => {
             setTimeout(() => {
                 navigate('/shop');
                 dispatch(setActiveBottom(0));
-            }, 1000);
+            }, 3000);
 
             setDate('');
             setName('');

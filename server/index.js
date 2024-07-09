@@ -11,8 +11,7 @@ const QRCode = require('qrcode');
 const multer = require('multer');
 const fs = require('fs');
 const { createServer } = require('http');
-const { Server } = require('ws');
-const { where } = require('sequelize');
+const WebSocket = require('ws');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -20,7 +19,7 @@ const JWT_SECRET = 'k0raelstrazSfu110f1ight5Darkne5Ss';
 const ACCESS_TOKEN_SECRET = 'k0raelstrazSfu110f1ight5Darkne5Ss'
 const REFRESH_TOKEN_SECRET = 'k0raelstrazSfu110f1ight5Darkne5Ss'
 
-const allowedOrigins = ['http://localhost:3000', 'http://localhost:3002'];
+const allowedOrigins = ['http://localhost:3000', 'http://localhost:3002', 'http://localhost:3003'];
 const corsOptions = {
   origin: (origin, callback) => {
     if (!origin || allowedOrigins.indexOf(origin) !== -1) {
@@ -55,35 +54,24 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-// ПОПРОБОВАТЬ install express-ws???
-// WEBSOCKET сервер
-const server = createServer(app);
-const wss = new Server({ server });
-
-wss.on('connection', (ws) => {
-  console.log('New client connected');
-
-  ws.on('message', (message) => {
-    console.log('Received message:', message);
-  });
-
-  ws.on('error', (error) => {
-    console.error('WebSocket error:', error);
-  });
-
-  ws.on('close', (code, reason) => {
-    console.log(`Client disconnected with code: ${code}, reason: ${reason}`);
-  });
-});
-
+// Функция для трансляции сообщений по WebSocket
+let wss;
 const broadcast = (data) => {
+  // console.log('Broadcasting data:', JSON.stringify(data, null, 2));
   wss.clients.forEach((client) => {
-    if (client.readyState === Server.OPEN) {
+    if (client.readyState === WebSocket.OPEN) {
+      // console.log('Sending data to client:', JSON.stringify(data));
       client.send(JSON.stringify(data));
     }
   });
 };
-
+const broadcastCoffee = (data, userLogin) => {
+  wss.clients.forEach((client) => {
+    if (client.readyState === WebSocket.OPEN && client.userLogin === userLogin) {
+      client.send(JSON.stringify(data));
+    }
+  });
+};
 
 // оформить заказ клиентом
 app.post('/api/shop', async (req, res) => {
@@ -92,11 +80,13 @@ app.post('/api/shop', async (req, res) => {
   try{
     const newOrder = await Order.create({ title, name, phone, date, login, photo, count, time });
 
-    // Отправка уведомления всем клиентам о новом заказе//////////////////////////////////////////////////////////////////////////////////
-    // broadcast({ type: 'newOrder', order: newOrder });
+    broadcast({ 
+      type: 'newOrder',
+      order: newOrder 
+    });
 
     res.status(201).json(newOrder);
-  }catch{
+  }catch(error){
     console.error('Ошибка при закаке торта:', error);
     res.status(500).json({ error: 'Произошла ошибка при заказе торта' });
   };
@@ -114,9 +104,6 @@ app.post('/api/news', async (req, res) => {
 
     anOrder.isaccepted = true;
     await anOrder.save();
-
-    // Отправка уведомления всем клиентам о новом заказе//////////////////////////////////////////////////////////////////////////////////
-    // broadcast({ type: 'newOrder', order: newOrder });
 
     res.status(200).json({ message: `Заказ клиента ${name} - подтверждён` });
   }catch(error){
@@ -318,7 +305,6 @@ app.post('/api/admin-coffee', async (req, res) => {
   const transaction = await sequelize.transaction();
 
   try {
-    // Найти пользователя по номеру с блокировкой для обновления
     const user = await User.findOne({ 
       where: { qr_code: number }, 
       lock: transaction.LOCK.UPDATE, 
@@ -346,17 +332,15 @@ app.post('/api/admin-coffee', async (req, res) => {
 
     user.coffee_count = currentCoffeeCount;
 
-    // Сохранить изменения в базе данных с использованием транзакции
     await user.save({ transaction });
 
-    // Завершить транзакцию
     await transaction.commit();
 
     // Уведомление конкретного пользователя
-    // const userSocket = userSockets[userLogin];
-    // if (userSocket && userSocket.readyState === WebSocket.OPEN) {
-    //   userSocket.send(JSON.stringify({ type: 'coffee-added', data: { login: userLogin, coffeeCount: currentCoffeeCount } }));
-    // }
+    broadcastCoffee({
+      type: 'coffee',
+      coffeeCount: currentCoffeeCount
+    }, userLogin);
 
     res.status(200).json({ userLogin: userLogin });
   } catch (error) {
@@ -528,7 +512,7 @@ app.post('/api/logout', (req, res) => {
 });
 
 // запуск сервера с бд
-const startServer = async () => {
+(async () => {
   try {
     await sequelize.authenticate();
     console.log('PostgreSQL connected with Sequelize');
@@ -555,11 +539,42 @@ const startServer = async () => {
       res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
     });
 
-    app.listen(PORT, () => {
+    const server = createServer(app);
+
+    // WEBSOCKET сервер
+    wss = new WebSocket.Server({ server });
+    
+    wss.on('connection', (ws) => {
+      // console.log('New client connected');
+      // console.log(`Total connected clients: ${wss.clients.size}`);
+
+      // Отправка тестового сообщения при подключении нового клиента
+      // const testMessage = { type: 'test', message: 'Test message from server' };
+      // ws.send(JSON.stringify(testMessage));
+      
+      ws.on('message', (message) => {
+        const data = JSON.parse(message);
+        if (data.type === 'login') {
+          ws.userLogin = data.userLogin;
+        }
+        console.log('Received message:', message);
+      });
+      
+      ws.on('error', (error) => {
+        console.error('WebSocket error:', error);
+      });
+      
+      ws.on('close', (code, reason) => {
+        console.log(`Client disconnected with code: ${code}, reason: ${reason}`);
+      });
+    });
+    console.log(`webSocket listening on ${PORT}`);
+
+    server.listen(PORT, () => {
       console.log(`Server listening on ${PORT}`);
     });
+    
   } catch (err) {
     console.error('PostgreSQL connection error:', err);
   }
-}
-startServer();
+})();

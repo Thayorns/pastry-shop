@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { RootState } from "../../app/store/store";
 import { logout } from "../api/authSlice";
 import { setActiveBottom, setActiveTop } from "../api/buttonSlice";
+import { webSocketConnected, webSocketDisconnected, webSocketMessageReceived } from "../api/webSocketSlice";
 import { useUserLogoutMutation } from "../api/apiSlice";
 import { Badge } from 'antd';
 import { dropCakes } from "../api/productSlice";
@@ -24,29 +25,43 @@ const Navigation: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const top = useSelector((state: RootState) => state.button.top);
     const bottom = useSelector((state: RootState) => state.button.bottom);
     const productArray = useSelector((state: RootState) => state.product.productArray);
+    const messages = useSelector((state: RootState) => state.webSocket.messages);
 
-    // useEffect(() => {
-    //     const ws = new WebSocket(`ws://${window.location.hostname}:${window.location.port}/ws`);
-    //     ws.onopen = () => {
-    //       console.log('WebSocket connection opened');
-    //     };
-    //     ws.onmessage = (event) => {
-    //     //   console.log('WebSocket message received:', event);
-    //       const message = JSON.parse(event.data);
-    //       if (message.type === 'newOrder') {
-    //         setOrderCount((prevCount) => prevCount + 1);
-    //       }
-    //     };
-    //     ws.onerror = (error) => {
-    //       console.error('WebSocket error:', error);
-    //     };
-    //     ws.onclose = (event) => {
-    //       console.log(`WebSocket connection closed: code=${event.code}, reason=${event.reason}`);
-    //     };
-    //     return () => {
-    //       ws.close();
-    //     };
-    // }, []);
+    useEffect(() => {
+        const ws = new WebSocket('ws://localhost:3001');
+        ws.onopen = () => {
+            dispatch(webSocketConnected());
+            ws.send(JSON.stringify({ type: 'login', userLogin }));
+            // console.log(`user ${userLogin} connected to WS`);
+        };
+        ws.onmessage = (event) => {
+            // console.log('Received raw message:', event.data); // Логирование полученного сообщения
+            try {
+                const data = JSON.parse(event.data);
+                // console.log('WebSocket message received:', data);
+        
+                if(data.type === 'newOrder' && role === true) {
+                    dispatch(webSocketMessageReceived({ order: data.order }));
+                    // console.log('Dispatching new order:', data.order);
+                }
+                if(data.type === 'coffee') {
+                    dispatch(webSocketMessageReceived({ order: data.coffeeCount }));
+                }
+            } catch (error) {
+                console.error('Error parsing WebSocket message:', error);
+            }
+        };
+        ws.onerror = (error) => {
+            console.error('WebSocket error:', error);
+        };
+        ws.onclose = (event) => {
+            dispatch(webSocketDisconnected());
+            // console.log('WebSocket closed:', event);
+        };
+        return () => {
+            ws.close();
+        };
+    }, [dispatch, userLogin]);    
 
     useEffect(() => {
         navigate('/home');
@@ -64,7 +79,7 @@ const Navigation: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         }catch (err){
             console.error('Ошибка выхода: ', err);
         }
-    }
+    };
     
     const topNavIcons = [
         ...(role === true ? [] : [<Link to={`/qr`}><QrcodeOutlined /></Link>]),
@@ -81,15 +96,16 @@ const Navigation: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             </Link>]),
         <Link to={`/contacts`}> <ContactsOutlined /> </Link>,
         <Link to={`/home`}><HomeOutlined /></Link>,
-        <Link to={`/news/${userLogin}`}><BellOutlined />
-            {/* {role === true 
-                ? <Badge count={orderCount}><BellOutlined /></Badge>
-                : <Badge count={orderedArray.length}><BellOutlined /></Badge>
-            } */}
+        <Link to={`/news/${userLogin}`}>
+            {role === true ? <Badge count={messages.length}><BellOutlined /></Badge> : <BellOutlined />}            
         </Link>,
         ...(role === true 
             ? [<Link to={`/admin-coffee`}><CoffeeOutlined /></Link>] 
-            : [<Link to={`/user-coffee/${userLogin}`}><CoffeeOutlined /></Link>]
+            : [<Link to={`/user-coffee/${userLogin}`}>
+                <Badge count={messages.length}>
+                    <CoffeeOutlined />
+                </Badge></Link>
+            ]
         ),
     ];
 

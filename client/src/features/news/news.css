@@ -126,6 +126,7 @@
         }
 
         img{
+            cursor: var(--cursor);
             width: var(--px-100);
             height: var(--height-auto);
             border-radius: var(--border-radius);
@@ -165,5 +166,7 @@
             }
         }
     }
-
+}
+.ant-btn-primary{
+    background: var(--color);
 }

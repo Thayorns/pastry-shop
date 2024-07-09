@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Spin, Result } from 'antd';
 import { useGetCoffeeQuery } from '../api/apiSlice';
 import { RootState } from '../../app/store/store';
+import { deleteAllNotificationsOnRouteEnter } from '../api/webSocketSlice';
 
 import './coffee.css';
 import '../../app/styles/normalize.css';
@@ -13,7 +14,8 @@ const UserCoffee: React.FC = () => {
     const { login } = useParams<{ login: string }>();
     const { data, isLoading, isSuccess, refetch } = useGetCoffeeQuery(login);
     const [activeCups, setActiveCups] = useState<boolean[]>(Array(8).fill(false));
-    
+    const dispatch = useDispatch();
+
     type CoffeeResponse = {
         coffee: number;
     }
@@ -23,7 +25,8 @@ const UserCoffee: React.FC = () => {
     const coffeeDiff = 7 - needToGlow; 
     const isAuth = useSelector((state: RootState) => state.auth.isAuthenticated);
 
-    useEffect(() => { 
+    useEffect(() => {
+        dispatch(deleteAllNotificationsOnRouteEnter());
         refetch(); 
     }, [refetch]);
 

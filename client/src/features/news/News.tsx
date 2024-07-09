@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Spin, Empty, Carousel, message } from 'antd';
+import { Spin, Empty, Carousel, message, Modal } from 'antd';
 import { DeleteOutlined, CheckCircleOutlined } from '@ant-design/icons';
 import { RootState } from "../../app/store/store";
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Link, useParams, useNavigate } from "react-router-dom";
 import { useGetOrdersQuery, useDeleteOrderMutation, useAcceptOrderMutation } from "../api/apiSlice";
+import { cleanUpSocketState, deleteAllNotificationsOnRouteEnter } from "../api/webSocketSlice";
 
 import './news.css';
 import '../../app/styles/normalize.css';
@@ -24,12 +25,23 @@ type OrderedArrayRequest = {
 
 const News: React.FC = () => {
 
+    const dispatch = useDispatch();
     const { login } = useParams<{login: string}>()
     const {data, isLoading, refetch} = useGetOrdersQuery(login);
     const [deleteOrder] = useDeleteOrderMutation();
     const [acceptOrder, {isSuccess: isAccepted, isError: errorAccept}] = useAcceptOrderMutation();
     const [active, setActive] = useState<string | null>(null);
     const [messageApi, contextHolder] = message.useMessage();
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    
+    const showModal = () => {
+        setIsModalOpen(true);
+    };
+    
+      const handleCancel = () => {
+        setIsModalOpen(false);
+    };
+
     const success = () => {
         messageApi.open({
             type: 'success',
@@ -54,6 +66,7 @@ const News: React.FC = () => {
     const handleDeleteOrder = async (title: string, name: string) => {
         try{
             await deleteOrder({ title: title, name: name });
+            dispatch(cleanUpSocketState({ title: title, name: name }));
             refetch();
         }catch(error){
             console.error('Ошибка при удалении заказа:', error);
@@ -70,6 +83,7 @@ const News: React.FC = () => {
     };
     
     useEffect(() => {
+        dispatch(deleteAllNotificationsOnRouteEnter());
         refetch();
     },[refetch]);
 
@@ -113,7 +127,7 @@ const News: React.FC = () => {
                                 <div key={index} className="news-order-inner">
                                     {contextHolder}
                                     <img src={require(`../../../../product-photos/${el.photo}`)} alt=""
-                                        onClick={() => setActive(el.title)}
+                                        onClick={() => setActive(el.title + el.name)}
                                     />
                                     <div className="order-description-admin">
                                         <p><strong>{el.title}</strong> ({el.count} шт.)</p>
@@ -126,17 +140,24 @@ const News: React.FC = () => {
                                         {el.isaccepted === true 
                                             ?   <>
                                                 <CheckCircleOutlined className="order-accepted"
-                                                    style={{ display: active === el.title ? 'none' : 'inline-block' }}
+                                                    style={{ display: active === el.title + el.name ? 'none' : 'inline-block' }}
                                                 />
                                                 <DeleteOutlined 
                                                     className="order-accepted"
-                                                    style={{ display: active === el.title ? 'inline-block' : 'none' }}
+                                                    style={{ display: active === el.title + el.name ? 'inline-block' : 'none' }}
                                                     onClick={() => handleDeleteOrder(el.title, el.name)}
                                                 />
                                             </>
                                             :   <>
                                                 <CheckCircleOutlined className="accept-order-button" onClick={() => handleAcceptOrder(el.title, el.name)}/>
-                                                <DeleteOutlined className="delete-order-button" onClick={() => handleDeleteOrder(el.title, el.name)}/>
+                                                <DeleteOutlined className="delete-order-button" onClick={showModal}/>
+                                                <Modal title="УДАЛЕНИЕ ЗАКАЗА" open={isModalOpen} cancelText='отмена' okText='удалить'
+                                                    onOk={() => {
+                                                        handleDeleteOrder(el.title, el.name)
+                                                        setIsModalOpen(false);
+                                                    }} onCancel={handleCancel}>
+                                                    <p>Уверены, что хотите удалить заказ?</p>
+                                                </Modal>
                                             </>
                                         }                                        
                                     </div>
