@@ -4,6 +4,7 @@
     "password": "k0raelstrazS",
     "database": "postgres",
     "host": "localhost",
+    "port": 5432,
     "dialect": "postgres"
   },
   "test": {
@@ -11,6 +12,7 @@
     "password": "k0raelstrazS",
     "database": "postgres",
     "host": "localhost",
+    "port": 5432,
     "dialect": "postgres"
   },
   "production": {
@@ -18,6 +20,7 @@
     "password": "k0raelstrazS",
     "database": "postgres",
     "host": "195.24.65.188",
+    "port": 5432,
     "dialect": "postgres"
   }
 }

@@ -1,3 +1,4 @@
+
 require('dotenv').config();
 const express = require("express");
 const cors = require('cors');
@@ -16,10 +17,10 @@ const WebSocket = require('ws');
 const app = express();
 const PORT = process.env.PORT || 3001;
 const JWT_SECRET = 'k0raelstrazSfu110f1ight5Darkne5Ss';
-const ACCESS_TOKEN_SECRET = 'k0raelstrazSfu110f1ight5Darkne5Ss'
-const REFRESH_TOKEN_SECRET = 'k0raelstrazSfu110f1ight5Darkne5Ss'
+const ACCESS_TOKEN_SECRET = 'k0raelstrazSfu110f1ight5Darkne5Ss';
+const REFRESH_TOKEN_SECRET = 'k0raelstrazSfu110f1ight5Darkne5Ss';
+const allowedOrigins = my_site_url;
 
-const allowedOrigins = ['http://localhost:3000', 'http://localhost:3002', 'http://localhost:3003'];
 const corsOptions = {
   origin: (origin, callback) => {
     if (!origin || allowedOrigins.indexOf(origin) !== -1) {
@@ -455,7 +456,7 @@ app.post('/api/login', async (req, res) => {
     }
 
     if (await bcrypt.compare(password, user.password)) {
-      const accessToken = jwt.sign({ userId: user.id }, ACCESS_TOKEN_SECRET, { expiresIn: '10s' });
+      const accessToken = jwt.sign({ userId: user.id }, ACCESS_TOKEN_SECRET, { expiresIn: '15m' });
       const refreshToken = jwt.sign({ userId: user.id }, REFRESH_TOKEN_SECRET, { expiresIn: '60d' });
 
       user.refresh_token = refreshToken;
@@ -496,7 +497,7 @@ app.post('/api/refresh-token', async (req, res) => {
       return res.status(401).json({ error: 'Invalid refresh token or user not found' });
     }
 
-    const newAccessToken = jwt.sign({ userId: user.id }, ACCESS_TOKEN_SECRET, { expiresIn: '10s' });
+    const newAccessToken = jwt.sign({ userId: user.id }, ACCESS_TOKEN_SECRET, { expiresIn: '15m' });
 
     return res.json({ accessToken: newAccessToken }); 
   } catch (err) {
