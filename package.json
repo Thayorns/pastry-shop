@@ -21,7 +21,7 @@
     "ws": "^8.17.1"
   },
   "scripts": {
-    "start": "index.js",
+    "start": "node index.js",
     "build": "cd client && npm install && npm run build"
   },
   "engines": {
