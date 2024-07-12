@@ -19,7 +19,7 @@ const PORT = process.env.PORT || 3001;
 const JWT_SECRET = 'k0raelstrazSfu110f1ight5Darkne5Ss';
 const ACCESS_TOKEN_SECRET = 'k0raelstrazSfu110f1ight5Darkne5Ss';
 const REFRESH_TOKEN_SECRET = 'k0raelstrazSfu110f1ight5Darkne5Ss';
-const allowedOrigins = ['http://www.creamkorzh.ru'];
+const allowedOrigins = ['https://www.creamkorzh.ru'];
 
 const corsOptions = {
   origin: (origin, callback) => {
