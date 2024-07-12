@@ -19,7 +19,7 @@
     "username": "postgres",
     "password": "k0raelstrazS",
     "database": "postgres",
-    "host": "creamkorzh.ru",
+    "host": "195.24.65.188",
     "port": 5432,
     "dialect": "postgres"
   }
