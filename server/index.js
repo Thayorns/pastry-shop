@@ -19,7 +19,7 @@ const PORT = process.env.PORT || 3001;
 const JWT_SECRET = 'k0raelstrazSfu110f1ight5Darkne5Ss';
 const ACCESS_TOKEN_SECRET = 'k0raelstrazSfu110f1ight5Darkne5Ss';
 const REFRESH_TOKEN_SECRET = 'k0raelstrazSfu110f1ight5Darkne5Ss';
-const allowedOrigins = ['https://www.creamkorzh.ru'];
+const allowedOrigins = ['https://creamkorzh.ru'];
 
 const corsOptions = {
   origin: (origin, callback) => {
@@ -405,7 +405,7 @@ app.post('/api/register', async (req, res) => {
     const newUser = await User.create({ email, login, password: hashedPassword });
 
     const token = jwt.sign({ id: newUser.id }, JWT_SECRET, { expiresIn: '1h' });
-    const activationLink = `http://localhost:3000/activate/${token}`;
+    const activationLink = `https://creamkorzh.ru/activate/${token}`;
 
     const mailOptions = {
       from: 'thayornswordsman@gmail.com',
