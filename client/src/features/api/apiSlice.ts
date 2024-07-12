@@ -2,7 +2,6 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import {FetchArgs, FetchBaseQueryError, BaseQueryFn} from '@reduxjs/toolkit/query';
 import { RootState } from '../../app/store/store';
 import { setToken, logout } from './authSlice';
-import { query } from 'express';
 interface AddUserRequest {
   email: string;
   login: string;
@@ -49,7 +48,7 @@ interface DeleteOrderRequest{
 };
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: 'http://195.24.65.188:3001',
+  baseUrl: 'https://195.24.65.188:3001',
   credentials: 'include',
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.accessToken;
@@ -209,7 +208,7 @@ export const apiSlice = createApi({
 
     // получение токена юзером
     getToken: builder.query({
-      query: (token: string) => `http://195.24.65.188:3001/api/activate/${token}`
+      query: (token: string) => `https://195.24.65.188:3001/api/activate/${token}`
     }),
     
     // вход в аккаунт юзером
