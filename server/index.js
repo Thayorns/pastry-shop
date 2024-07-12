@@ -11,7 +11,7 @@ const transporter = require('./mailer');
 const QRCode = require('qrcode');
 const multer = require('multer');
 const fs = require('fs');
-const { createServer } = require('http');
+const https = require('https');
 const WebSocket = require('ws');
 
 const app = express();
@@ -540,10 +540,10 @@ app.post('/api/logout', (req, res) => {
       res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
     });
 
-    const server = createServer(app);
+    const server = https.createServer(app);
 
     // WEBSOCKET сервер
-    wss = new WebSocket.Server({ server });
+    wss = new WebSocket.Server({ server: server });
     
     wss.on('connection', (ws) => {
       // console.log('New client connected');
