@@ -28,7 +28,7 @@ const Navigation: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const messages = useSelector((state: RootState) => state.webSocket.messages);
 
     useEffect(() => {
-        const ws = new WebSocket('wss://195.24.65.188:3001');
+        const ws = new WebSocket('wss://www.creamkorzh.ru:3001');
         ws.onopen = () => {
             dispatch(webSocketConnected());
             ws.send(JSON.stringify({ type: 'login', userLogin }));

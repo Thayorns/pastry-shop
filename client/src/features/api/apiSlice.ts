@@ -208,7 +208,7 @@ export const apiSlice = createApi({
 
     // получение токена юзером
     getToken: builder.query({
-      query: (token: string) => `https://195.24.65.188:3001/api/activate/${token}`
+      query: (token: string) => `https://creamkorzh.ru:3001/api/activate/${token}`
     }),
     
     // вход в аккаунт юзером
