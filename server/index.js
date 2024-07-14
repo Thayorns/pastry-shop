@@ -19,7 +19,7 @@ const PORT = process.env.PORT || 3001;
 const JWT_SECRET = 'k0raelstrazSfu110f1ight5Darkne5Ss';
 const ACCESS_TOKEN_SECRET = 'k0raelstrazSfu110f1ight5Darkne5Ss';
 const REFRESH_TOKEN_SECRET = 'k0raelstrazSfu110f1ight5Darkne5Ss';
-const allowedOrigins = ['https://creamkorzh.ru'];
+const allowedOrigins = ['https://www.creamkorzh.ru'];
 
 const corsOptions = {
   origin: (origin, callback) => {
@@ -540,10 +540,13 @@ app.post('/api/logout', (req, res) => {
       res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
     });
 
-    const server = https.createServer(app);
+    const server = https.createServer({
+      key: fs.readFileSync('/etc/letsencrypt/live/creamkorzh.ru/privkey.pem'),
+      cert: fs.readFileSync('/etc/letsencrypt/live/creamkorzh.ru/fullchain.pem')
+    }, app);
 
     // WEBSOCKET сервер
-    wss = new WebSocket.Server({ server: server });
+    wss = new WebSocket.Server({ server });
     
     wss.on('connection', (ws) => {
       // console.log('New client connected');
@@ -571,7 +574,7 @@ app.post('/api/logout', (req, res) => {
     });
     console.log(`webSocket listening on ${PORT}`);
 
-    server.listen(PORT, () => {
+    server.listen(PORT, '0.0.0.0', () => {
       console.log(`Server listening on ${PORT}`);
     });
     
