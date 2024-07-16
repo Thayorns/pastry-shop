@@ -540,10 +540,7 @@ app.post('/api/logout', (req, res) => {
       res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
     });
 
-    const server = https.createServer({
-      key: fs.readFileSync('/etc/letsencrypt/live/creamkorzh.ru/privkey.pem'),
-      cert: fs.readFileSync('/etc/letsencrypt/live/creamkorzh.ru/fullchain.pem')
-    }, app);
+    const server = https.createServer(app);
 
     // WEBSOCKET сервер
     wss = new WebSocket.Server({ server });
