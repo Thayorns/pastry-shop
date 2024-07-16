@@ -48,7 +48,7 @@ interface DeleteOrderRequest{
 };
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: 'https://creamkorzh.ru:3001',
+  baseUrl: 'http://creamkorzh.ru:3001',
   credentials: 'include',
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.accessToken;
@@ -208,7 +208,7 @@ export const apiSlice = createApi({
 
     // получение токена юзером
     getToken: builder.query({
-      query: (token: string) => `https://creamkorzh.ru:3001/api/activate/${token}`
+      query: (token: string) => `/api/activate/${token}`
     }),
     
     // вход в аккаунт юзером
