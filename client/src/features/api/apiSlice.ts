@@ -48,7 +48,7 @@ interface DeleteOrderRequest{
 };
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: 'https://www.creamkorzh.ru:3001',
+  baseUrl: 'https://195.24.65.188:3001',
   credentials: 'include',
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.accessToken;
