@@ -520,7 +520,7 @@ app.post('/api/logout', (req, res) => {
     await sequelize.sync({ force: false });
     console.log('Database synchronized');
 
-    app.use(express.static(path.resolve(__dirname, '../client/build')));
+    app.use(express.static(path.resolve(__dirname, '../../../var/www/build')));
 
     app.get('/api/message', (req, res) => {
       res.json({ message: "сервер запущен и передаёт данные" });
@@ -537,7 +537,7 @@ app.post('/api/logout', (req, res) => {
     });
 
     app.get('*', (req, res) => {
-      res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
+      res.sendFile(path.resolve(__dirname, '../../../var/www/build', 'index.html'));
     });
 
     const server = https.createServer(app);
