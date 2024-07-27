@@ -81,9 +81,9 @@ app.post('/api/shop', async (req, res) => {
   try{
     const newOrder = await Order.create({ title, name, phone, date, login, photo, count, time });
 
-    broadcast({ 
+    broadcast({
       type: 'newOrder',
-      order: newOrder 
+      order: newOrder
     });
 
     res.status(201).json(newOrder);
@@ -139,9 +139,9 @@ app.get('/api/news/:login', async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: 'Пользователь не найден' });
     };
-    
+
     const isAdmin = user.admin;
-    
+
     if(isAdmin){
       const orders = await Order.findAll();
       res.status(200).json(orders);
@@ -186,7 +186,7 @@ app.post('/api/admin-settings/add-friend', async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: 'Пользователь не найден' });
     }
-    
+
     user.friend = true;
     await user.save();
 
@@ -207,7 +207,7 @@ app.post('/api/admin-settings/add-admin', async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: 'Пользователь не найден' });
     }
-    
+
     user.admin = true;
     await user.save();
 
@@ -265,7 +265,7 @@ app.get('/api/home/:productTitle', async (req, res) => {
   try {
     const product = await Product.findOne({ where: { title: productTitle } });
     if(product) {
-      res.json({ 
+      res.json({
         title: product.title,
         photo: product.photo,
         description: product.description,
@@ -306,10 +306,10 @@ app.post('/api/admin-coffee', async (req, res) => {
   const transaction = await sequelize.transaction();
 
   try {
-    const user = await User.findOne({ 
-      where: { qr_code: number }, 
-      lock: transaction.LOCK.UPDATE, 
-      transaction 
+    const user = await User.findOne({
+      where: { qr_code: number },
+      lock: transaction.LOCK.UPDATE,
+      transaction
     });
     const userLogin = user.login
 
@@ -361,13 +361,13 @@ app.post('/api/qr', async (req, res) => {
 
   try {
     const user = await User.findOne({ where: { login } });
-    
+
     const randomNumber = getRandomArbitrary(1000, 10000);
     const qrCodeDataURL = await QRCode.toDataURL(randomNumber.toString());
 
     user.qr_code = randomNumber;
     await user.save();
-    
+
     res.json({
       number: randomNumber,
       qrCode: qrCodeDataURL,
@@ -384,7 +384,7 @@ app.post('/api/qr', async (req, res) => {
         }
       }
     }, 300000);
-    
+
   } catch {
     res.status(500).send('Ошибка обновления QR-кода');
   }
@@ -468,7 +468,7 @@ app.post('/api/login', async (req, res) => {
         sameSite: 'strict',
         maxAge: 60 * 24 * 60 * 60 * 1000 // 60 days
       });
-      
+
       const role = user.admin;
       const friend = user.friend;
 
@@ -499,7 +499,7 @@ app.post('/api/refresh-token', async (req, res) => {
 
     const newAccessToken = jwt.sign({ userId: user.id }, ACCESS_TOKEN_SECRET, { expiresIn: '15m' });
 
-    return res.json({ accessToken: newAccessToken }); 
+    return res.json({ accessToken: newAccessToken });
   } catch (err) {
     console.error(err);
     return res.status(401).json({ error: 'Invalid refresh token' });
@@ -540,11 +540,21 @@ app.post('/api/logout', (req, res) => {
       res.sendFile(path.resolve(__dirname, '../../../var/www/build', 'index.html'));
     });
 
-    const server = https.createServer(app);
+    // const options = {
+    //   key: fs.readFileSync('/root/cream-sponge/server/privkey.pem'),
+    //   cert: fs.readFileSync('/root/cream-sponge/server/fullchain.pem')
+    // }
+
+    const options = {
+      key: fs.readFileSync('/etc/letsencrypt/live/creamkorzh.ru/privkey.pem'),
+      cert: fs.readFileSync('/etc/letsencrypt/live/creamkorzh.ru/fullchain.pem')
+    }
+
+    const server = https.createServer(options, app);
 
     // WEBSOCKET сервер
     wss = new WebSocket.Server({ server });
-    
+
     wss.on('connection', (ws) => {
       // console.log('New client connected');
       // console.log(`Total connected clients: ${wss.clients.size}`);
@@ -552,7 +562,7 @@ app.post('/api/logout', (req, res) => {
       // Отправка тестового сообщения при подключении нового клиента
       // const testMessage = { type: 'test', message: 'Test message from server' };
       // ws.send(JSON.stringify(testMessage));
-      
+
       ws.on('message', (message) => {
         const data = JSON.parse(message);
         if (data.type === 'login') {
@@ -560,11 +570,11 @@ app.post('/api/logout', (req, res) => {
         }
         console.log('Received message:', message);
       });
-      
+
       ws.on('error', (error) => {
         console.error('WebSocket error:', error);
       });
-      
+
       ws.on('close', (code, reason) => {
         console.log(`Client disconnected with code: ${code}, reason: ${reason}`);
       });
@@ -574,7 +584,7 @@ app.post('/api/logout', (req, res) => {
     server.listen(PORT, '0.0.0.0', () => {
       console.log(`Server listening on ${PORT}`);
     });
-    
+
   } catch (err) {
     console.error('PostgreSQL connection error:', err);
   }
