@@ -14,11 +14,11 @@ import './navigation.css'
 import '../../app/styles/vars.css'
 
 const Navigation: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    
+
     const [userLogout] = useUserLogoutMutation();
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    
+
     const isAuth = useSelector((state: RootState) => state.auth.isAuthenticated);
     const userLogin = useSelector((state: RootState) => state.auth.login)
     const role = useSelector((state: RootState) => state.auth.role);
@@ -28,7 +28,7 @@ const Navigation: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const messages = useSelector((state: RootState) => state.webSocket.messages);
 
     useEffect(() => {
-        const ws = new WebSocket('wss://195.24.65.188:3001');
+        const ws = new WebSocket('wss://creamkorzh.ru/api/');
         ws.onopen = () => {
             dispatch(webSocketConnected());
             ws.send(JSON.stringify({ type: 'login', userLogin }));
@@ -39,7 +39,7 @@ const Navigation: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             try {
                 const data = JSON.parse(event.data);
                 // console.log('WebSocket message received:', data);
-        
+
                 if(data.type === 'newOrder' && role === true) {
                     dispatch(webSocketMessageReceived({ order: data.order }));
                     // console.log('Dispatching new order:', data.order);
@@ -61,13 +61,13 @@ const Navigation: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         return () => {
             ws.close();
         };
-    }, [dispatch, userLogin]);    
+    }, [dispatch, userLogin]);
 
     useEffect(() => {
         navigate('/home');
         dispatch(setActiveBottom(2));
     }, []);
-    
+
     const handleUserLogoutSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try{
@@ -80,15 +80,15 @@ const Navigation: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             console.error('Ошибка выхода: ', err);
         }
     };
-    
+
     const topNavIcons = [
         ...(role === true ? [] : [<Link to={`/qr`}><QrcodeOutlined /></Link>]),
         ...(isAuth === true ? [<Link to={`/login`}><UserOutlined /></Link>] : [<Link to={`/login`}><UserSwitchOutlined /></Link>]) ,
         ...(isAuth === false ? [<Link to={`/register`}><UserAddOutlined /></Link>] : [<LogoutOutlined onClick={handleUserLogoutSubmit} />]),
     ];
     const bottomNavIcons = [
-        ...(role === true 
-            ? [<Link to={`/admin-settings`}><SettingOutlined /></Link>] 
+        ...(role === true
+            ? [<Link to={`/admin-settings`}><SettingOutlined /></Link>]
             : [<Link to={`/shop`}>
                 <Badge count={productArray.length}>
                     <ShoppingCartOutlined />
@@ -97,10 +97,10 @@ const Navigation: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         <Link to={`/contacts`}> <ContactsOutlined /> </Link>,
         <Link to={`/home`}><HomeOutlined /></Link>,
         <Link to={`/news/${userLogin}`}>
-            {role === true ? <Badge count={messages.length}><BellOutlined /></Badge> : <BellOutlined />}            
+            {role === true ? <Badge count={messages.length}><BellOutlined /></Badge> : <BellOutlined />}
         </Link>,
-        ...(role === true 
-            ? [<Link to={`/admin-coffee`}><CoffeeOutlined /></Link>] 
+        ...(role === true
+            ? [<Link to={`/admin-coffee`}><CoffeeOutlined /></Link>]
             : [<Link to={`/user-coffee/${userLogin}`}>
                 <Badge count={messages.length}>
                     <CoffeeOutlined />
@@ -115,7 +115,7 @@ const Navigation: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                 <span className="logo">КРЕМ и КОРЖ</span>
                 <span className="top-nav-wrapper">
                     {topNavIcons.map((icon, index) => (
-                        <button onClick={()=> { dispatch(setActiveTop(index)) }} key={index} 
+                        <button onClick={()=> { dispatch(setActiveTop(index)) }} key={index}
                             className={top === index ? 'navigation-button active' : 'navigation-button'} >
                             {icon}
                         </button>
@@ -124,17 +124,17 @@ const Navigation: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             </nav>
 
             <main>{children}</main>
-            
+
             <nav className="navbar-bottom">
                 <span className="bottom-nav-wrapper">
                     {bottomNavIcons.map((icon, index) => (
-                        <button onClick={()=>{ dispatch(setActiveBottom(index)) }} key={index}  
-                            className={bottom === index ? 'navigation-button active' : 'navigation-button'}> 
+                        <button onClick={()=>{ dispatch(setActiveBottom(index)) }} key={index}
+                            className={bottom === index ? 'navigation-button active' : 'navigation-button'}>
                             {icon}
                         </button>
                     ))}
-                </span>    
-            </nav> 
+                </span>
+            </nav>
         </div>
     )
 }

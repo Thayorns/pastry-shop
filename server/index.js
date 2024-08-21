@@ -405,7 +405,8 @@ app.post('/api/register', async (req, res) => {
     const newUser = await User.create({ email, login, password: hashedPassword });
 
     const token = jwt.sign({ id: newUser.id }, JWT_SECRET, { expiresIn: '1h' });
-    const activationLink = `https://195.24.65.188:3001/activate/${token}`;
+    // ** FIX ACTIVATION LINK URL
+    const activationLink = `https://creamkorzh.ru/api/activate/${token}`;
 
     const mailOptions = {
       from: 'thayornswordsman@gmail.com',
@@ -553,7 +554,8 @@ app.post('/api/logout', (req, res) => {
     const server = https.createServer(options, app);
 
     // WEBSOCKET сервер
-    wss = new WebSocket.Server({ server });
+    // ** ADD PATH, BECAUSE NGINX SERVES THE ROOT PATH
+    wss = new WebSocket.Server({ server, path: '/api/' });
 
     wss.on('connection', (ws) => {
       // console.log('New client connected');

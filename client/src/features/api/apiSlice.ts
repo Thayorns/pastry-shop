@@ -48,7 +48,7 @@ interface DeleteOrderRequest{
 };
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: 'https://195.24.65.188:3001',
+  baseUrl: 'https://creamkorzh.ru',
   credentials: 'include',
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.accessToken;
@@ -64,19 +64,19 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
 
   if (result.error && result.error.status === 401) {
     console.log('SENDING NEW ACCESS-TOKEN');
-    
+
     try {
       const refreshResult = await baseQuery({
         url: `/api/refresh-token`,
         method: "POST",
         credentials: 'include',
       }, api, extraOptions);
-      
+
       if (refreshResult.data) {
         api.dispatch(setToken( { accessToken: refreshResult.data as string} ));
         console.log(`GETTING NEW ACCESS-TOKEN ${refreshResult.data}`);
         result = await baseQuery(args, api, extraOptions);
-        
+
         }else{
           api.dispatch(logout())
           }
@@ -198,7 +198,7 @@ export const apiSlice = createApi({
     }),
 
     // добавление нового юзера
-    addUser: builder.mutation({ 
+    addUser: builder.mutation({
       query: (body: AddUserRequest) => ({
         url: `/api/register`,
         method: 'POST',
@@ -210,7 +210,7 @@ export const apiSlice = createApi({
     getToken: builder.query({
       query: (token: string) => `/api/activate/${token}`
     }),
-    
+
     // вход в аккаунт юзером
     logInUser: builder.mutation({
       query: (body: LogInUserRequest) => ({
@@ -219,7 +219,7 @@ export const apiSlice = createApi({
         body,
       })
     }),
-    
+
     // выход из аккаунта юзером
     userLogout: builder.mutation({
       query: () => ({
