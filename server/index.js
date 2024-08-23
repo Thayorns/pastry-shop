@@ -14,6 +14,10 @@ const fs = require('fs');
 const https = require('https');
 const WebSocket = require('ws');
 
+Object.keys(require.cache).forEach(function(key) {
+  delete require.cache[key];
+});
+
 const app = express();
 const PORT = process.env.PORT || 3001;
 const JWT_SECRET = 'k0raelstrazSfu110f1ight5Darkne5Ss';
