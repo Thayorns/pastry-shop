@@ -109,10 +109,18 @@ const Home: React.FC = () => {
     };
 
     const mapFunction = (arr: ResultResponse[]) => {
-        const result = arr.map((obj, index) => (
-            <div className="single-card-inner" key={index}>
+        const result = arr.map((obj, index) => {
+            let imageSrc = '';
+            try {
+                imageSrc = obj.photo ? require(`../../../../product-photos/${obj.photo}`) : '';
+            } catch (error) {
+                console.error(`Image not found: ${obj.photo}`);
+            }
+            
+            return (
+                <div className="single-card-inner" key={index}>
                 <Link to={`/home/${obj.title}`}>
-                    <img src={require(`../../../../product-photos/${obj.photo}`)} alt=""/>
+                    {imageSrc ? <img src={imageSrc} alt={obj.title}/> : null}
                 </Link>
                 <div className="card-description">
                     <div className="description-div">
@@ -129,7 +137,8 @@ const Home: React.FC = () => {
                     }
                 </div>   
             </div>    
-        ));
+            )
+        });
         return result;
     };
 
