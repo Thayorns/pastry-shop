@@ -111,10 +111,13 @@ const Home: React.FC = () => {
     const mapFunction = (arr: ResultResponse[]) => {
         const result = arr.map((obj, index) => {
             let imageSrc = '';
-            try {
-                imageSrc = obj.photo ? require(`../../../../product-photos/${obj.photo}`) : '';
-            } catch (error) {
-                console.error(`Image not found: ${obj.photo}`);
+            
+            if (obj.photo) {
+                try {
+                    imageSrc = require(`../../../../product-photos/${obj.photo}`);
+                } catch (error) {
+                    console.error(`Image not found: ${obj.photo}`);
+                }
             }
             
             return (
