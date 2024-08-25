@@ -109,12 +109,12 @@ const Home: React.FC = () => {
     };
 
     const mapFunction = (arr: ResultResponse[]) => {
-        const result = arr.map(async (obj, index) => {
+        const result = arr.map((obj, index) => {
             let imageSrc = '';
             
             if (obj.photo) {
                 try {
-                    imageSrc = await import(`../../../../product-photos/${obj.photo}`);
+                    imageSrc = require(`../../../../product-photos/${obj.photo}`);
                 } catch (error) {
                     console.error(`Image not found: ${obj.photo}`);
                 }
