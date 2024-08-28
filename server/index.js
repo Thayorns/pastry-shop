@@ -40,7 +40,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 // сохранение в папку фотографий
-const uploadDir = './product-photos';
+const uploadDir = path.join(__dirname, '..', 'product-photos');
 if (!fs.existsSync(uploadDir)){
     fs.mkdirSync(uploadDir);
 }
