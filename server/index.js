@@ -524,7 +524,7 @@ app.post('/api/logout', (req, res) => {
     app.use(express.static(path.resolve(__dirname, '../../../var/www/build')));
     
     // Настройка статического сервера для папки product-photos
-    app.use('/product-photos', express.static(path.join(__dirname, '..', 'product-photos')));
+    // app.use('/product-photos', express.static(path.join(__dirname, '..', 'product-photos')));
 
     app.get('/api/message', (req, res) => {
       res.json({ message: "сервер запущен и передаёт данные" });
