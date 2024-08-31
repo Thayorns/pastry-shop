@@ -116,7 +116,7 @@ const Home: React.FC = () => {
             return (
                 <div className="single-card-inner" key={index}>
                 <Link to={`/home/${obj.title}`}>
-                    {imageSrc ? <img referrerPolicy="no-referrer" src={imageSrc} alt={obj.title}/> : null}
+                    {imageSrc ? <img src={imageSrc} alt={obj.title}></img> : null}
                 </Link>
                 <div className="card-description">
                     <div className="description-div">
