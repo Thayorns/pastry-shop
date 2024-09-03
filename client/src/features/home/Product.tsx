@@ -35,7 +35,8 @@ const Product: React.FC = () => {
                     </Button>
 
                     <div className="product-inner">
-                        <img className="product-photo" src={imageSrc} alt={result.title}/>
+                        {imageSrc ? <img className="product-photo" src={imageSrc} alt={result.title}></img> : null}
+                        {/* <img className="product-photo" src={imageSrc} alt={result.title}/> */}
                         <h3><strong>{result.title}</strong></h3>
                         <p>{result.description}</p>
                         <p><strong>Состав: </strong></p>
