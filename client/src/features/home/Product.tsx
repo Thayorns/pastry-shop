@@ -21,6 +21,7 @@ const Product: React.FC = () => {
     const {data, isError, isLoading, isSuccess} = useGetProductQuery(productTitle);
 
     const result = data as ResultResponse;
+    const imageSrc = result.photo ? `/product-photos/${result.photo}` : '';
     
     return (
         <>
@@ -34,7 +35,7 @@ const Product: React.FC = () => {
                     </Button>
 
                     <div className="product-inner">
-                        <img className="product-photo" src={require(`../../../../product-photos/${result.photo}`)} alt=""/>
+                        <img className="product-photo" src={imageSrc} alt={result.title}/>
                         <h3><strong>{result.title}</strong></h3>
                         <p>{result.description}</p>
                         <p><strong>Состав: </strong></p>
