@@ -20,14 +20,16 @@ const Product: React.FC = () => {
     const { productTitle } = useParams();
     const {data, isError, isLoading, isSuccess} = useGetProductQuery(productTitle);
 
-    const result = data as ResultResponse;
-    const imageSrc = result.photo ? `/product-photos/${result.photo}` : '';
+    // check if response exists
+    const result = data as ResultResponse | undefined;
+
+    const imageSrc = result?.photo ? `/product-photos/${result.photo}` : '';
     
     return (
         <>
             {isLoading && (<Spin/>)}
 
-            {isSuccess && (
+            {isSuccess && result && (
                 <div className="product-div">
 
                     <Button type="dashed" className="backward-button">
@@ -36,7 +38,6 @@ const Product: React.FC = () => {
 
                     <div className="product-inner">
                         {imageSrc ? <img className="product-photo" src={imageSrc} alt={result.title}></img> : null}
-                        {/* <img className="product-photo" src={imageSrc} alt={result.title}/> */}
                         <h3><strong>{result.title}</strong></h3>
                         <p>{result.description}</p>
                         <p><strong>Состав: </strong></p>
