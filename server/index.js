@@ -405,7 +405,7 @@ app.post('/api/register', async (req, res) => {
     const newUser = await User.create({ email, login, password: hashedPassword });
 
     const token = jwt.sign({ id: newUser.id }, JWT_SECRET, { expiresIn: '1h' });
-    // ** FIX ACTIVATION LINK URL
+    
     const activationLink = `https://creamkorzh.ru/api/activate/${token}`;
 
     const mailOptions = {
@@ -440,7 +440,8 @@ app.get('/api/activate/:token', async (req, res) => {
     await user.save();
 
     // res.status(200).json({ message: 'Account activated successfully' });
-    res.status(200).json({ token: token });
+    // res.status(200).json({ token: token });
+    res.redirect(`/activate/${token}`);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Account activation failed' });
