@@ -439,9 +439,9 @@ app.get('/api/activate/:token', async (req, res) => {
     user.isActivated = true;
     await user.save();
 
-    res.status(200).json({ message: 'Account activated successfully' });
+    // res.status(200).json({ message: 'Account activated successfully' });
     // res.status(200).json({ token: token });
-    // res.redirect(`/activate/${token}`);
+    res.redirect(`https://creamkorzh.ru/activate/${token}`);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Account activation failed' });
