@@ -406,7 +406,8 @@ app.post('/api/register', async (req, res) => {
 
     const token = jwt.sign({ id: newUser.id }, JWT_SECRET, { expiresIn: '1h' });
     // ** FIX ACTIVATION LINK URL
-    const activationLink = `https://creamkorzh.ru/api/activate/${token}`;
+    // const activationLink = `https://creamkorzh.ru/api/activate/${token}`;
+    const activationLink = `https://creamkorzh.ru/activate/${token}`;
 
     const mailOptions = {
       from: 'thayornswordsman@gmail.com',
