@@ -57,9 +57,10 @@ const Shop: React.FC = () => {
             {(isAuth === true && productArray.length !== 0) && (
                 <div className="bascket-wrapper">
                     <h3>Корзина</h3>
+                    
                     {productArray.map((el, index) => (
                         <div key={index} className="bascket-inner">
-                            <img src={require(`../../../../product-photos/${el.photo}`)} alt=""/>
+                            <img src={`/product-photos/${el.photo}`} alt=""/>
                             <div className="bascket-description">
                                 <p>{el.title}</p>
                                 <span>{counts[el.title] || 1}шт / {counts[el.title] || 1}кг</span>
@@ -79,6 +80,7 @@ const Shop: React.FC = () => {
                             </div>
                         </div>
                     ))}
+
                 </div>
             )}
         
