@@ -10,32 +10,35 @@ import '../../app/styles/vars.css'
 
 const Token: React.FC = () => {
     const { token } = useParams<{ token: string }>();
-    const { isLoading, isSuccess, isError } = useGetTokenQuery(token);
+    const { data, isLoading, isSuccess, isError } = useGetTokenQuery(token);
 
-    let content: React.ReactNode;
+    type TokenResponse = {
+        token: string;
+    };
+    const tokenResponse = data as TokenResponse;
 
-    if(isLoading){
-        content = <Spin/>
-    }else if(isSuccess){
-        content = (
-            <div className="token-div">
-                <Result
-                    status="success"
-                    title="Ваш аккаунт успешно активирован!"
-                    subTitle="Войдите под своим логином и паролем."
-                />
-            </div>
-        );
-    }else if(isError){
-        content = 
-        <div>
-            <Result status="500" title="Ошибка" subTitle="Простите, что-то пошло не так." />
-        </div>
-    }
     return (
-        <div className="token-div">
-            {content}
-        </div>
-    );
+        <>  
+            {isLoading && (
+                <Spin/>
+            )}
+
+            {isSuccess && tokenResponse && (
+                <div className="token-div">
+                    <Result
+                        status="success"
+                        title="Ваш аккаунт успешно активирован!"
+                        subTitle="Войдите под своим логином и паролем."
+                    />
+                </div>
+            )}
+
+            {isError && (
+                <div>
+                    <Result status="500" title="Ошибка" subTitle="Простите, что-то пошло не так." />
+                </div>
+            )}
+        </>
+    )
 }
 export default Token;
