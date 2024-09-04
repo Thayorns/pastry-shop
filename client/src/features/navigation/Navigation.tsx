@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { CoffeeOutlined,HomeOutlined,SettingOutlined,BellOutlined,UserAddOutlined,UserOutlined,QrcodeOutlined,ContactsOutlined, LogoutOutlined, UserSwitchOutlined, ShoppingCartOutlined } from '@ant-design/icons';
 import { useDispatch, useSelector} from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { RootState } from "../../app/store/store";
 import { logout } from "../api/authSlice";
 import { setActiveBottom, setActiveTop } from "../api/buttonSlice";
@@ -18,6 +18,7 @@ const Navigation: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [userLogout] = useUserLogoutMutation();
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const location = useLocation();
 
     const isAuth = useSelector((state: RootState) => state.auth.isAuthenticated);
     const userLogin = useSelector((state: RootState) => state.auth.login)
@@ -63,10 +64,16 @@ const Navigation: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         };
     }, [dispatch, userLogin]);
 
+    // useEffect(() => {
+    //     navigate('/home');
+    //     dispatch(setActiveBottom(2));
+    // }, []);
     useEffect(() => {
-        navigate('/home');
-        dispatch(setActiveBottom(2));
-    }, []);
+        if (location.pathname === '/') {
+            navigate('/home');
+            dispatch(setActiveBottom(2));
+        }
+    }, [location.pathname, navigate, dispatch]);
 
     const handleUserLogoutSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
