@@ -3,8 +3,4 @@
     display: var(--displayFlex);
     flex-direction: var(--flexColumn);
     justify-content: var(--justify-center);
-    
-    .ant-result{
-        padding-top: 230px;
-    }
 }
