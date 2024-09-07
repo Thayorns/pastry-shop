@@ -10,12 +10,6 @@ import '../../app/styles/vars.css'
 
 const Token: React.FC = () => {
     const { token } = useParams<{ token: string }>();
-    // const { data, isLoading, isSuccess, isError } = useGetTokenQuery(token);
-
-    // type TokenResponse = {
-    //     message: string;
-    // };
-    // const tokenResponse = data as TokenResponse;
 
     return (
         <div className="token-div">
