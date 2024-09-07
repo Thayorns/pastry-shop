@@ -13,7 +13,7 @@ const Token: React.FC = () => {
     const { data, isLoading, isSuccess, isError } = useGetTokenQuery(token);
 
     type TokenResponse = {
-        token: string;
+        message: string;
     };
     const tokenResponse = data as TokenResponse;
 
