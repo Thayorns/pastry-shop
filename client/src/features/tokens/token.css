@@ -3,7 +3,7 @@
     display: var(--displayFlex);
     flex-direction: var(--flexColumn);
     justify-content: var(--justify-center);
-}
-.ant-result {
-    padding-top: 100px;
+    .ant-result {
+        padding-top: 0px;
+    }
 }
