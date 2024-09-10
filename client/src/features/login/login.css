@@ -7,6 +7,10 @@
     justify-content: var(--justify-center);
 }
 .login-form{
+    .link-to-register{
+        margin-top: var(--px-15);
+    }
+
     span{
         display: var(--inlineBlock);
         margin: var(--margin-0-auto);

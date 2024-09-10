@@ -90,7 +90,7 @@ const Login: React.FC = () => {
                     
                     <span>Заполните форму, чтобы войти в свой аккаунт.</span>
                     
-                    <span>Ещё не зарегистрировались? - <Link to={`/register`}><strong>РЕГИСТРАЦИЯ</strong></Link></span>
+                    <span className="link-to-register">Ещё не зарегистрировались? - <Link to={`/register`}><strong>РЕГИСТРАЦИЯ</strong></Link></span>
                     
                     {errorDisplay && (
                         <div className="error-register">
