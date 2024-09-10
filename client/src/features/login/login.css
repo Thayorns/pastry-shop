@@ -6,11 +6,10 @@
     flex-direction: var(--flexColumn);
     justify-content: var(--justify-center);
 }
+.link-to-register{
+    margin-top: var(--px-15);
+}
 .login-form{
-    .link-to-register{
-        margin-top: var(--px-15);
-    }
-
     span{
         display: var(--inlineBlock);
         margin: var(--margin-0-auto);
