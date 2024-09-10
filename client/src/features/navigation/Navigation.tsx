@@ -90,8 +90,8 @@ const Navigation: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
     const topNavIcons = [
         ...(role === true ? [] : [<Link to={`/qr`}><QrcodeOutlined /></Link>]),
-        ...(isAuth === true ? [<Link to={`/login`}><UserOutlined /></Link>] : [<Link to={`/login`}><UserSwitchOutlined /></Link>]) ,
-        ...(isAuth === false ? [<Link to={`/register`}><UserAddOutlined /></Link>] : [<LogoutOutlined onClick={handleUserLogoutSubmit} />]),
+        ...(isAuth === true ? [<Link to={`/login`}><UserOutlined /></Link>] : [<Link to={`/login`}><UserSwitchOutlined /></Link>]),
+        ...(isAuth === false ? [] : [<LogoutOutlined onClick={handleUserLogoutSubmit} />]),
     ];
     const bottomNavIcons = [
         ...(role === true

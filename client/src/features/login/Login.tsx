@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Button, Input, Spin } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { setActiveTop } from "../api/buttonSlice";
 import { useLogInUserMutation } from "../api/apiSlice";
 import { RootState } from "../../app/store/store";
@@ -86,7 +87,11 @@ const Login: React.FC = () => {
             {(isAuth === false) && (
                 <div className="login-form">
                     <h1>ВХОД В АККАУНТ</h1>
-                    <span>Если Вы уже регистрировались в "КРЕМ и КОРЖ", заполните форму, чтобы войти в свой аккаунт.</span>
+                    
+                    <span>Заполните форму, чтобы войти в свой аккаунт.</span>
+                    
+                    <span>Ещё не зарегистрировались? - <Link to={`/register`}><strong>РЕГИСТРАЦИЯ</strong></Link></span>
+                    
                     {errorDisplay && (
                         <div className="error-register">
                             <p>Ошибка..Вы либо ввели неверный логин или пароль, либо не активировали аккаунт через письмо на почте.</p>

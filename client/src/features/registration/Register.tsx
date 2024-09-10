@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Button, Input, Spin, Result } from 'antd';
 import { useAddUserMutation } from "../api/apiSlice";
+import { LeftOutlined } from '@ant-design/icons';
+import { Link } from "react-router-dom";
 
 import './register.css';
 import '../../app/styles/normalize.css';
@@ -42,6 +44,11 @@ const Register: React.FC = () => {
     }else{
         content = (
             <div className="register">
+                
+                <Button type="dashed" className="backward-button">
+                    <Link to={'/login'}><LeftOutlined /></Link>
+                </Button>
+                
                 <h1>РЕГИСТРАЦИЯ</h1>
                 <span>Заполните форму, чтобы создать новый аккаунт в "КРЕМ и КОРЖ".</span>
                 {errorDisplay && (
