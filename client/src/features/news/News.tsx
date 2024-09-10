@@ -168,7 +168,7 @@ const News: React.FC = () => {
                         {(isAdmin === false && isAuth === true) && (
                             resultArray.map((el, index) => (
                                 <div key={index} className="news-order-inner">
-                                    <img src={require(`../../../../product-photos/${el.photo}`)} alt=""/>
+                                    <img src={`/product-photos/${el.photo}`} alt=""/>
                                     <div className="order-description">
                                         <p>{el.title} ({el.count} шт.)</p>
                                         <span>{el.date.split('-').reverse().join('-')} к {el.time}</span>
