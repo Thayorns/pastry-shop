@@ -12,7 +12,11 @@
     .backward-button{
         top: 60px;
         /* left: 20px; */
-        float: left;
+        /* float: left; */
+        span{
+            float: left;
+            padding-left: var(--px-10);
+        }
     }
 }
 
