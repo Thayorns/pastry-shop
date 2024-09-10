@@ -35,7 +35,7 @@ const Qr: React.FC = () => {
             )}
 
             {(isAuth === false) && (
-                <Result status="403" title="403" subTitle="Простите, Вы не авторизованы и не можете зайти на эту страницу." />
+                <Result status="403" subTitle="Авторизуйтесь, чтобы сгенерировать qr-код для подарочных кофе." />
             )}
         
             {(isAuth === true && role === false) && (
