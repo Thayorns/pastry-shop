@@ -9,6 +9,10 @@
         width: var(--width80);
         margin: var(--margin-0-auto);
     }
+    .backward-button{
+        top: 60px;
+        left: 20px;
+    }
 }
 
 .email-underlined{
