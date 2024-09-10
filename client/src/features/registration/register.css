@@ -14,10 +14,10 @@
         /* left: 20px; */
         /* float: left; */
         span{
-            float: left;
             padding-left: var(--px-10);
             svg{
-                left: 20px;
+                float: left;
+                /* left: 20px; */
             }
         }
     }
