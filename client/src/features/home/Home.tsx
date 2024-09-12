@@ -33,7 +33,14 @@ const Home: React.FC = () => {
     const basketIsClicked = useSelector((state: RootState) => state.button.basketIsClicked);
     
     const result = data as ResultResponse[] || [];
-    const horizonAnchors = [ 'Торты', 'Выпечка', 'Десерты', 'Напитки', 'Сендвичи', 'Салаты' ];
+    const horizonAnchors = [ 
+        'Торты', 
+        'Выпечка', 
+        'Десерты', 
+        // 'Напитки', 
+        // 'Сендвичи', 
+        // 'Салаты'
+    ];
     const isScrolling = useRef(false);
     const isClicking = useRef(false);
     const dispatch = useDispatch();
