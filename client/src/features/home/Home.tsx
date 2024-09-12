@@ -37,9 +37,9 @@ const Home: React.FC = () => {
         'Торты', 
         'Выпечка', 
         'Десерты', 
-        // 'Напитки', 
-        // 'Сендвичи', 
-        // 'Салаты'
+        'Напитки', 
+        'Сендвичи', 
+        'Салаты'
     ];
     const isScrolling = useRef(false);
     const isClicking = useRef(false);
