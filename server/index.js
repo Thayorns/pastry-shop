@@ -552,8 +552,8 @@ app.post('/api/logout', (req, res) => {
     // }
 
     const options = {
-      key: fs.readFileSync('/etc/letsencrypt/live/creamkorzh.ru/privkey.pem'),
-      cert: fs.readFileSync('/etc/letsencrypt/live/creamkorzh.ru/fullchain.pem')
+      key: fs.readFileSync('/etc/letsencrypt/live/creamkorzh.ru-0001/privkey.pem'),
+      cert: fs.readFileSync('/etc/letsencrypt/live/creamkorzh.ru-0001/fullchain.pem')
     }
 
     const server = https.createServer(options, app);
