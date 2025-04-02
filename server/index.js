@@ -15,22 +15,31 @@ const https = require('https');
 const WebSocket = require('ws');
 
 const app = express();
-const PORT = process.env.PORT || 3001;
-const JWT_SECRET = 'k0raelstrazSfu110f1ight5Darkne5Ss';
-const ACCESS_TOKEN_SECRET = 'k0raelstrazSfu110f1ight5Darkne5Ss';
-const REFRESH_TOKEN_SECRET = 'k0raelstrazSfu110f1ight5Darkne5Ss';
-const allowedOrigins = ['https://creamkorzh.ru'];
+const PORT = process.env.PORT;
+const JWT_SECRET = process.env.JWT_SECRET;
+const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
+const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET;
+const ALLOWED_ORIGINS = [process.env.ALLOWED_ORIGINS];
 
 const corsOptions = {
   origin: (origin, callback) => {
-    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+    if (!origin || ALLOWED_ORIGINS.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
       callback(new Error('Not allowed by CORS'));
     }
   },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders:  ['Content-Type', 'Authorization'],
+  allowedHeaders: [
+    'Content-Type',
+    'Authorization',
+    'Upgrade',          // Для WebSocket
+    'Connection',       // Для WebSocket
+    'Sec-WebSocket-Key', // Для WebSocket
+    'Sec-WebSocket-Version',
+    'Sec-WebSocket-Protocol',
+    'Sec-WebSocket-Extensions'
+  ],
   credentials: true
 };
 // middleware
@@ -439,8 +448,6 @@ app.get('/api/activate/:token', async (req, res) => {
     user.isActivated = true;
     await user.save();
 
-    // res.status(200).json({ message: 'Account activated successfully' });
-    // res.status(200).json({ token: token });
     res.redirect(`https://creamkorzh.ru/activate/${token}`);
   } catch (err) {
     console.error(err);
