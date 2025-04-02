@@ -415,7 +415,7 @@ app.post('/api/register', async (req, res) => {
 
     const token = jwt.sign({ id: newUser.id }, JWT_SECRET, { expiresIn: '1h' });
     
-    const activationLink = `https://creamkorzh.ru/api/activate/${token}`;
+    const activationLink = `${process.env.ALLOWED_ORIGINS}/api/activate/${token}`;
 
     const mailOptions = {
       from: 'thayornswordsman@gmail.com',
@@ -448,7 +448,7 @@ app.get('/api/activate/:token', async (req, res) => {
     user.isActivated = true;
     await user.save();
 
-    res.redirect(`https://creamkorzh.ru/activate/${token}`);
+    res.redirect(`${process.env.ALLOWED_ORIGINS}/activate/${token}`);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Account activation failed' });
@@ -530,10 +530,9 @@ app.post('/api/logout', (req, res) => {
     await sequelize.sync({ force: false });
     console.log('Database synchronized');
 
-    app.use(express.static(path.resolve(__dirname, '../../../var/www/build')));
-    
-    // Настройка статического сервера для папки product-photos
-    // app.use('/product-photos', express.static(path.join(__dirname, '..', 'product-photos')));
+    process.env.NODE_ENV === 'production' 
+    ? app.use(express.static(path.resolve(__dirname, '../../../var/www/build')))
+    : app.use(express.static(path.resolve(__dirname, '../client/build')));
 
     app.get('/api/message', (req, res) => {
       res.json({ message: "сервер запущен и передаёт данные" });
@@ -550,7 +549,9 @@ app.post('/api/logout', (req, res) => {
     });
 
     app.get('*', (req, res) => {
-      res.sendFile(path.resolve(__dirname, '../../../var/www/build', 'index.html'));
+      process.env.NODE_ENV === 'production'
+      ? res.sendFile(path.resolve(__dirname, '../../../var/www/build', 'index.html'))
+      : res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
     });
 
     // const options = {
