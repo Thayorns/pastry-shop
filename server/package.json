@@ -1,5 +1,7 @@
 {
-  "description": "",
+  "name": "creamkorzh",
+  "version": "1.0.0",
+  "description": "mini-bakery app",
   "dependencies": {
     "@types/redux": "^3.6.0",
     "@types/ws": "^8.5.10",
@@ -21,10 +23,14 @@
     "ws": "^8.17.1"
   },
   "scripts": {
-    "start": "node index.js",
+    "dev": "cross-env NODE_ENV=development&& nodemon index.js",
+    "start": "cross-env NODE_ENV=production&& node index.js",
     "build": "cd client && npm install && npm run build"
   },
   "engines": {
     "node": "20.11.0"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3"
   }
 }
