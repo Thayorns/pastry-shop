@@ -12,6 +12,7 @@ const QRCode = require('qrcode');
 const multer = require('multer');
 const fs = require('fs');
 const https = require('https');
+const http = require('http');
 const WebSocket = require('ws');
 
 const app = express();
@@ -558,17 +559,20 @@ app.post('/api/logout', (req, res) => {
     //   key: fs.readFileSync('/root/cream-sponge/server/privkey.pem'),
     //   cert: fs.readFileSync('/root/cream-sponge/server/fullchain.pem')
     // }
-
+    
     const options = {
       key: fs.readFileSync('/etc/letsencrypt/live/creamkorzh.ru-0001/privkey.pem'),
       cert: fs.readFileSync('/etc/letsencrypt/live/creamkorzh.ru-0001/fullchain.pem')
     }
-
-    const server = https.createServer(options, app);
-
+    const HTTPS_SERVER = https.createServer(options, app);
+    const HTTP_SERVER = http.createServer(app);
+    
     // WEBSOCKET сервер
-    // ** ADD PATH, BECAUSE NGINX SERVES THE ROOT PATH
-    wss = new WebSocket.Server({ server, path: '/api/' });
+    wss = new WebSocket.Server(
+      process.env.NODE_ENV === 'production'
+      ? { HTTPS_SERVER, path: '/api/' } // ** ADD PATH, BECAUSE NGINX SERVES THE ROOT PATH
+      : { HTTP_SERVER }
+    );
 
     wss.on('connection', (ws) => {
       // console.log('New client connected');
@@ -596,7 +600,11 @@ app.post('/api/logout', (req, res) => {
     });
     console.log(`webSocket listening on ${PORT}`);
 
-    server.listen(PORT, '0.0.0.0', () => {
+    process.env.NODE_ENV === 'production'
+    ? HTTPS_SERVER.listen(PORT, '0.0.0.0', () => {
+        console.log(`Server listening on ${PORT}`);
+      })
+    : HTTP_SERVER.listen(PORT, () => {
       console.log(`Server listening on ${PORT}`);
     });
 
