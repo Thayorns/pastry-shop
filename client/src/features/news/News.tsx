@@ -126,7 +126,11 @@ const News: React.FC = () => {
                             resultArray.map((el, index) => (
                                 <div key={index} className="news-order-inner">
                                     {contextHolder}
-                                    <img src={`/product-photos/${el.photo}`} alt=""
+                                    <img src={ process.env.NODE_ENV === 'production' 
+                                            ? `${process.env.REACT_APP_PHOTOS_BASE_URL}/${el.photo}` 
+                                            : require(`${process.env.REACT_APP_PHOTOS_BASE_URL}/${el.photo}`)
+                                        } 
+                                        alt=""
                                         onClick={() => setActive(el.title + el.name)}
                                     />
                                     <div className="order-description-admin">

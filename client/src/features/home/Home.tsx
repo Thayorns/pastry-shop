@@ -117,8 +117,9 @@ const Home: React.FC = () => {
 
     const mapFunction = (arr: ResultResponse[]) => {
         const result = arr.map((obj, index) => {
-
-            const imageSrc = obj.photo ? `/product-photos/${obj.photo}` : '';
+            let imageSrc;
+            if(process.env.NODE_ENV === 'development') imageSrc = require(`${process.env.REACT_APP_PHOTOS_BASE_URL}/${obj.photo}`);
+            if(process.env.NODE_ENV === 'production') imageSrc = obj.photo ? `${process.env.REACT_APP_PHOTOS_BASE_URL}/${obj.photo}` : '';
 
             return (
                 <div className="single-card-inner" key={index}>

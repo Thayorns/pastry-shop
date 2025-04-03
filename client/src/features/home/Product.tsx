@@ -23,8 +23,10 @@ const Product: React.FC = () => {
     // check if response exists
     const result = data as ResultResponse | undefined;
 
-    const imageSrc = result?.photo ? `/product-photos/${result.photo}` : '';
-    
+    let imageSrc;
+    if(process.env.NODE_ENV === 'development') imageSrc = require(`${process.env.REACT_APP_PHOTOS_BASE_URL}/${result?.photo}`);
+    if(process.env.NODE_ENV === 'production') imageSrc = result?.photo ? `${process.env.REACT_APP_PHOTOS_BASE_URL}/${result.photo}` : '';
+
     return (
         <>
             {isLoading && (<Spin/>)}

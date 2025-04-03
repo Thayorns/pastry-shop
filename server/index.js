@@ -24,13 +24,15 @@ const ALLOWED_ORIGINS = [process.env.ALLOWED_ORIGINS];
 const DOMAIN = process.env.NODE_ENV === 'production' ? 'creamkorzh.ru' : 'localhost';
 
 const corsOptions = {
-  origin: (origin, callback) => {
-    if (!origin || ALLOWED_ORIGINS.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
+  origin: process.env.NODE_ENV === 'production' 
+    ? (origin, callback) => {
+      if (!origin || ALLOWED_ORIGINS.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
     }
-  },
+    : 'http://localhost:3000',
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: [
     'Content-Type',
@@ -417,12 +419,15 @@ app.post('/api/register', async (req, res) => {
 
     const token = jwt.sign({ id: newUser.id }, JWT_SECRET, { expiresIn: '1h' });
     
-    const activationLink = `${ALLOWED_ORIGINS}/api/activate/${token}`;
+    const activationLink = 
+      process.env.NODE_ENV === 'production'
+      ? `${ALLOWED_ORIGINS}/api/activate/${token}`
+      : `http://localhost:3001/api/activate/${token}` 
 
     const mailOptions = {
-      from: 'thayornswordsman@gmail.com',
+      from: 'creamkorzh@gmail.com',
       to: email,
-      subject: 'Активация аккаунта в Крем и Корж.',
+      subject: 'Активация аккаунта в КРЕМ и КОРЖ.',
       html: `<p>Пройдите по ссылке <a href="${activationLink}">Крем и Корж</a> для активации аккаунта.</p>`
     };
 
@@ -570,25 +575,21 @@ app.post('/api/logout', (req, res) => {
         cert: fs.readFileSync('/etc/letsencrypt/live/creamkorzh.ru-0001/fullchain.pem')
       }
       server = https.createServer(options, app);
+      wss = new WebSocket.Server( { 
+        server,
+        path: '/api/' // ** ADD PATH, BECAUSE NGINX SERVES THE ROOT PATH
+      } );
     }else{
       server = http.createServer(app);
-    }
-    
-    // WEBSOCKET сервер
-    wss = new WebSocket.Server( { 
-      server,
-      path: '/api/'
-    } ); // ** ADD PATH, BECAUSE NGINX SERVES THE ROOT PATH
-    
+      wss = new WebSocket.Server( { server });
+    }    
 
     wss.on('connection', (ws) => {
       // console.log('New client connected');
       // console.log(`Total connected clients: ${wss.clients.size}`);
-
       // Отправка тестового сообщения при подключении нового клиента
       // const testMessage = { type: 'test', message: 'Test message from server' };
       // ws.send(JSON.stringify(testMessage));
-
       ws.on('message', (message) => {
         const data = JSON.parse(message);
         if (data.type === 'login') {
@@ -609,7 +610,7 @@ app.post('/api/logout', (req, res) => {
 
     server.listen(PORT, process.env.NODE_ENV === 'production' ? '0.0.0.0' : 'localhost', () => {
       console.log(`Server listening on ${PORT}`);
-      console.log(`WebSocket available at ws${process.env.NODE_ENV === 'production' ? 's' : ''}://${DOMAIN}${process.env.NODE_ENV === 'production' ? '' : `:${PORT}`}/api/`);
+      console.log(`WebSocket available at ws${process.env.NODE_ENV === 'production' ? 's' : ''}://${DOMAIN}${process.env.NODE_ENV === 'production' ? '' : `:${PORT}`}`);
     })
 
   } catch (err) {

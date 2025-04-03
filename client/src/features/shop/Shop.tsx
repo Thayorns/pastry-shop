@@ -60,7 +60,11 @@ const Shop: React.FC = () => {
                     
                     {productArray.map((el, index) => (
                         <div key={index} className="bascket-inner">
-                            <img src={`/product-photos/${el.photo}`} alt=""/>
+                            <img src={ process.env.NODE_ENV === 'production' 
+                                    ? `${process.env.REACT_APP_PHOTOS_BASE_URL}/${el.photo}` 
+                                    : require(`${process.env.REACT_APP_PHOTOS_BASE_URL}/${el.photo}`)
+                                } alt=""
+                            />
                             <div className="bascket-description">
                                 <p>{el.title}</p>
                                 <span>{counts[el.title] || 1}шт / {counts[el.title] || 1}кг</span>
