@@ -16,7 +16,7 @@ const http = require('http');
 const WebSocket = require('ws');
 
 const app = express();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3001;
 const JWT_SECRET = process.env.JWT_SECRET;
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
 const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET;
@@ -416,7 +416,7 @@ app.post('/api/register', async (req, res) => {
 
     const token = jwt.sign({ id: newUser.id }, JWT_SECRET, { expiresIn: '1h' });
     
-    const activationLink = `${process.env.ALLOWED_ORIGINS}/api/activate/${token}`;
+    const activationLink = `${ALLOWED_ORIGINS}/api/activate/${token}`;
 
     const mailOptions = {
       from: 'thayornswordsman@gmail.com',
@@ -449,7 +449,7 @@ app.get('/api/activate/:token', async (req, res) => {
     user.isActivated = true;
     await user.save();
 
-    res.redirect(`${process.env.ALLOWED_ORIGINS}/activate/${token}`);
+    res.redirect(`${ALLOWED_ORIGINS}/activate/${token}`);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Account activation failed' });
@@ -517,13 +517,13 @@ app.post('/api/refresh-token', async (req, res) => {
   }
 });
 
-// завершение сеанса (logout)
+// client logout
 app.post('/api/logout', (req, res) => {
   res.cookie('refreshToken', '', { maxAge: 0 });
   return res.status(200).json({ message: 'Logout successful' });
 });
 
-// запуск сервера с бд
+// server launch IIFE
 (async () => {
   try {
     await sequelize.authenticate();
@@ -531,6 +531,7 @@ app.post('/api/logout', (req, res) => {
     await sequelize.sync({ force: false });
     console.log('Database synchronized');
 
+    // static files config
     process.env.NODE_ENV === 'production' 
     ? app.use(express.static(path.resolve(__dirname, '../../../var/www/build')))
     : app.use(express.static(path.resolve(__dirname, '../client/build')));
@@ -560,19 +561,24 @@ app.post('/api/logout', (req, res) => {
     //   cert: fs.readFileSync('/root/cream-sponge/server/fullchain.pem')
     // }
     
-    const options = {
-      key: fs.readFileSync('/etc/letsencrypt/live/creamkorzh.ru-0001/privkey.pem'),
-      cert: fs.readFileSync('/etc/letsencrypt/live/creamkorzh.ru-0001/fullchain.pem')
+    // CREATE SERVER
+    let server;
+    if(process.env.NODE_ENV === 'production') {
+      const options = {
+        key: fs.readFileSync('/etc/letsencrypt/live/creamkorzh.ru-0001/privkey.pem'),
+        cert: fs.readFileSync('/etc/letsencrypt/live/creamkorzh.ru-0001/fullchain.pem')
+      }
+      server = https.createServer(options, app);
+    }else{
+      server = http.createServer(app);
     }
-    const HTTPS_SERVER = https.createServer(options, app);
-    const HTTP_SERVER = http.createServer(app);
     
     // WEBSOCKET сервер
-    wss = new WebSocket.Server(
-      process.env.NODE_ENV === 'production'
-      ? { HTTPS_SERVER, path: '/api/' } // ** ADD PATH, BECAUSE NGINX SERVES THE ROOT PATH
-      : { HTTP_SERVER }
-    );
+    wss = new WebSocket.Server( { 
+      server,
+      path: '/api/'
+    } ); // ** ADD PATH, BECAUSE NGINX SERVES THE ROOT PATH
+    
 
     wss.on('connection', (ws) => {
       // console.log('New client connected');
@@ -600,13 +606,9 @@ app.post('/api/logout', (req, res) => {
     });
     console.log(`webSocket listening on ${PORT}`);
 
-    process.env.NODE_ENV === 'production'
-    ? HTTPS_SERVER.listen(PORT, '0.0.0.0', () => {
-        console.log(`Server listening on ${PORT}`);
-      })
-    : HTTP_SERVER.listen(PORT, () => {
+    server.listen(PORT, process.env.NODE_ENV === 'production' ? '0.0.0.0' : 'localhost', () => {
       console.log(`Server listening on ${PORT}`);
-    });
+    })
 
   } catch (err) {
     console.error('PostgreSQL connection error:', err);
