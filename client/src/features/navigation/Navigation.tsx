@@ -29,7 +29,11 @@ const Navigation: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const messages = useSelector((state: RootState) => state.webSocket.messages);
 
     useEffect(() => {
-        const ws = new WebSocket('wss://creamkorzh.ru/api/');
+        if (!process.env.REACT_APP_WS_URL) {
+            console.error('REACT_APP_WS_URL is not defined');
+            return;
+          }
+        const ws = new WebSocket(process.env.REACT_APP_WS_URL);
         ws.onopen = () => {
             dispatch(webSocketConnected());
             ws.send(JSON.stringify({ type: 'login', userLogin }));

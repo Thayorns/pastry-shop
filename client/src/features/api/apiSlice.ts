@@ -48,7 +48,7 @@ interface DeleteOrderRequest{
 };
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: 'https://creamkorzh.ru',
+  baseUrl: process.env.REACT_APP_API_URL,
   credentials: 'include',
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.accessToken;
