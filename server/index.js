@@ -21,6 +21,7 @@ const JWT_SECRET = process.env.JWT_SECRET;
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
 const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET;
 const ALLOWED_ORIGINS = [process.env.ALLOWED_ORIGINS];
+const DOMAIN = process.env.NODE_ENV === 'production' ? 'creamkorzh.ru' : 'localhost';
 
 const corsOptions = {
   origin: (origin, callback) => {
@@ -608,6 +609,7 @@ app.post('/api/logout', (req, res) => {
 
     server.listen(PORT, process.env.NODE_ENV === 'production' ? '0.0.0.0' : 'localhost', () => {
       console.log(`Server listening on ${PORT}`);
+      console.log(`WebSocket available at ws${process.env.NODE_ENV === 'production' ? 's' : ''}://${DOMAIN}${process.env.NODE_ENV === 'production' ? '' : `:${PORT}`}/api/`);
     })
 
   } catch (err) {
