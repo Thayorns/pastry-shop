@@ -422,7 +422,7 @@ app.post('/api/register', async (req, res) => {
     const activationLink = 
       process.env.NODE_ENV === 'production'
       ? `${ALLOWED_ORIGINS}/api/activate/${token}`
-      : `http://localhost:3001/api/activate/${token}` 
+      : `http://localhost:3000/activate/${token}`
 
     const mailOptions = {
       from: 'creamkorzh@gmail.com',
@@ -455,7 +455,9 @@ app.get('/api/activate/:token', async (req, res) => {
     user.isActivated = true;
     await user.save();
 
-    res.redirect(`${ALLOWED_ORIGINS}/activate/${token}`);
+    process.env.NODE_ENV === 'production' 
+      ? res.redirect(`${ALLOWED_ORIGINS}/activate/${token}`)
+      : res.status(200).json({ message: 'Account activated successfully' });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Account activation failed' });
@@ -585,11 +587,6 @@ app.post('/api/logout', (req, res) => {
     }    
 
     wss.on('connection', (ws) => {
-      // console.log('New client connected');
-      // console.log(`Total connected clients: ${wss.clients.size}`);
-      // Отправка тестового сообщения при подключении нового клиента
-      // const testMessage = { type: 'test', message: 'Test message from server' };
-      // ws.send(JSON.stringify(testMessage));
       ws.on('message', (message) => {
         const data = JSON.parse(message);
         if (data.type === 'login') {
