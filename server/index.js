@@ -422,7 +422,7 @@ app.post('/api/register', async (req, res) => {
     const activationLink = 
       process.env.NODE_ENV === 'production'
       ? `${ALLOWED_ORIGINS}/api/activate/${token}`
-      : `http://localhost:3000/activate/${token}`
+      : `http://localhost:3001/api/activate/${token}`
 
     const mailOptions = {
       from: 'creamkorzh@gmail.com',
@@ -455,9 +455,7 @@ app.get('/api/activate/:token', async (req, res) => {
     user.isActivated = true;
     await user.save();
 
-    process.env.NODE_ENV === 'production' 
-      ? res.redirect(`${ALLOWED_ORIGINS}/activate/${token}`)
-      : res.status(200).json({ message: 'Account activated successfully' });
+    res.redirect(`${ALLOWED_ORIGINS}/activate/${token}`)
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: 'Account activation failed' });
