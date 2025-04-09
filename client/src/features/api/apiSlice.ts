@@ -208,10 +208,7 @@ export const apiSlice = createApi({
 
     // получение токена юзером
     getToken: builder.query({
-      query: (token: string) => 
-        process.env.NODE_ENV === 'production' 
-        ? `/api/activate/${token}` 
-        : `http://localhost:3001/api/activate/${token}`
+      query: (token: string) => `/api/activate/${token}`
     }),
 
     // вход в аккаунт юзером

@@ -1,7 +1,5 @@
 import React from "react";
-// import { useGetTokenQuery } from "../api/apiSlice";
-import { useParams } from 'react-router-dom';
-import { Spin, Result } from "antd";
+import { Result } from "antd";
 
 
 import './token.css'
@@ -9,7 +7,6 @@ import '../../app/styles/normalize.css'
 import '../../app/styles/vars.css'
 
 const Token: React.FC = () => {
-    const { token } = useParams<{ token: string }>();
 
     return (
         <div className="token-div">
