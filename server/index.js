@@ -37,9 +37,9 @@ const corsOptions = {
   allowedHeaders: [
     'Content-Type',
     'Authorization',
-    'Upgrade',          // Для WebSocket
-    'Connection',       // Для WebSocket
-    'Sec-WebSocket-Key', // Для WebSocket
+    'Upgrade',           // for Websocket
+    'Connection',        // for Websocket
+    'Sec-WebSocket-Key', // for Websocket
     'Sec-WebSocket-Version',
     'Sec-WebSocket-Protocol',
     'Sec-WebSocket-Extensions'

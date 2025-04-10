@@ -172,7 +172,12 @@ const News: React.FC = () => {
                         {(isAdmin === false && isAuth === true) && (
                             resultArray.map((el, index) => (
                                 <div key={index} className="news-order-inner">
-                                    <img src={`/product-photos/${el.photo}`} alt=""/>
+                                    <img src={ process.env.NODE_ENV === 'production' 
+                                            ? `${process.env.REACT_APP_PHOTOS_BASE_URL}/${el.photo}` 
+                                            : require(`${process.env.REACT_APP_PHOTOS_BASE_URL}/${el.photo}`)
+                                        } 
+                                        alt=""
+                                    />
                                     <div className="order-description">
                                         <p>{el.title} ({el.count} шт.)</p>
                                         <span>{el.date.split('-').reverse().join('-')} к {el.time}</span>
