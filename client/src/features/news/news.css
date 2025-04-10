@@ -9,12 +9,12 @@
     top: 60px;
     margin: var(--margin-0-auto);
     width: var(--width100);
-    max-width: 768px;
-    height: 200px;
+    max-width: var(--maxWidth);
+    height: 400px;
     position: fixed;
 }
 .news-inner:first-child{
-    padding-top: 200px;
+    padding-top: 400px;
 }
 .news-inner{
     display: var(--displayFlex);
@@ -35,7 +35,7 @@
 
     .bakery, .coffee, .order-cake{
         padding: var(--px-50);
-        height: 80px;
+        height: 280px;
         display: var(--displayFlex);
         flex-direction: var(--flexColumn);
 
