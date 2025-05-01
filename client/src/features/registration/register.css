@@ -11,13 +11,10 @@
     }
     .backward-button{
         top: 60px;
-        /* left: 20px; */
-        /* float: left; */
         span{
             padding-left: var(--px-10);
             svg{
                 float: left;
-                /* left: 20px; */
             }
         }
     }

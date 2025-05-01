@@ -22,7 +22,7 @@
     justify-content: var(--justify-center);
 
     .ant-empty{
-       margin-top: 150px;
+       margin-top: 80px;
 
         .ant-empty-description{
             color: var(--colorWhite)
@@ -168,5 +168,5 @@
     }
 }
 .ant-btn-primary{
-    background: var(--color);
+    /* background: var(--color); */
 }

@@ -62,7 +62,6 @@ strong{
   background: var(--background-transparent);
   height: 42px;
   border-radius: 0%;
-  border: none;
   span{
     float: left;
     padding-left: var(--px-10);
