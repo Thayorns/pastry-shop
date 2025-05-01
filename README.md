@@ -10,9 +10,9 @@
 
 ## ✨ Features
 
-🚀 **Full development cycle**: 1 month of coding + 1 month of deployment 
-🛠 **Full-fledged full-stack project** from idea to production readiness 
-⚡ Real business processes are automated
+- 🚀 **Full development cycle**: 1 month of coding + 1 month of deployment
+- 🛠 **Full-fledged full-stack project** from idea to production readiness
+- ⚡ Real business processes are automated
 
 ## 🛠️ Tech Stack
 
