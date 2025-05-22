@@ -28,7 +28,7 @@
     "build": "cd client && npm install && npm run build"
   },
   "engines": {
-    "node": "20.11.0"
+    "node": "18.20.8"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",
