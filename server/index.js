@@ -52,7 +52,7 @@ app.options('*', cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 
-// сохранение в папку фотографий
+// save photos in the dir
 const uploadDir = path.join(__dirname, '..', 'product-photos');
 if (!fs.existsSync(uploadDir)){
     fs.mkdirSync(uploadDir);
@@ -68,7 +68,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-// Функция для трансляции сообщений по WebSocket
+// ws broadcast function
 let wss;
 const broadcast = (data) => {
   // console.log('Broadcasting data:', JSON.stringify(data, null, 2));
@@ -87,7 +87,7 @@ const broadcastCoffee = (data, userLogin) => {
   });
 };
 
-// оформить заказ клиентом
+// user creates an order
 app.post('/api/shop', async (req, res) => {
   const { title, name, phone, date, login, photo, count, time } = req.body;
 
@@ -106,7 +106,7 @@ app.post('/api/shop', async (req, res) => {
   };
 });
 
-// подтвердить заказ клиента админом
+// admin accepts an order
 app.post('/api/news', async (req, res) => {
   const { title, name } = req.body;
 
@@ -126,7 +126,7 @@ app.post('/api/news', async (req, res) => {
   };
 });
 
-// удалить заказ админом
+// admin deletes an order
 app.delete('/api/news', async (req, res) => {
   const { title, name } = req.body;
 
@@ -143,7 +143,7 @@ app.delete('/api/news', async (req, res) => {
   }
 });
 
-// получить свои\все заказы пользователем\администратором
+// admin/user gets all/his orders
 app.get('/api/news/:login', async (req, res) => {
   const { login } = req.params;
 
@@ -169,7 +169,7 @@ app.get('/api/news/:login', async (req, res) => {
   };
 });
 
-// добавление новых позиций продуктов
+// admin adds a product
 app.post('/api/admin-settings/add-product', upload.single('photo'), async (req, res) => {
   const {title, description, price, ingredients, chapter} = req.body;
   const photo = req.file ? req.file.filename : null;
@@ -191,7 +191,7 @@ app.post('/api/admin-settings/add-product', upload.single('photo'), async (req, 
   }
 });
 
-// добавление пользователя в друзья
+// admin promotes user as "friend"
 app.post('/api/admin-settings/add-friend', async (req, res) => {
   const {login} = req.body;
   try {
@@ -211,7 +211,7 @@ app.post('/api/admin-settings/add-friend', async (req, res) => {
 
 });
 
-// добавление пользователя в администраторы
+// admin promotes user as "admin"
 app.post('/api/admin-settings/add-admin', async (req, res) => {
   const {login} = req.body;
 
@@ -232,7 +232,7 @@ app.post('/api/admin-settings/add-admin', async (req, res) => {
 
 });
 
-// удаление продукта админом
+// admin destroys a product
 app.post('/api/home', async (req, res) => {
   const { title } = req.body;
 
@@ -258,7 +258,7 @@ app.post('/api/home', async (req, res) => {
   }
 });
 
-// получение продуктов в роут "дом"
+// user get all products in the 'home' route
 app.get('/api/home', async (req, res) => {
 
   try {
@@ -271,7 +271,7 @@ app.get('/api/home', async (req, res) => {
 
 });
 
-// получение отдельного продукта пользователем
+// user get specific product
 app.get('/api/home/:productTitle', async (req, res) => {
   const {productTitle} = req.params;
 
@@ -292,7 +292,7 @@ app.get('/api/home/:productTitle', async (req, res) => {
   }
 });
 
-// получение количества кофе пользователем
+// user get his coffee count
 app.get('/api/user-coffee/:login', async (req, res) => {
   const {login} = req.params;
 
@@ -308,7 +308,7 @@ app.get('/api/user-coffee/:login', async (req, res) => {
   }
 });
 
-// добавление кофе пользователю в бд администратором
+// admin adds coffee to user in his db column
 app.post('/api/admin-coffee', async (req, res) => {
   const { number, selectedCoffee } = req.body;
 
@@ -350,7 +350,7 @@ app.post('/api/admin-coffee', async (req, res) => {
 
     await transaction.commit();
 
-    // Уведомление конкретного пользователя
+    // ws notification to concrait user
     broadcastCoffee({
       type: 'coffee',
       coffeeCount: currentCoffeeCount
@@ -365,7 +365,7 @@ app.post('/api/admin-coffee', async (req, res) => {
 });
 
 
-// функционал QR-code для пользователя
+// qr-code functionality
 function getRandomArbitrary(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
 }
@@ -386,7 +386,7 @@ app.post('/api/qr', async (req, res) => {
       qrCode: qrCodeDataURL,
     });
 
-    // Удаление QR-кода через 5 минут у пользователя в бд
+    // delete user's token in his db column
     setTimeout(async () => {
       if(user.qr_code !== null){
         try {
@@ -403,7 +403,7 @@ app.post('/api/qr', async (req, res) => {
   }
 });
 
-// регистрация
+// user's registration
 app.post('/api/register', async (req, res) => {
   const { email, login, password } = req.body;
 
@@ -440,7 +440,7 @@ app.post('/api/register', async (req, res) => {
   }
 });
 
-// активация токена
+// token activation
 app.get('/api/activate/:token', async (req, res) => {
   const { token } = req.params;
 
@@ -462,7 +462,7 @@ app.get('/api/activate/:token', async (req, res) => {
   }
 });
 
-// логин юзера
+// user's login
 app.post('/api/login', async (req, res) => {
   const { login, password } = req.body;
   try {
@@ -499,7 +499,7 @@ app.post('/api/login', async (req, res) => {
   }
 });
 
-// обновление токенов
+// refresh tokens
 app.post('/api/refresh-token', async (req, res) => {
   const { refreshToken } = req.cookies;
 
@@ -561,11 +561,6 @@ app.post('/api/logout', (req, res) => {
       ? res.sendFile(path.resolve(__dirname, '../../../var/www/build', 'index.html'))
       : res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
     });
-
-    // const options = {
-    //   key: fs.readFileSync('/root/cream-sponge/server/privkey.pem'),
-    //   cert: fs.readFileSync('/root/cream-sponge/server/fullchain.pem')
-    // }
     
     // CREATE SERVER
     let server;
