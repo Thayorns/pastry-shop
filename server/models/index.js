@@ -1,8 +1,5 @@
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config({ path: '.env.development' });
-}
-const { Sequelize, DataTypes } = require('sequelize');
 const path = require('path');
+const { Sequelize, DataTypes } = require('sequelize');
 const fs = require('fs');
 const basename = path.basename(__filename);
 const db = {};
