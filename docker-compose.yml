@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+       
+  postgres:
+    image: postgres:13-alpine
+    env_file: .env
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  server:
+    build: ./server
+    env_file:
+      - ./server/.env.production
+    ports:
+      - '3001:3001'
+    depends_on:
+      - postgres
+
+  client:
+    build: ./client
+    env_file:
+      - ./client/.env.production
+    ports:
+      - '80:80'
+    depends_on:
+      - server
+
+volumes:
+  postgres_data:
