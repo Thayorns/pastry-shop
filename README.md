@@ -4,6 +4,7 @@
 [![TypeScript](https://img.shields.io/badge/-TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Node.js](https://img.shields.io/badge/-Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
 [![PostgreSQL](https://img.shields.io/badge/-PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+![Docker](https://img.shields.io/badge/-Docker-2496ED?style=flat&logo=docker&logoColor=white) 🐳
 
 **Full automation system for a Pastry-Shop** 
 *(Project completed, but maintained in working condition)*
@@ -37,6 +38,7 @@
 ![Nginx](https://img.shields.io/badge/-Nginx-009639?style=flat&logo=nginx&logoColor=white)
 ![REST API](https://img.shields.io/badge/-REST_API-FF6C37?style=flat&logo=api&logoColor=white)
 ![FSD Methodology](https://img.shields.io/badge/-FSD_Methodology-2496ED?style=flat&logo=arc&logoColor=white) 🏗️
+![Docker](https://img.shields.io/badge/-Docker-2496ED?style=flat&logo=docker&logoColor=white) 🐳
 
 ## 🎯 Implemented functions
 
