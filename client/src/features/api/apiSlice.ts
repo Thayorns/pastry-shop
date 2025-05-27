@@ -111,6 +111,18 @@ export const apiSlice = createApi({
       })
     }),
 
+    // удаление продукта админом
+    deleteProduct: builder.mutation({
+      query: (title: string) => ({
+        url: `/api/home`,
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ title })//без него не удаляет и ошибка json формата
+      })
+    }),
+
     // получение заказов клиентом\админом
     getOrders: builder.query({
       query: (login: string) => `/api/news/${login}`
@@ -149,18 +161,6 @@ export const apiSlice = createApi({
         url: `/api/admin-settings/add-friend`,
         method: 'POST',
         body,
-      })
-    }),
-
-    // удаление продукта админом
-    deleteProduct: builder.mutation({
-      query: (title: string) => ({
-        url: `/api/home`,
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ title })//без него не удаляет и ошибка json формата
       })
     }),
 

@@ -53,7 +53,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 // save photos in the dir
-const uploadDir = path.join(__dirname, '../client/public' ,'product-photos');
+const uploadDir = path.join(__dirname, '/app' ,'uploads');
 if (!fs.existsSync(uploadDir)){
     fs.mkdirSync(uploadDir);
 }
@@ -233,7 +233,7 @@ app.post('/api/admin-settings/add-admin', async (req, res) => {
 });
 
 // admin destroys a product
-app.post('/api/home', async (req, res) => {
+app.delete('/api/home', async (req, res) => {
   const { title } = req.body;
 
   try {
