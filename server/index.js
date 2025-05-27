@@ -53,7 +53,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 // save photos in the dir
-const uploadDir = path.join(__dirname, '/app' ,'uploads');
+const uploadDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadDir)){
     fs.mkdirSync(uploadDir);
 }
@@ -538,9 +538,12 @@ app.post('/api/logout', (req, res) => {
     console.log('Database synchronized');
 
     // static files config
-    process.env.NODE_ENV === 'production' 
-    ? app.use(express.static(path.resolve(__dirname, '../../../var/www/build')))
-    : app.use(express.static(path.resolve(__dirname, '../client/build')));
+    if (process.env.NODE_ENV !== 'production') {
+      app.use(express.static( '/app/client-build' ));
+      app.get('*', (req, res) => {
+        res.sendFile('/app/client-build/index.html');
+      });
+    };
 
     app.get('/api/message', (req, res) => {
       res.json({ message: "сервер запущен и передаёт данные" });
@@ -554,12 +557,6 @@ app.post('/api/logout', (req, res) => {
         console.error(err);
         res.status(500).json({ error: 'Database query error' });
       }
-    });
-
-    app.get('*', (req, res) => {
-      process.env.NODE_ENV === 'production'
-      ? res.sendFile(path.resolve(__dirname, '../../../var/www/build', 'index.html'))
-      : res.sendFile(path.resolve(__dirname, '../client/build', 'index.html'));
     });
     
     // CREATE SERVER
