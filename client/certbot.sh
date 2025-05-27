@@ -1,6 +1,7 @@
 #!/bin/sh
 
-set -e  # stop if error occurs
+# stop if error occurs
+set -e
 
 if [ ! -f "/etc/letsencrypt/live/creamkorzh.ru/fullchain.pem" ]; then
     certbot certonly --standalone -d creamkorzh.ru --non-interactive --agree-tos --email thayornswordsman@gmail.com || exit 1

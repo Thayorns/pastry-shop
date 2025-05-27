@@ -1,0 +1,19 @@
+# build stage
+FROM node:18.20.8-alpine AS builder
+RUN apk add --no-cache \
+    python3 \
+    make \
+    g++ \
+    pkgconfig \
+    pixman \
+    cairo \
+    pango \
+    giflib-dev \
+    libjpeg-turbo-dev \
+    librsvg-dev \
+    libpng-dev
+WORKDIR /app
+COPY package*.json ./
+RUN npm install
+COPY . ./
+CMD [ "npm", "start" ]

@@ -53,7 +53,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 // save photos in the dir
-const uploadDir = path.join(__dirname, '..', 'product-photos');
+const uploadDir = path.join(__dirname, '../client/public' ,'product-photos');
 if (!fs.existsSync(uploadDir)){
     fs.mkdirSync(uploadDir);
 }
@@ -566,8 +566,8 @@ app.post('/api/logout', (req, res) => {
     let server;
     if(process.env.NODE_ENV === 'production') {
       const options = {
-        key: fs.readFileSync('/etc/letsencrypt/live/creamkorzh.ru-0001/privkey.pem'),
-        cert: fs.readFileSync('/etc/letsencrypt/live/creamkorzh.ru-0001/fullchain.pem')
+        key: fs.readFileSync('/etc/letsencrypt/live/creamkorzh.ru/privkey.pem'),
+        cert: fs.readFileSync('/etc/letsencrypt/live/creamkorzh.ru/fullchain.pem')
       }
       server = https.createServer(options, app);
       wss = new WebSocket.Server( { 
