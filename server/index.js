@@ -20,29 +20,21 @@ const PORT = process.env.PORT || 3001;
 const JWT_SECRET = process.env.JWT_SECRET;
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
 const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET;
-const ALLOWED_ORIGINS = [process.env.ALLOWED_ORIGINS];
+const ALLOWED_ORIGINS = process.env.ALLOWED_ORIGINS;
 const DOMAIN = process.env.DOMAIN;
 
 const corsOptions = {
-  origin: process.env.NODE_ENV === 'production' 
-    ? (origin, callback) => {
-      if (!origin || ALLOWED_ORIGINS.indexOf(origin) !== -1) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    }
-    : 'http://localhost:3000',
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  origin: ALLOWED_ORIGINS,
+  // methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: [
     'Content-Type',
     'Authorization',
-    'Upgrade',           // for Websocket
-    'Connection',        // for Websocket
-    'Sec-WebSocket-Key', // for Websocket
-    'Sec-WebSocket-Version',
-    'Sec-WebSocket-Protocol',
-    'Sec-WebSocket-Extensions'
+    // 'Upgrade',
+    // 'Connection',
+    // 'Sec-WebSocket-Key',
+    // 'Sec-WebSocket-Version',
+    // 'Sec-WebSocket-Protocol',
+    // 'Sec-WebSocket-Extensions'
   ],
   credentials: true
 };
@@ -417,10 +409,7 @@ app.post('/api/register', async (req, res) => {
 
     const token = jwt.sign({ id: newUser.id }, JWT_SECRET, { expiresIn: '1h' });
     
-    const activationLink = 
-      process.env.NODE_ENV === 'production'
-      ? `${ALLOWED_ORIGINS}/api/activate/${token}`
-      : `http://${DOMAIN}:3001/api/activate/${token}`
+    const activationLink = `${DOMAIN}/api/activate/${token}`
 
     const mailOptions = {
       from: 'creamkorzh@gmail.com',
@@ -531,33 +520,11 @@ app.post('/api/logout', (req, res) => {
 (async () => {
   try {
     await sequelize.authenticate();
-    console.log('PostgreSQL connected with Sequelize');
+      console.log('PostgreSQL connected with Sequelize');
     await sequelize.sync({ force: false });
-    console.log('Database synchronized');
-
-    // static files config
-    if (process.env.NODE_ENV === 'production') {
-      app.use(express.static( '/app/client-build' ));
-      app.get('*', (req, res) => {
-        res.sendFile('/app/client-build/index.html');
-      });
-    };
-
-    app.get('/api/message', (req, res) => {
-      res.json({ message: "сервер запущен и передаёт данные" });
-    });
-
-    app.get('/api', async (req, res) => {
-      try {
-        const users = await User.findAll();
-        res.json(users);
-      } catch (err) {
-        console.error(err);
-        res.status(500).json({ error: 'Database query error' });
-      }
-    });
+      console.log('Database synchronized');
     
-    // CREATE SERVER
+    // server listen
     let server;
     if(process.env.NODE_ENV === 'production') {
       const options = {
@@ -593,9 +560,7 @@ app.post('/api/logout', (req, res) => {
     });
     console.log(`webSocket listening on ${PORT}`);
 
-    server.listen(PORT, '0.0.0.0', () => {
-      console.log(`Server listening on ${PORT}`);
-    })
+    server.listen(PORT, '0.0.0.0', () => console.log(`Server listening on ${PORT}`))
 
   } catch (err) {
     console.error('PostgreSQL connection error:', err);

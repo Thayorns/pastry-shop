@@ -77,9 +77,9 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
         console.log(`GETTING NEW ACCESS-TOKEN ${refreshResult.data}`);
         result = await baseQuery(args, api, extraOptions);
 
-        }else{
-          api.dispatch(logout())
-          }
+      }else{
+        api.dispatch(logout())
+      }
 
     } catch(err) {
       console.error('Ошибка доступа', err)
@@ -229,7 +229,8 @@ export const apiSlice = createApi({
     })
   }),
 })
-export const {useAddUserMutation,
+export const {
+  useAddUserMutation,
   useGetTokenQuery,
   useLogInUserMutation,
   useUserLogoutMutation,

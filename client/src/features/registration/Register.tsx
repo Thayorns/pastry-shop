@@ -14,7 +14,7 @@ const Register: React.FC = () => {
     const [userName, setUserName] = useState('')
     const [userPassword, setUserPassword] = useState('')
     
-    // функция добавления пользователя
+    // user register func
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try{
@@ -53,7 +53,7 @@ const Register: React.FC = () => {
                 <span>Заполните форму, чтобы создать новый аккаунт в "КРЕМ и КОРЖ".</span>
                 {errorDisplay && (
                     <div className="error-register">
-                        <p>Ошибка..Пользователь с такой учётной записью уже существует!</p>
+                        <p>Ошибка регистрации.</p>
                         <p>Попробуйте снова.</p>
                     </div>
                 ) as React.ReactNode}
