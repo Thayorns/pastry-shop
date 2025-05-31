@@ -37,17 +37,17 @@ const Navigation: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         ws.onopen = () => {
             dispatch(webSocketConnected());
             ws.send(JSON.stringify({ type: 'login', userLogin }));
-            // console.log(`user ${userLogin} connected to WS`);
+            console.log(`user ${userLogin} connected to WS`);
         };
         ws.onmessage = (event) => {
-            // console.log('Received raw message:', event.data); // Логирование полученного сообщения
+            console.log('Received raw message:', event.data);
             try {
                 const data = JSON.parse(event.data);
-                // console.log('WebSocket message received:', data);
+                console.log('WebSocket message received:', data);
 
                 if(data.type === 'newOrder' && role === true) {
                     dispatch(webSocketMessageReceived({ order: data.order }));
-                    // console.log('Dispatching new order:', data.order);
+                    console.log('Dispatching new order:', data.order);
                 }
                 if(data.type === 'coffee') {
                     dispatch(webSocketMessageReceived({ order: data.coffeeCount }));
@@ -61,7 +61,7 @@ const Navigation: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         };
         ws.onclose = (event) => {
             dispatch(webSocketDisconnected());
-            // console.log('WebSocket closed:', event);
+            console.log('WebSocket closed:', event);
         };
         return () => {
             ws.close();

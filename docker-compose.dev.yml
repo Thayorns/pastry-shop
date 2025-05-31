@@ -22,7 +22,6 @@ services:
     volumes:
       - ./server:/app
       - ./uploads:/app/uploads
-      - ./client/build:/app/client-build
     ports:
       - '3001:3001'
     depends_on:

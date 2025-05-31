@@ -21,7 +21,7 @@ const JWT_SECRET = process.env.JWT_SECRET;
 const ACCESS_TOKEN_SECRET = process.env.ACCESS_TOKEN_SECRET;
 const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET;
 const ALLOWED_ORIGINS = [process.env.ALLOWED_ORIGINS];
-const DOMAIN = process.env.NODE_ENV === 'production' ? 'creamkorzh.ru' : 'localhost';
+const DOMAIN = process.env.DOMAIN;
 
 const corsOptions = {
   origin: process.env.NODE_ENV === 'production' 
@@ -52,7 +52,7 @@ app.options('*', cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 
-// save photos in the dir
+// save photos in the uploads dir
 const uploadDir = path.join(__dirname, 'uploads');
 if (!fs.existsSync(uploadDir)){
     fs.mkdirSync(uploadDir);
@@ -71,10 +71,8 @@ const upload = multer({ storage: storage });
 // ws broadcast function
 let wss;
 const broadcast = (data) => {
-  // console.log('Broadcasting data:', JSON.stringify(data, null, 2));
   wss.clients.forEach((client) => {
     if (client.readyState === WebSocket.OPEN) {
-      // console.log('Sending data to client:', JSON.stringify(data));
       client.send(JSON.stringify(data));
     }
   });
@@ -422,7 +420,7 @@ app.post('/api/register', async (req, res) => {
     const activationLink = 
       process.env.NODE_ENV === 'production'
       ? `${ALLOWED_ORIGINS}/api/activate/${token}`
-      : `http://localhost:3001/api/activate/${token}`
+      : `http://${DOMAIN}:3001/api/activate/${token}`
 
     const mailOptions = {
       from: 'creamkorzh@gmail.com',
@@ -538,7 +536,7 @@ app.post('/api/logout', (req, res) => {
     console.log('Database synchronized');
 
     // static files config
-    if (process.env.NODE_ENV !== 'production') {
+    if (process.env.NODE_ENV === 'production') {
       app.use(express.static( '/app/client-build' ));
       app.get('*', (req, res) => {
         res.sendFile('/app/client-build/index.html');
@@ -595,9 +593,8 @@ app.post('/api/logout', (req, res) => {
     });
     console.log(`webSocket listening on ${PORT}`);
 
-    server.listen(PORT, process.env.NODE_ENV === 'production' ? '0.0.0.0' : 'localhost', () => {
+    server.listen(PORT, '0.0.0.0', () => {
       console.log(`Server listening on ${PORT}`);
-      console.log(`WebSocket available at ws${process.env.NODE_ENV === 'production' ? 's' : ''}://${DOMAIN}${process.env.NODE_ENV === 'production' ? '' : `:${PORT}`}`);
     })
 
   } catch (err) {
