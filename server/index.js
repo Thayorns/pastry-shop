@@ -4,7 +4,7 @@ const express = require("express");
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const path = require('path');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const { sequelize, User, Product, Order } = require('./models');
 const jwt = require('jsonwebtoken');
 const transporter = require('./mailer');
@@ -25,16 +25,16 @@ const DOMAIN = process.env.DOMAIN;
 
 const corsOptions = {
   origin: ALLOWED_ORIGINS,
-  // methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: [
     'Content-Type',
     'Authorization',
-    // 'Upgrade',
-    // 'Connection',
-    // 'Sec-WebSocket-Key',
-    // 'Sec-WebSocket-Version',
-    // 'Sec-WebSocket-Protocol',
-    // 'Sec-WebSocket-Extensions'
+    'Upgrade',
+    'Connection',
+    'Sec-WebSocket-Key',
+    'Sec-WebSocket-Version',
+    'Sec-WebSocket-Protocol',
+    'Sec-WebSocket-Extensions'
   ],
   credentials: true
 };
@@ -398,13 +398,18 @@ app.post('/api/register', async (req, res) => {
   const { email, login, password } = req.body;
 
   try {
+    console.log('Starting user registration for:', { email, login });
     const existingUser = await User.findOne({ where: { login } });
+    console.log('Existing user check complete');
 
     if (existingUser) {
+      console.log('User already exists');
       return res.status(400).json({ error: 'User already exists' });
     }
-
+    console.log('Hashing password...');
     const hashedPassword = await bcrypt.hash(password, 10);
+
+    console.log('Creating user...');
     const newUser = await User.create({ email, login, password: hashedPassword });
 
     const token = jwt.sign({ id: newUser.id }, JWT_SECRET, { expiresIn: '1h' });
@@ -422,8 +427,8 @@ app.post('/api/register', async (req, res) => {
 
     res.status(201).json({ message: 'User registered, activation email sent' });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'Registration failed' });
+    console.error('Registration error details:', err);
+    res.status(500).json({ error: 'Registration failed', details: err.message });
   }
 });
 
