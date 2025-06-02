@@ -27,19 +27,18 @@ const Product: React.FC = () => {
 
     if(isSuccess && result && process.env.NODE_ENV === 'development') {
         try{
-            imageSrc = require(`${process.env.REACT_APP_PHOTOS_BASE_URL}/${result?.photo}`);
+            imageSrc = require(`${process.env.REACT_APP_PHOTOS_BASE_URL}/${result.photo}`);
         }catch(err){
             console.error('Error loading image', err);
             imageSrc = '';
         }
-    };
-    if(isSuccess && result && process.env.NODE_ENV === 'production') {
+    }else{
         try{
             imageSrc = result?.photo ? `${process.env.REACT_APP_PHOTOS_BASE_URL}/${result.photo}` : '';
         }catch(err){
             console.error('Error loading image', err);
         }
-    };
+    }
 
     return (
         <>
