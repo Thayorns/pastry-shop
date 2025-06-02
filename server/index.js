@@ -268,6 +268,7 @@ app.get('/api/home/:productTitle', async (req, res) => {
   try {
     const product = await Product.findOne({ where: { title: productTitle } });
     if(product) {
+      console.log(`${product} is sent to client!`)
       res.json({
         title: product.title,
         photo: product.photo,
@@ -398,18 +399,13 @@ app.post('/api/register', async (req, res) => {
   const { email, login, password } = req.body;
 
   try {
-    console.log('Starting user registration for:', { email, login });
     const existingUser = await User.findOne({ where: { login } });
-    console.log('Existing user check complete');
 
     if (existingUser) {
-      console.log('User already exists');
       return res.status(400).json({ error: 'User already exists' });
     }
-    console.log('Hashing password...');
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    console.log('Creating user...');
     const newUser = await User.create({ email, login, password: hashedPassword });
 
     const token = jwt.sign({ id: newUser.id }, JWT_SECRET, { expiresIn: '1h' });

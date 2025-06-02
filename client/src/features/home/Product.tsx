@@ -19,13 +19,27 @@ interface ResultResponse {
 const Product: React.FC = () => {
     const { productTitle } = useParams();
     const {data, isError, isLoading, isSuccess} = useGetProductQuery(productTitle);
-
+    
     // check if response exists
     const result = data as ResultResponse | undefined;
 
     let imageSrc;
-    if(process.env.NODE_ENV === 'development') imageSrc = require(`${process.env.REACT_APP_PHOTOS_BASE_URL}/${result?.photo}`);
-    if(process.env.NODE_ENV === 'production') imageSrc = result?.photo ? `${process.env.REACT_APP_PHOTOS_BASE_URL}/${result.photo}` : '';
+
+    if(isSuccess && result && process.env.NODE_ENV === 'development') {
+        try{
+            imageSrc = require(`${process.env.REACT_APP_PHOTOS_BASE_URL}/${result?.photo}`);
+        }catch(err){
+            console.error('Error loading image', err);
+            imageSrc = '';
+        }
+    };
+    if(isSuccess && result && process.env.NODE_ENV === 'production') {
+        try{
+            imageSrc = result?.photo ? `${process.env.REACT_APP_PHOTOS_BASE_URL}/${result.photo}` : '';
+        }catch(err){
+            console.error('Error loading image', err);
+        }
+    };
 
     return (
         <>

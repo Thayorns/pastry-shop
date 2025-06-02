@@ -31,8 +31,8 @@ const Home: React.FC = () => {
     const role = useSelector((state: RootState) => state.auth.role);
     const isAuth = useSelector((state: RootState) => state.auth.isAuthenticated);
     const basketIsClicked = useSelector((state: RootState) => state.button.basketIsClicked);
-    
     const result = data as ResultResponse[] || [];
+    
     const horizonAnchors = [ 
         'Торты', 
         'Выпечка', 
