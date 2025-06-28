@@ -1,6 +1,4 @@
-import React
-// , { Suspense, lazy }
- from 'react';
+import React from 'react';
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navigation from '../features/navigation/Navigation'
@@ -21,21 +19,6 @@ import UserSettings from '../features/settings/UserSettings';
 import Token from '../features/tokens/Token';
 import Shop from '../features/shop/Shop';
 import BasketItem from '../features/shop/BasketItem';
-// const Token = lazy(() => import('../features/tokens/Token'));
-// const AdminCoffee = lazy(() => import('../features/coffee/Admin-coffee'));
-// const UserCoffee = lazy(() => import('../features/coffee/User-coffee'));
-// const Contacts = lazy(() => import('../features/contacts/Contacts'));
-// const Home = lazy(() => import('../features/home/Home'));
-// const Product = lazy(() => import('../features/home/Product'));
-// const Login = lazy(() => import('../features/login/Login'));
-// const News = lazy(() => import('../features/news/News'));
-// const Qr = lazy(() => import('../features/qr/Qr'));
-// const Register = lazy(() => import('../features/registration/Register'));
-// const AdminSettings = lazy(() => import('../features/settings/AdminSettings'));
-// const AddProduct = lazy(() => import('../features/settings/AddProduct'));
-// const AddAdmin = lazy(() => import('../features/settings/AddAdmin'));
-// const AddFriend = lazy(() => import('../features/settings/AddFriend'));
-// const UserSettings = lazy(() => import('../features/settings/UserSettings'));
 
 import './App.css';
 import './styles/normalize.css'
@@ -47,11 +30,7 @@ const App: React.FC = () => {
     <Router>
       <div className="App">
         <Navigation>
-          {/* <Suspense fallback={
-            <div className="spinner-wrapper">
-              <Spin size="large" />
-            </div>
-          }> */}
+
           <Routes>
           
             <Route path="/activate/:token"
@@ -108,7 +87,7 @@ const App: React.FC = () => {
             />
             
           </Routes>
-          {/* </Suspense> */}
+          
         </Navigation>
       </div>
     </Router>
