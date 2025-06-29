@@ -100,7 +100,7 @@ Configure Environment Variables. The project requires `.env*` files in these loc
 
 How to set up
 
-- For each folder (root, `client`, `server`) :
+- For each folder (root, `client`, `server`):
     
     - Find the `example.env` file
     - Create a copy named `.env*`:
@@ -142,4 +142,4 @@ In production mode:
     ```
 ---
 
-⭐ **If you liked the project, give it a star!** ⭐
+⭐ If you liked the project, give it a star! ⭐
