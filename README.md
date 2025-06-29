@@ -90,22 +90,22 @@ This project can be set up with a single Docker command. Follow these simple ste
 
     - *For development mode:*
 
-        1.  make changes to `/server/mailer.js`, `/server/index.js` as indicated in the comments in these files to get all backend functionality (if you want). 
+        -  make changes to `/server/mailer.js`, `/server/index.js` as indicated in the comments in these files to get all backend functionality (if you want). 
 
-        2. run docker command:
+        - run docker command:
 
             ```bash
             docker-compose -f docker-compose.dev.yml up --build
             ```
-        3. open `http://localhost:3000` url in browser
+        - open `http://localhost:3000` url in browser
 
         ---
 
     - *For production mode:*
 
-        1. make changes to `/client/nginx.conf`, `/client/certbot.sh`, `/server/mailer.js`, `/server/index.js` as indicated in the comments in these files.
+        - make changes to `/client/nginx.conf`, `/client/certbot.sh`, `/server/mailer.js`, `/server/index.js` as indicated in the comments in these files.
 
-        2. run docker command:
+        - run docker command:
 
             ```bash
             docker-compose up --build
