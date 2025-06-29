@@ -52,7 +52,7 @@ const getBase64 = (file: FileType): Promise<string> =>
     const uploadButton = (
         <button style={{ border: 0, background: 'none' }} type="button">
           <PlusOutlined />
-          <div style={{ marginTop: 8 }}>Загрузить фото</div>
+          <div style={{ marginTop: 8 }}>Upload</div>
         </button>
     );
 
@@ -62,14 +62,14 @@ const getBase64 = (file: FileType): Promise<string> =>
     const success = () => {
         messageApi.open({
             type: 'success',
-            content: `Вы добавили новую позицию в ленту продуктов!`,
+            content: `You have added a new product to your product feed!`,
             duration: 5,
         });
     };
     const error = () => {
         messageApi.open({
             type: 'error',
-            content: 'Произошла ошибка! Не добавилось..',
+            content: 'An error occurred! Not added..',
             duration: 5,
         });
     };
@@ -86,7 +86,7 @@ const getBase64 = (file: FileType): Promise<string> =>
         e.preventDefault();
 
         if (fileList.length === 0 || !fileList[0].originFileObj) {
-            console.error('Файл не выбран');
+            console.error('File not selected');
             return;
         }
 
@@ -107,7 +107,7 @@ const getBase64 = (file: FileType): Promise<string> =>
             setFileList([]);
             setActiveSelect('');
         } catch (err) {
-            console.error('Ошибка при добавлении продукта:', err);
+            console.error('Error adding product:', err);
         }
     };
 
@@ -120,7 +120,7 @@ const getBase64 = (file: FileType): Promise<string> =>
                     <Button type="dashed" className="backward-button">
                         <Link to={'/admin-settings'}><LeftOutlined /></Link>
                     </Button>
-                    <p>Заполните форму, обязательно выберите нужный <strong>раздел</strong>, чтобы корректно добавить новый продукт в ленту.</p>
+                    <p>Fill out the form, be sure to select the desired <strong>section</strong> to correctly add a new product to the feed.</p>
 
                     <form onSubmit={handleSubmit}>
                         <div className="upload-div">
@@ -151,13 +151,13 @@ const getBase64 = (file: FileType): Promise<string> =>
                                 style={{ width: 120 }}
                                 onChange={handleSelectChange}
                                 options={[
-                                    { value: '', label: 'Разделы:' },
-                                    { value: 'Торты', label: 'Торты' },
-                                    { value: 'Выпечка', label: 'Выпечка' },
-                                    { value: 'Десерты', label: 'Десерты' },
-                                    { value: 'Напитки', label: 'Напитки' },
-                                    { value: 'Сендвичи', label: 'Сендвичи' },
-                                    { value: 'Салаты', label: 'Салаты' },
+                                    { value: '', label: 'Sections:' },
+                                    { value: 'Cakes', label: 'Cakes' },
+                                    { value: 'Baked Goods', label: 'Baked Goods' },
+                                    { value: 'Desserts', label: 'Desserts' },
+                                    { value: 'Drinks', label: 'Drinks' },
+                                    { value: 'Sandwiches', label: 'Sandwiches' },
+                                    { value: 'Salads', label: 'Salads' },
                                 ]}
                             />
                         </div>
@@ -166,7 +166,7 @@ const getBase64 = (file: FileType): Promise<string> =>
                                 onChange={(e:React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value) } 
                                 value={title} 
                                 type="text" 
-                                name="title" placeholder="Название продукта" required
+                                name="title" placeholder="Product name" required
                             ></Input>
                         </div>
                         <div>
@@ -174,7 +174,7 @@ const getBase64 = (file: FileType): Promise<string> =>
                                 onChange={(e:React.ChangeEvent<HTMLInputElement>) => setDescription(e.target.value) } 
                                 value={description} 
                                 type="text" 
-                                name="description" placeholder="Описание продукта" required
+                                name="description" placeholder="Product description" required
                             ></Input>
                         </div>
                         <div>
@@ -182,7 +182,7 @@ const getBase64 = (file: FileType): Promise<string> =>
                                 onChange={(e:React.ChangeEvent<HTMLInputElement>) => setPrice(e.target.value) } 
                                 value={price} 
                                 type="number" 
-                                name="price" placeholder="Цена продукта" required
+                                name="price" placeholder="Product price" required
                             ></Input>
                         </div>
                         <div>
@@ -190,17 +190,17 @@ const getBase64 = (file: FileType): Promise<string> =>
                                 onChange={(e:React.ChangeEvent<HTMLInputElement>) => setIngredients(e.target.value) } 
                                 value={ingredients} 
                                 type="text" 
-                                name="ingredients" placeholder="Ингредиенты продукта, через запятую." required
+                                name="ingredients" placeholder="Product ingredients separated by commas." required
                             ></Input>
                         </div>
-                        <Button htmlType="submit" type="primary" className="form-button" disabled={isLoading}>Добавить</Button>
+                        <Button htmlType="submit" type="primary" className="form-button" disabled={isLoading}>Add</Button>
                     </form>
                 </div>
             )}
             
         
             {isAuth === false && (
-                <Result status="403" subTitle="Простите, Вы не авторизованы и не можете зайти на эту страницу." />
+                <Result status="403" subTitle="Sorry, you are not logged in and cannot access this page." />
             )}
         </>
         

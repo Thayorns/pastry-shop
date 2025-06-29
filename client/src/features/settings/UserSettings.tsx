@@ -17,7 +17,7 @@ const UserSettings: React.FC = () => {
 
         
             {isAuth === false && (
-                <Result status="403" subTitle="Простите, Вы не авторизованы и не можете зайти на эту страницу." />
+                <Result status="403" subTitle="Sorry, you are not logged in and cannot access this page." />
             )}
         </>
         

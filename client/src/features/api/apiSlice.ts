@@ -82,7 +82,7 @@ const baseQueryWithReauth: BaseQueryFn<string | FetchArgs, unknown, FetchBaseQue
       }
 
     } catch(err) {
-      console.error('Ошибка доступа', err)
+      console.error('Access denied', err)
     }
   }
   return result;
@@ -93,7 +93,6 @@ export const apiSlice = createApi({
   baseQuery: baseQueryWithReauth,
   endpoints: (builder: any) => ({
 
-    // подтвердить заказ клиента админом
     acceptOrder: builder.mutation({
       query: (body: DeleteOrderRequest) => ({
         url: `/api/news`,
@@ -102,7 +101,6 @@ export const apiSlice = createApi({
       })
     }),
 
-    // удалить заказ админом
     deleteOrder: builder.mutation({
       query: (body: DeleteOrderRequest) => ({
         url: `/api/news`,
@@ -111,7 +109,6 @@ export const apiSlice = createApi({
       })
     }),
 
-    // удаление продукта админом
     deleteProduct: builder.mutation({
       query: (title: string) => ({
         url: `/api/home`,
@@ -119,16 +116,14 @@ export const apiSlice = createApi({
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ title })//без него не удаляет и ошибка json формата
+        body: JSON.stringify({ title })
       })
     }),
 
-    // получение заказов клиентом\админом
     getOrders: builder.query({
       query: (login: string) => `/api/news/${login}`
     }),
 
-    // добавление заказа пользователем
     buyProduct: builder.mutation({
       query: (body: BuyProductRequest) => ({
         url: `/api/shop`,
@@ -137,7 +132,6 @@ export const apiSlice = createApi({
       })
     }),
 
-    // добавление новых продуктов
     addProduct: builder.mutation({
       query: (formData: FormData) => ({
         url: `/api/admin-settings/add-product`,
@@ -146,7 +140,6 @@ export const apiSlice = createApi({
       })
     }),
 
-    // добавление нового админа
     addAdmin: builder.mutation({
       query: (body: AddAdminRequest) => ({
         url: `/api/admin-settings/add-admin`,
@@ -155,7 +148,6 @@ export const apiSlice = createApi({
       })
     }),
 
-    // добавление пользователя в друзья
     addFriend: builder.mutation({
       query: (body: AddFriendRequest) => ({
         url: `/api/admin-settings/add-friend`,
@@ -164,17 +156,14 @@ export const apiSlice = createApi({
       })
     }),
 
-    // получение всех продуктов из бд
     getProducts: builder.query({
       query: () => `/api/home`,
     }),
 
-    // получение отдельного продукта пользователем
     getProduct: builder.query({
       query: (productTitle: ProductTitleRequest) => `/api/home/${productTitle}`,
     }),
 
-    // добавление кофе администратором
     addCoffee: builder.mutation({
       query: (body: CoffeeRequest) => ({
         url: `/api/admin-coffee`,
@@ -183,12 +172,10 @@ export const apiSlice = createApi({
       })
     }),
 
-    // обновление кофе пользователем
     getCoffee: builder.query({
       query: (login: string) => `/api/user-coffee/${login}`,
     }),
 
-    // генерация QR-кода пользователем и добавление в бд
     addQRcode: builder.mutation({
       query: (body: AddQRCodeRequest) => ({
         url: `/api/qr`,
@@ -197,7 +184,6 @@ export const apiSlice = createApi({
       }),
     }),
 
-    // добавление нового юзера
     addUser: builder.mutation({
       query: (body: AddUserRequest) => ({
         url: `/api/register`,
@@ -206,12 +192,10 @@ export const apiSlice = createApi({
       })
     }),
 
-    // получение токена юзером
     getToken: builder.query({
       query: (token: string) => `/api/activate/${token}`
     }),
 
-    // вход в аккаунт юзером
     logInUser: builder.mutation({
       query: (body: LogInUserRequest) => ({
         url: `/api/login`,
@@ -220,7 +204,6 @@ export const apiSlice = createApi({
       })
     }),
 
-    // выход из аккаунта юзером
     userLogout: builder.mutation({
       query: () => ({
         url: `/api/logout`,

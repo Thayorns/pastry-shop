@@ -30,7 +30,7 @@ const Login: React.FC = () => {
         try{
             await logInUser({ login: userName, password: userPassword});
         }catch (err){
-            console.error('Ошибка входа: ', err);
+            console.error('Entry error: ', err);
         }
     };
     
@@ -48,14 +48,14 @@ const Login: React.FC = () => {
 
             {(isAuth === true && role === true) && (
                 <div className="admin-logged">
-                    <h1>Администратор - <strong>{userLoginFromStore}</strong></h1>
-                    <p>Для администраторов приложение несколько отличается своим расширенным функционалом, <strong>недоступным</strong> для клиентов.</p>
-                    <p>В разделе "настройки" Вы можете добавлять в друзья клиентов, достаточно ввести его логин.</p>    
-                    <p>В разделе "настройки" Вы можете наделять пользователя правами администратора. Будьте избирательны в своём решении.</p>   
-                    <p>В разделе "настройки" Вы можете добавлять новые позиции продукции с фотографией, ценой, ингредиентами и описанием.</p>   
-                    <p>В разделе "дом" Вы можете удалять продукты из ленты нажатием на "корзину".</p>   
-                    <p>В разделе "кофе" Вы можете добавлять подарочные кофе для клиентов, достаточно ввести номер, который он озвучит.</p>
-                    <p>В разделе "уведомления" Вы можете подтверждать или удалять заказы тортов от клиентов.</p>
+                    <h1>Admin - <strong>{userLoginFromStore}</strong></h1>
+                    <p>For administrators, the application has some advanced functionality that is not available to clients.</p>
+                    <p>In the "Settings" section you can add clients as friends, to do this, simply enter their login.</p>    
+                    <p>In the "settings" section you can grant the user administrator rights. Be selective in your decision.</p>   
+                    <p>In the "Settings" section you can add new product items with a photo, price, composition and description.</p>   
+                    <p>In the "Home" section, you can remove products from the feed by clicking on "Cart".</p>   
+                    <p>In the "coffee" section you can add a gift coffee for customers, just enter the number that he will announce.</p>
+                    <p>In the "notifications" section, you can confirm or delete cake orders from customers.</p>
                 </div>
             )}
 
@@ -65,18 +65,18 @@ const Login: React.FC = () => {
                     {friend === true ? (
                         <div className="user-friend-logged-wrapper">
                             <div className="user-friend-logged-inner">
-                                <p>карта друга</p>
+                                <p>friend card</p>
                                 <h1>{userLoginFromStore}</h1>
-                                <p>пекарни-кондитерской</p>
-                                <h1>КРЕМ и КОРЖ</h1>
-                                <p>скидка 15% на всю продукцию</p>
+                                <p>bakery and confectionery products</p>
+                                <h1>MY PASTRY SHOP</h1>
+                                <p>15% discount on all products</p>
                             </div>
                         </div>
                     ) : (
                         <div className="user-logged-wrapper">
                             <h1>{userLoginFromStore}!</h1>
-                            <p>Вы можете пользоваться проводимыми в "КРЕМ и КОРЖ" акциями, такими как бесплатный кофе.</p>
-                            <p>Кликните на раздел "qr-код" для дальнейших инструкций.</p>
+                            <p>You can take advantage of the promotions held at "MY PASTRY SHOP", for example, free coffee.</p>
+                            <p>For further instructions, click on the "QR code" section.</p>
                         </div>
                         )
                     }
@@ -86,16 +86,16 @@ const Login: React.FC = () => {
 
             {(isAuth === false) && (
                 <div className="login-form">
-                    <h1>ВХОД В АККАУНТ</h1>
+                    <h1>LOGIN TO YOUR ACCOUNT</h1>
                     
-                    <span>Заполните форму, чтобы войти в свой аккаунт.</span>
+                    <span>Please fill out the form to log into your account.</span>
                     
-                    <span className="link-to-register">Ещё не зарегистрировались? - <Link to={`/register`}><strong>РЕГИСТРАЦИЯ</strong></Link></span>
+                    <span className="link-to-register">Not registered yet? - <Link to={`/register`}><strong>REGISTRATION</strong></Link></span>
                     
                     {errorDisplay && (
                         <div className="error-register">
-                            <p>Ошибка..Вы либо ввели неверный логин или пароль, либо не активировали аккаунт через письмо на почте.</p>
-                            <p>Попробуйте снова.</p>
+                            <p>Error: You either entered an incorrect login or password, or you have not activated your account via email.</p>
+                            <p>Try again.</p>
                         </div>
                     ) as React.ReactNode}
                     
@@ -106,7 +106,7 @@ const Login: React.FC = () => {
                                 value={userName} 
                                 type="text" 
                                 name="username" 
-                                placeholder="Ваш логин" 
+                                placeholder="Your login" 
                                 required 
                             />
                         </div>
@@ -116,11 +116,11 @@ const Login: React.FC = () => {
                                 value={userPassword} 
                                 type="password" 
                                 name="password" 
-                                placeholder="Ваш пароль" 
+                                placeholder="Your password" 
                                 required 
                             />
                         </div>
-                        <Button htmlType="submit" type="primary" className="form-button" disabled={loginStatus === 'loading'}>Войти</Button>
+                        <Button htmlType="submit" type="primary" className="form-button" disabled={loginStatus === 'loading'}>Enter</Button>
                     </form>
                 </div>
             )}

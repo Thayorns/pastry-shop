@@ -12,8 +12,8 @@ const Token: React.FC = () => {
         <div className="token-div">
             <Result
                 status="success"
-                title="Ваш аккаунт успешно активирован!"
-                subTitle="Теперь вы можете войти под своим логином и паролем."
+                title="Your account has been successfully activated!"
+                subTitle="You can now log in using your username and password."
             />
         </div>
     );

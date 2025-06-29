@@ -45,14 +45,14 @@ const News: React.FC = () => {
     const success = () => {
         messageApi.open({
             type: 'success',
-            content: `Заказ принят!`,
+            content: `Order accepted`,
             duration: 5,
         });
     };
     const error = () => {
         messageApi.open({
             type: 'error',
-            content: 'Не удалось принять заказ, произошла ошибка..',
+            content: 'Failed to accept the order, an error occurred..',
             duration: 5,
         });
     };
@@ -69,7 +69,7 @@ const News: React.FC = () => {
             dispatch(cleanUpSocketState({ title: title, name: name }));
             refetch();
         }catch(error){
-            console.error('Ошибка при удалении заказа:', error);
+            console.error('Error deleting order:', error);
         }
     };
 
@@ -78,7 +78,7 @@ const News: React.FC = () => {
             await acceptOrder({ title: title, name: name });
             refetch();
         }catch(error){
-            console.error('Ошибка при подтверждении заказа:', error);
+            console.error('Error confirming order:', error);
         };
     };
     
@@ -100,15 +100,15 @@ const News: React.FC = () => {
                         <div className="carousel-wrapper">
                             <Carousel autoplay autoplaySpeed={7000} speed={1000}>
                                 <div className="coffee">
-                                    <p>каждый <strong>восьмой</strong> кофе в подарок</p>
-                                    <span>для авторизованных пользователей приложения</span>
+                                    <p>every <strong>eighth</strong> coffee is free</p>
+                                    <span>for authorized users of the application</span>
                                 </div>
                                 <div className="bakery">
-                                    <p>скидка <strong>30%</strong> на вчерашнюю выпечку</p>
+                                    <p>discount <strong>30%</strong> for yesterday's baking</p>
                                 </div>
                                 <div className="order-cake">
-                                    <p><strong>торт на заказ</strong></p>
-                                    <span>для авторизованных пользователей приложения</span>
+                                    <p><strong>cake to order</strong></p>
+                                    <span>for authorized users of the application</span>
                                 </div>
                             </Carousel>
                         </div>
@@ -118,7 +118,7 @@ const News: React.FC = () => {
                         {isAuth === false && (
                             <>
                                 <Empty className="empty-basket"/>
-                                <span className="empty-news-description">Пусто, авторизуйтесь.</span>
+                                <span className="empty-news-description">Empty, please sign in.</span>
                             </>
                         )}
 
@@ -155,12 +155,12 @@ const News: React.FC = () => {
                                             :   <>
                                                 <CheckCircleOutlined className="accept-order-button" onClick={() => handleAcceptOrder(el.title, el.name)}/>
                                                 <DeleteOutlined className="delete-order-button" onClick={showModal}/>
-                                                <Modal title="УДАЛЕНИЕ ЗАКАЗА" open={isModalOpen} cancelText='отмена' okText='удалить'
+                                                <Modal title="ORDER DELETION" open={isModalOpen} cancelText='cancel' okText='delete'
                                                     onOk={() => {
                                                         handleDeleteOrder(el.title, el.name)
                                                         setIsModalOpen(false);
                                                     }} onCancel={handleCancel}>
-                                                    <p>Уверены, что хотите удалить заказ?</p>
+                                                    <p>Are you sure you want to delete the order?</p>
                                                 </Modal>
                                             </>
                                         }                                        
@@ -179,13 +179,13 @@ const News: React.FC = () => {
                                         alt=""
                                     />
                                     <div className="order-description">
-                                        <p>{el.title} ({el.count} шт.)</p>
-                                        <span>{el.date.split('-').reverse().join('-')} к {el.time}</span>
+                                        <p>{el.title} ({el.count} pcs.)</p>
+                                        <span>{el.date.split('-').reverse().join('-')} at {el.time}</span>
                                         {el.isaccepted === true 
-                                            ? <p className="order-in-progress">ЗАКАЗ ПРИНЯТ</p>
+                                            ? <p className="order-in-progress">ORDER ACCEPTED</p>
                                             : <>
-                                                <p className="order-in-progress">ЗАКАЗ В ОБРАБОТКЕ</p>
-                                                <span>Пожалуйста, ожидайте звонок для подтверждения заказа.</span>
+                                                <p className="order-in-progress">ORDER IN PROCESSING</p>
+                                                <span>Please wait for a call to confirm your order.</span>
                                             </>
                                         }
                                     </div>

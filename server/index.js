@@ -91,8 +91,8 @@ app.post('/api/shop', async (req, res) => {
 
     res.status(201).json(newOrder);
   }catch(error){
-    console.error('Ошибка при закаке торта:', error);
-    res.status(500).json({ error: 'Произошла ошибка при заказе торта' });
+    console.error('Order error:', error);
+    res.status(500).json({ error: 'Order error!' });
   };
 });
 
@@ -103,16 +103,16 @@ app.post('/api/news', async (req, res) => {
   try{
     const anOrder = await Order.findOne({ where: { title: title, name: name } });
     if(!anOrder){
-      res.status(404).json({ error: 'Заказ не найден' });
+      res.status(404).json({ error: 'Order was not found' });
     }
 
     anOrder.isaccepted = true;
     await anOrder.save();
 
-    res.status(200).json({ message: `Заказ клиента ${name} - подтверждён` });
+    res.status(200).json({ message: `Client order ${name} - approved` });
   }catch(error){
-    console.error('Ошибка при подтверждении заказа:', error);
-    res.status(500).json({ error: 'Произошла ошибка при подтверждении заказа' });
+    console.error('Order approved error:', error);
+    res.status(500).json({ error: 'Order approved error' });
   };
 });
 
@@ -123,13 +123,13 @@ app.delete('/api/news', async (req, res) => {
   try{
     const result = await Order.destroy({ where: { title: title, name: name } });
     if (result > 0) {
-      res.status(200).json({ message: 'Заказ успешно удален' });
+      res.status(200).json({ message: 'Order successfully deleted' });
     } else {
-      res.status(404).json({ error: 'Заказ не найден' });
+      res.status(404).json({ error: 'Order not found' });
     }
   }catch(error){
-    console.error('Ошибка при удалении заказа:', error);
-    res.status(500).json({ error: 'Произошла ошибка при удалении заказа' });
+    console.error('Order delete error:', error);
+    res.status(500).json({ error: 'Order delete error' });
   }
 });
 
@@ -140,7 +140,7 @@ app.get('/api/news/:login', async (req, res) => {
   try{
     const user = await User.findOne({ where: { login: login } });
     if (!user) {
-      return res.status(404).json({ error: 'Пользователь не найден' });
+      return res.status(404).json({ error: 'User not found' });
     };
 
     const isAdmin = user.admin;
@@ -154,8 +154,8 @@ app.get('/api/news/:login', async (req, res) => {
     }
 
   }catch(error){
-    console.error('Ошибка при получении заказа:', error);
-    res.status(500).json({ error: 'Произошла ошибка при получении заказа' });
+    console.error('Order receiving error:', error);
+    res.status(500).json({ error: 'Order receiving error' });
   };
 });
 
@@ -176,8 +176,8 @@ app.post('/api/admin-settings/add-product', upload.single('photo'), async (req, 
     res.status(201).json(newProduct);
   } catch (error) {
 
-    console.error('Ошибка при добавлении продукта:', error);
-    res.status(500).json({ error: 'Произошла ошибка при добавлении продукта' });
+    console.error('Error adding product:', error);
+    res.status(500).json({ error: 'Error adding product' });
   }
 });
 
@@ -187,16 +187,16 @@ app.post('/api/admin-settings/add-friend', async (req, res) => {
   try {
     const user = await User.findOne({ where: { login: login } });
     if (!user) {
-      return res.status(404).json({ error: 'Пользователь не найден' });
+      return res.status(404).json({ error: 'User not found' });
     }
 
     user.friend = true;
     await user.save();
 
-    res.status(200).json({ message: 'Пользователь добавлен в друзья' });
+    res.status(200).json({ message: 'User added to friends' });
   } catch(error) {
-    console.error('Ошибка при добавлении пользователя в друзья:', error);
-    res.status(500).json({ error: 'Произошла ошибка при добавлении пользователя в друзья' });
+    console.error('User addind to friends error:', error);
+    res.status(500).json({ error: 'User addind to friends error' });
   }
 
 });
@@ -208,16 +208,16 @@ app.post('/api/admin-settings/add-admin', async (req, res) => {
   try {
     const user = await User.findOne({ where: { login: login } });
     if (!user) {
-      return res.status(404).json({ error: 'Пользователь не найден' });
+      return res.status(404).json({ error: 'User not found' });
     }
 
     user.admin = true;
     await user.save();
 
-    res.status(200).json({ message: 'Пользователь добавлен в администраторы' });
+    res.status(200).json({ message: 'User added as admin' });
   } catch(error) {
-    console.error('Ошибка при добавлении нового администратора:', error);
-    res.status(500).json({ error: 'Произошла ошибка при добавлении нового администратора' });
+    console.error('Error adding new administrator:', error);
+    res.status(500).json({ error: 'Error adding new administrator' });
   }
 
 });
@@ -238,13 +238,13 @@ app.delete('/api/home', async (req, res) => {
 
       await product.destroy();
 
-      res.status(200).json({ message: 'Продукт успешно удален' });
+      res.status(200).json({ message: 'Product removed successfully' });
     } else {
-      res.status(404).json({ error: 'Продукт не найден' });
+      res.status(404).json({ error: 'Product not found' });
     }
   } catch (error) {
-    console.error('Ошибка при удалении продуктов:', error);
-    res.status(500).json({ error: 'Произошла ошибка при удалении продуктов' });
+    console.error('Error deleting products:', error);
+    res.status(500).json({ error: 'Error deleting products' });
   }
 });
 
@@ -255,8 +255,8 @@ app.get('/api/home', async (req, res) => {
     const products = await Product.findAll();
     res.status(200).json(products);
   } catch (error) {
-    console.error('Ошибка при получении продуктов:', error);
-    res.status(500).json({ error: 'Произошла ошибка при получении продуктов' });
+    console.error('Error when receiving products:', error);
+    res.status(500).json({ error: 'Error when receiving products' });
   }
 
 });
@@ -279,7 +279,7 @@ app.get('/api/home/:productTitle', async (req, res) => {
       res.status(404).json({ message: 'Product not found' });
     }
   } catch (error) {
-    console.error('Ошибка при получении информации о продукте:', error);
+    console.error('Error retrieving product information:', error);
   }
 });
 
@@ -295,7 +295,7 @@ app.get('/api/user-coffee/:login', async (req, res) => {
       res.status(404).json({ message: 'User not found' });
     }
   } catch(error) {
-    console.error('Ошибка при получении информации о кофе:', error);
+    console.error('Error retrieving coffee information:', error);
   }
 });
 
@@ -341,7 +341,6 @@ app.post('/api/admin-coffee', async (req, res) => {
 
     await transaction.commit();
 
-    // ws notification to concrait user
     broadcastCoffee({
       type: 'coffee',
       coffeeCount: currentCoffeeCount
@@ -349,9 +348,9 @@ app.post('/api/admin-coffee', async (req, res) => {
 
     res.status(200).json({ userLogin: userLogin });
   } catch (error) {
-    console.error('Ошибка при зачислении кофе:', error);
+    console.error('Error crediting coffee:', error);
     await transaction.rollback();
-    res.status(500).send('Ошибка при зачислении кофе.');
+    res.status(500).send('Error crediting coffee.');
   }
 });
 
@@ -377,20 +376,19 @@ app.post('/api/qr', async (req, res) => {
       qrCode: qrCodeDataURL,
     });
 
-    // delete user's token in his db column
     setTimeout(async () => {
       if(user.qr_code !== null){
         try {
           user.qr_code = null;
           await user.save();
         } catch (error) {
-          console.error('Ошибка очистки QR-кода:', error);
+          console.error('Error clearing QR code:', error);
         }
       }
     }, 300000);
 
   } catch {
-    res.status(500).send('Ошибка обновления QR-кода');
+    res.status(500).send('Error renew QR code');
   }
 });
 
@@ -413,10 +411,10 @@ app.post('/api/register', async (req, res) => {
     const activationLink = `${DOMAIN}/api/activate/${token}`
 
     const mailOptions = {
-      from: 'creamkorzh@gmail.com',
+      from: 'your_email_here', /* TYPE YOUR EMAIL */
       to: email,
-      subject: 'Активация аккаунта в КРЕМ и КОРЖ.',
-      html: `<p>Пройдите по ссылке <a href="${activationLink}">Крем и Корж</a> для активации аккаунта.</p>`
+      subject: 'Account activation',
+      html: `<p>Follow the link <a href="${activationLink}">YOUR_PASTRY_SHOP_NAME</a> to activate your account.</p>` /* TYPE YOUR_PASTRY_SHOP_NAME */
     };
 
     await transporter.sendMail(mailOptions);
@@ -471,7 +469,7 @@ app.post('/api/login', async (req, res) => {
         httpOnly: true,
         secure: true,
         sameSite: 'strict',
-        maxAge: 60 * 24 * 60 * 60 * 1000 // 60 days
+        maxAge: 60 * 24 * 60 * 60 * 1000
       });
 
       const role = user.admin;
@@ -517,25 +515,23 @@ app.post('/api/logout', (req, res) => {
   return res.status(200).json({ message: 'Logout successful' });
 });
 
-// server launch IIFE
 (async () => {
   try {
     await sequelize.authenticate();
-      console.log('PostgreSQL connected with Sequelize');
+    console.log('PostgreSQL connected with Sequelize');
     await sequelize.sync({ force: false });
-      console.log('Database synchronized');
+    console.log('Database synchronized');
     
-    // server listen
     let server;
     if(process.env.NODE_ENV === 'production') {
       const options = {
-        key: fs.readFileSync('/etc/letsencrypt/live/creamkorzh.ru/privkey.pem'),
-        cert: fs.readFileSync('/etc/letsencrypt/live/creamkorzh.ru/fullchain.pem')
+        key: fs.readFileSync('/etc/letsencrypt/live/your_domain_here/privkey.pem'), /* TYPE YOUR DOMAIN */
+        cert: fs.readFileSync('/etc/letsencrypt/live/your_domain_here/fullchain.pem') /* TYPE YOUR DOMAIN */
       }
       server = https.createServer(options, app);
       wss = new WebSocket.Server( { 
         server,
-        path: '/api/' // ** ADD PATH, BECAUSE NGINX SERVES THE ROOT PATH
+        path: '/api/'
       } );
     }else{
       server = http.createServer(app);

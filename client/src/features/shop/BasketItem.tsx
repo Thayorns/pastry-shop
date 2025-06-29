@@ -43,14 +43,14 @@ const BasketItem: React.FC = () => {
     const success = () => {
         messageApi.open({
             type: 'success',
-            content: `Мы свяжемся с Вами для подтверждения заказа.`,
+            content: `We will contact you to confirm your order.`,
             duration: 3,
         });
     };
     const error = () => {
         messageApi.open({
             type: 'error',
-            content: 'Не удалось оформить, произошла ошибка..',
+            content: 'Failed to place your order, an error occurred..',
             duration: 3,
         });
     };
@@ -68,7 +68,6 @@ const BasketItem: React.FC = () => {
         try {
             await buyProduct({ title: cakeTitle, date: date, name: name, phone: phone, login: login, photo: product?.photo, count: counts[product?.title || 1], time: time });
             
-            // через секунду после покупки удаляет из корзины торт
             setTimeout(() => {
                 dispatch(deleteCake( { title: cakeTitle } ));
                 dispatch(clearBasketButton( { title: cakeTitle }));
@@ -83,7 +82,7 @@ const BasketItem: React.FC = () => {
             setName('');
             setPhone('');
         } catch (err) {
-            console.error('Ошибка при заказе:', err);
+            console.error('Order error:', err);
         }
     };
 
@@ -99,21 +98,21 @@ const BasketItem: React.FC = () => {
                     {contextHolder}
 
                     <div className="basket-item">
-                        <h3>Оформление заказа</h3>
-                        <p>на <strong>{cakeTitle}</strong></p>
+                        <h3>Placing an order</h3>
+                        <p><strong>{cakeTitle}</strong></p>
 
                         <form onSubmit={handleSubmit}>
                             <div className="date-picker">
-                                <TimePicker placeholder='Время' format='HH:mm' onChange={onTimeChange}/>
-                                <DatePicker placeholder='Дата' onChange={onChange}/>
-                                <span className="date-description"> - Выберите дату и время.</span>
+                                <TimePicker placeholder='Time' format='HH:mm' onChange={onTimeChange}/>
+                                <DatePicker placeholder='Date' onChange={onChange}/>
+                                <span className="date-description"> - Select date and time.</span>
                             </div>
                             <div>
                                 <Input 
                                     onChange={(e:React.ChangeEvent<HTMLInputElement>) => setName(e.target.value) } 
                                     value={name} 
                                     type="text" 
-                                    name="name" placeholder="Укажите Ваше имя" required
+                                    name="name" placeholder="Your name" required
                                 ></Input>
                             </div>
                             <div>
@@ -121,19 +120,19 @@ const BasketItem: React.FC = () => {
                                     onChange={(e:React.ChangeEvent<HTMLInputElement>) => setPhone(e.target.value) } 
                                     value={phone} 
                                     type="tel"
-                                    name="phone" placeholder="Ваш телефон" required
+                                    name="phone" placeholder="Your phone" required
                                 ></Input>
                             </div>
                             <Button htmlType="submit" type="primary" className="form-button" 
                                 disabled={isLoading}
-                            >Заказать</Button>
+                            >Order</Button>
                         </form>
                     </div>
                 </div>
             )}
         
             {isAuth === false && (
-                <Result status="403" subTitle="Авторизуйтесь, чтобы заказать торт." />
+                <Result status="403" subTitle="Login to order a cake." />
             )}
         </>
         

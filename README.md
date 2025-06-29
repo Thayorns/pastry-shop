@@ -1,21 +1,20 @@
-# 🍰 CreamKorzh Pastry-Shop System (under maintenance)
+# 🍰 Pastry Shop Automation System
 
 [![React](https://img.shields.io/badge/-React-61DAFB?style=for-the-badge&logo=react&logoColor=white)](https://reactjs.org/)
 [![TypeScript](https://img.shields.io/badge/-TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Node.js](https://img.shields.io/badge/-Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
 [![PostgreSQL](https://img.shields.io/badge/-PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
-![Docker](https://img.shields.io/badge/-Docker-2496ED?style=flat&logo=docker&logoColor=white) 🐳
+[![Docker](https://img.shields.io/badge/-Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/get-started/)
 
-**Full automation system for a Pastry-Shop** 
-*(Project completed, but maintained in working condition)*
+**This project will provide you with a complete automation system for your pastry shop.**
 
-## ✨ Features
+## Features
 
-- 🚀 **Full development cycle**: 1 month of coding + 1 month of deployment
-- 🛠 **Full-fledged full-stack project** from idea to production readiness
-- ⚡ Real business processes are automated
+- **Docker allows you to build a system with a single command**
+- **Full-fledged fullstack project**
+- **Real business processes are automated**
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 ### Frontend
 ![React](https://img.shields.io/badge/-React-61DAFB?style=flat&logo=react&logoColor=black)
@@ -23,7 +22,7 @@
 ![RTK Query](https://img.shields.io/badge/-RTK_Query-764ABC?style=flat&logo=redux&logoColor=white)
 ![React Router](https://img.shields.io/badge/-React_Router-CA4245?style=flat&logo=react-router&logoColor=white)
 
-### 🎨 UI Libraries
+### UI Libraries
 ![Ant Design](https://img.shields.io/badge/-Ant_Design-0170FE?style=flat&logo=ant-design&logoColor=white)
 
 ### Backend
@@ -37,46 +36,80 @@
 ![PostgreSQL](https://img.shields.io/badge/-PostgreSQL-4169E1?style=flat&logo=postgresql&logoColor=white)
 ![Nginx](https://img.shields.io/badge/-Nginx-009639?style=flat&logo=nginx&logoColor=white)
 ![REST API](https://img.shields.io/badge/-REST_API-FF6C37?style=flat&logo=api&logoColor=white)
-![FSD Methodology](https://img.shields.io/badge/-FSD_Methodology-2496ED?style=flat&logo=arc&logoColor=white) 🏗️
-![Docker](https://img.shields.io/badge/-Docker-2496ED?style=flat&logo=docker&logoColor=white) 🐳
+![Docker](https://img.shields.io/badge/-Docker-2496ED?style=flat&logo=docker&logoColor=white)
 
-## 🎯 Implemented functions
+## Implemented functions
 
-### 🔐 Authentication system
+### Authentication system
 - 📧 Registration with email confirmation
 - 🔑 JWT authorization
 - 👨‍💼 Separation of roles (client/admin)
 
-### 👨‍🍳 Admin panel
+### Admin panel
 - 🧑‍🤝‍🧑 User management (friends/admins)
 - 🍪 CRUD for products
 - 🎁 Generate QR codes for bonus coffees
 - 📊 Order management
 
-### 🧁 Client panel
+### Client panel
 - 🛒 Shopping cart with order processing
 - 🎫 Discount program "Friend of the pastry-shop"
 - 📱 QR codes for bonuses
 - ⏱ Order status tracking
 
-## 🚧 Challenges overcome
-- 🛠 Complex Nginx configuration setup
-- 🌐 Domain DNS records issues
-- ⚖️ Load balancing for 200+ users
+## Quick Start with Docker
 
-## 🚀 Infrastructure
-- **Hosting**: Rucenter (5000₽/month)
-- **Server**: Dedicated machine for high loads
-- **Domain**: [creamkorzh.ru](https://creamkorzh.ru) (under maintenance..)
+This project can be set up with a single Docker command. Follow these simple steps to get the Pastry Shop Automation System up and running.
 
-## 📌 Why hasn't the project been launched?
-Despite the system being fully operational, the pastry-shop owner decided not to implement automation into business processes.
+### Prerequisites
 
-The project remains as:
-- 🏆 Proof of professional skills
-- 💼 An example of an integrated approach to the task
-- 🔧 A working testing ground for experiments
+1. Install [Docker Desktop](https://www.docker.com/get-started/) (includes both Docker and Docker Compose)
+   - [Installation guide for Windows/Mac](https://docs.docker.com/desktop/)
+   - For Linux:
+     ```bash
+     sudo apt-get update && sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+     ```
 
+2. Verify installation:
+   
+   ```bash
+   docker --version && docker compose version
+
+### Running the Project
+
+1. Clone the repository (if you haven't already):
+
+    ```bash
+    https://github.com/Thayorns/pastry-shop.git
+    cd pastry-shop
+
+2. Create `.env` files in the project root, client and server folders as shown in each `example.env` files
+
+
+3. Start the project with one command
+
+    - *For development mode:*
+
+        1.  make changes to `/server/mailer.js`, `/server/index.js` as indicated in the comments in these files to get all backend functionality (if you want). 
+
+        2. run docker command:
+
+            ```bash
+            docker-compose -f docker-compose.dev.yml up --build
+            ```
+        3. open `http://localhost:3000` url in browser
+
+        ---
+
+    - *For production mode:*
+
+        1. make changes to `/client/nginx.conf`, `/client/certbot.sh`, `/server/mailer.js`, `/server/index.js` as indicated in the comments in these files.
+
+        2. run docker command:
+
+            ```bash
+            docker-compose up --build
+            ```
 ---
 
-⭐ **If you liked the project, give it a star on GitHub!** ⭐
+⭐ **If you liked the project, give it a star!** ⭐

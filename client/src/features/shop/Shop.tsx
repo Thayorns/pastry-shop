@@ -22,13 +22,10 @@ const Shop: React.FC = () => {
 
     const handleDeleteProduct = async (title: string) => {
         try{
-            // удаляем корзинкой из "корзины"
             await dispatch(deleteCake( {title} ));
-            
-            // очищаем иконку в "дом"
             dispatch(clearBasketButton({ title }));
         }catch(error){
-            console.error('Ошибка при удалении:', error);
+            console.error('Error delete:', error);
         }
     }
 
@@ -43,20 +40,20 @@ const Shop: React.FC = () => {
             {(productArray.length === 0 && isAuth === true) && (
                 <div className="empty-basket-wrapper">
                     <Empty className="empty-basket"/>
-                    <span className="empty-basket-description">Корзина пуста, добавьте что-нибудь</span>
+                    <span className="empty-basket-description">Cart is empty, add something</span>
                     <Button type="primary" className="form-button" 
                         onClick={() => {
                             navigate('/home');
                             dispatch(setActiveBottom(2));
                         }}>
-                        Выбрать торт
+                        Choose a cake
                     </Button>
                 </div>
             )}
 
             {(isAuth === true && productArray.length !== 0) && (
                 <div className="bascket-wrapper">
-                    <h3>Корзина</h3>
+                    <h3>CART</h3>
                     
                     {productArray.map((el, index) => (
                         <div key={index} className="bascket-inner">
@@ -67,9 +64,9 @@ const Shop: React.FC = () => {
                             />
                             <div className="bascket-description">
                                 <p>{el.title}</p>
-                                <span>{counts[el.title] || 1}шт / {counts[el.title] || 1}кг</span>
+                                <span>{counts[el.title] || 1}pcs / {counts[el.title] || 1}kg</span>
                                 <span className="bascket-price">
-                                    ~{(el.price * 10) * counts[el.title] || 1} руб <DeleteOutlined onClick={() => handleDeleteProduct(el.title)}/>
+                                    ~{(el.price * 10) * counts[el.title] || 1} $ <DeleteOutlined onClick={() => handleDeleteProduct(el.title)}/>
                                 </span>
                             </div>
                             <div>
@@ -79,7 +76,7 @@ const Shop: React.FC = () => {
                                     <Button className="count-button" onClick={() => handleIncrease(el.title)}>+</Button>
                                 </div>
                                 <Link to={`/shop/${el.title}`}>
-                                    <p className="order-link" ><strong>ЗАКАЗАТЬ</strong><RightOutlined className="right-arrow"/></p>
+                                    <p className="order-link" ><strong>Order</strong><RightOutlined className="right-arrow"/></p>
                                 </Link>
                             </div>
                         </div>
@@ -89,7 +86,7 @@ const Shop: React.FC = () => {
             )}
         
             {isAuth === false && (
-                <Result status="403" subTitle="Авторизуйтесь, чтобы заказать торт." />
+                <Result status="403" subTitle="Log in to order a cake." />
             )}
         </>
         

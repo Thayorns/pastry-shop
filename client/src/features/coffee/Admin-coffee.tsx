@@ -26,7 +26,7 @@ const AdminCoffee: React.FC = () => {
     const success = () => {
         messageApi.open({
             type: 'success',
-            content: `Вы добавили клиенту '${user.userLogin}' кофе!`,
+            content: `Client '${user.userLogin}' gets a coffee!`,
             duration: 5,
         });
     };
@@ -34,7 +34,7 @@ const AdminCoffee: React.FC = () => {
     const error = () => {
         messageApi.open({
             type: 'error',
-            content: 'Клиент с таким qr-кодом не найден!',
+            content: 'Client with such QR code not found!',
             duration: 5,
         });
     };
@@ -54,17 +54,16 @@ const AdminCoffee: React.FC = () => {
             setNumber('');
             setSelectCoffee('');
         }catch (err){
-            console.error('Ошибка входа: ', err);
+            console.error('Entry error: ', err);
         }
     };
 
-    // отрисовка контента
     return (
         <>
             {(isAuth === true) && (
                 <div className="admin-coffee">
                     {contextHolder}
-                    <p>Введите в поле qr-код посетителя, введите количество чашек кофе для добавления и нажмите "Добавить".</p>
+                    <p>Enter the visitor's QR code in the field, enter the number of cups of coffee to add and click "Add".</p>
                     <form onSubmit={handleSubmit}>
                         <div>
                             <Input 
@@ -72,7 +71,7 @@ const AdminCoffee: React.FC = () => {
                                 value={number} 
                                 type="number" 
                                 name="number" 
-                                placeholder="Введите номер" 
+                                placeholder="Enter number" 
                                 required
                                 max={9999}
                             />
@@ -83,17 +82,17 @@ const AdminCoffee: React.FC = () => {
                                 value={selectCoffee}
                                 type="number" 
                                 name="selectCoffee" 
-                                placeholder="Введите количество кофе" 
+                                placeholder="Enter quantity of coffee" 
                                 required 
                             />
                         </div>
-                        <Button htmlType="submit" type="primary" className="form-button" disabled={isLoading}>Добавить</Button>
+                        <Button htmlType="submit" type="primary" className="form-button" disabled={isLoading}>Add</Button>
                     </form>
                 </div>
             )}
             
             {isAuth === false && (
-                <Result status="403" subTitle="Простите, Вы не авторизованы и не можете зайти на эту страницу." />
+                <Result status="403" subTitle="Sorry, you are not logged in and cannot access this page." />
             )}
         </>
     )

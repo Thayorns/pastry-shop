@@ -20,7 +20,6 @@ const Product: React.FC = () => {
     const { productTitle } = useParams();
     const {data, isError, isLoading, isSuccess} = useGetProductQuery(productTitle);
     
-    // check if response exists
     const result = data as ResultResponse | undefined;
 
     let imageSrc;
@@ -55,7 +54,7 @@ const Product: React.FC = () => {
                         {imageSrc ? <img className="product-photo" src={imageSrc} alt={result.title}></img> : null}
                         <h3><strong>{result.title}</strong></h3>
                         <p>{result.description}</p>
-                        <p><strong>Состав: </strong></p>
+                        <p><strong>Ingredients: </strong></p>
                         <p>{result.ingredients}</p>
                     </div>
 
@@ -63,7 +62,7 @@ const Product: React.FC = () => {
             )}
 
             {isError && (
-                <Result status="500" title="Данные не получены." subTitle="Простите, что-то пошло не так." />
+                <Result status="500" title="No data received." subTitle="Sorry. Something went wrong." />
             )}
         </>
     )

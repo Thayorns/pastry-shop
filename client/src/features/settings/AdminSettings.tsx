@@ -14,9 +14,9 @@ const AdminSettings: React.FC = () => {
     const isAuth = useSelector((state: RootState) => state.auth.isAuthenticated);
 
     const array = [
-        { icon: <ProductOutlined/>, description: 'Добавить новые позиции блюд с описанием.', link: '/admin-settings/add-product'},
-        { icon: <ShareAltOutlined/>, description: 'Добавить нового администратора.', link: '/admin-settings/add-admin'},
-        { icon: <UsergroupAddOutlined/>, description: 'Добавить посетителя в друзья.', link: '/admin-settings/add-friend'},
+        { icon: <ProductOutlined/>, description: 'Add new products with descriptions.', link: '/admin-settings/add-product'},
+        { icon: <ShareAltOutlined/>, description: 'Add new admin.', link: '/admin-settings/add-admin'},
+        { icon: <UsergroupAddOutlined/>, description: 'Add client to friend.', link: '/admin-settings/add-friend'},
     ]
 
     return (
@@ -36,7 +36,7 @@ const AdminSettings: React.FC = () => {
             )}
         
             {isAuth === false && (
-                <Result status="403" subTitle="Простите, Вы не авторизованы и не можете зайти на эту страницу." />
+                <Result status="403" subTitle="Sorry, you are not logged in and cannot access this page." />
             )}
         </>
         

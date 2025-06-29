@@ -31,17 +31,17 @@ const Qr: React.FC = () => {
             {(loading === 'loading') && <Spin />}
 
             {isError && (
-                <Result status="500" title="Ошибка" subTitle="Простите, что-то пошло не так." />
+                <Result status="500" title="Error" subTitle="Sorry. Something went wrong." />
             )}
 
             {(isAuth === false) && (
-                <Result status="403" subTitle="Авторизуйтесь, чтобы сгенерировать qr-код для подарочных кофе." />
+                <Result status="403" subTitle="Log in to generate a QR code for gift coffee." />
             )}
         
             {(isAuth === true && role === false) && (
                 <div className="qr-div">
-                    <h1>ВАШ КОД</h1>
-                    <p>Покажите или назовите код кассиру в "КРЕМ и КОРЖ", чтобы накопить подарочный кофе.</p>
+                    <h1>YOUR CODE</h1>
+                    <p>Show or say the code to the cashier at "MY PASTRY SHOP" to receive a free coffee.</p>
                     <img src={qrUrlFromStore} alt="qr-code"/>
                     <h2>{numberFromStore}</h2>
                 </div>

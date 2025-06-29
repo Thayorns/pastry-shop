@@ -3,11 +3,11 @@
 # stop if error occurs
 set -e
 
-if [ ! -f "/etc/letsencrypt/live/creamkorzh.ru/fullchain.pem" ]; then
-    certbot certonly --standalone -d creamkorzh.ru --non-interactive --agree-tos --email thayornswordsman@gmail.com || exit 1
-    chown -R nginx:root /etc/letsencrypt/live/creamkorzh.ru/
-    chmod 750 /etc/letsencrypt/live/creamkorzh.ru/
-    chmod 640 /etc/letsencrypt/live/creamkorzh.ru/privkey.pem
+if [ ! -f "/etc/letsencrypt/live/your_domain_here/fullchain.pem" ]; then # type your domain
+    certbot certonly --standalone -d your_domain_here --non-interactive --agree-tos --email your_email_here || exit 1 # type your domain & email
+    chown -R nginx:root /etc/letsencrypt/live/your_domain_here/ # type your domain
+    chmod 750 /etc/letsencrypt/live/your_domain_here/ # type your domain
+    chmod 640 /etc/letsencrypt/live/your_domain_here/privkey.pem # type your domain
 fi
 
 # nginx reload

@@ -20,7 +20,7 @@ const Register: React.FC = () => {
         try{
             await addUser({ email: userEmail, login: userName, password: userPassword})
         }catch(err){
-            console.error('Ошибка регистрации: ', err);
+            console.error('Error registration: ', err);
         }
     }
     
@@ -35,10 +35,10 @@ const Register: React.FC = () => {
                 <h2><strong>{userName}</strong></h2>
                 <Result
                     status="success"
-                    title=" Вы успешно зарегистрировались!"
-                    subTitle="Активируйте свой аккаунт в течении 1 часа, чтобы использовать наши акции, например бесплатный кофе по qr-code."
+                    title="You have registered successfully!"
+                    subTitle="Activate your account within 1 hour to take advantage of our promotions like free coffee with QR code."
                 />
-                <p>На почту <span className="email-underlined">{userEmail}</span> отправлено письмо с активацией аккаунта</p>
+                <p>An account activation email has been sent to your email address. <span className="email-underlined">{userEmail}</span></p>
             </div>
         )
     }else{
@@ -49,12 +49,12 @@ const Register: React.FC = () => {
                     <Link to={'/login'}><LeftOutlined /></Link>
                 </Button>
                 
-                <h1>РЕГИСТРАЦИЯ</h1>
-                <span>Заполните форму, чтобы создать новый аккаунт в "КРЕМ и КОРЖ".</span>
+                <h1>REGISTRATION</h1>
+                <span>Fill out the form to create a new account in "MY PASTRY SHOP".</span>
                 {errorDisplay && (
                     <div className="error-register">
-                        <p>Ошибка регистрации.</p>
-                        <p>Попробуйте снова.</p>
+                        <p>Error registration</p>
+                        <p>Try again.</p>
                     </div>
                 ) as React.ReactNode}
                 
@@ -64,7 +64,7 @@ const Register: React.FC = () => {
                             onChange={(e:React.ChangeEvent<HTMLInputElement>) => setUserEmail( e.target.value)} 
                             value={userEmail} 
                             type="email" 
-                            name="email" placeholder="Укажите Вашу почту" required
+                            name="email" placeholder="Enter your email" required
                         ></Input>
                     </div>
                     <div>
@@ -72,7 +72,7 @@ const Register: React.FC = () => {
                             onChange={(e:React.ChangeEvent<HTMLInputElement>) => setUserName(e.target.value) } 
                             value={userName} 
                             type="text" 
-                            name="username" placeholder="Ваш логин" required
+                            name="username" placeholder="Enter your login" required
                         ></Input>
                     </div>
                     <div>
@@ -80,10 +80,10 @@ const Register: React.FC = () => {
                             onChange={(e:React.ChangeEvent<HTMLInputElement>) => setUserPassword(e.target.value)} 
                             value={userPassword} minLength={8}
                             type="password" 
-                            name="password" placeholder="Ваш пароль" required
+                            name="password" placeholder="Enter your password" required
                         ></Input>
                     </div>
-                    <Button htmlType="submit" type="primary" className="form-button" disabled={isLoading}>Принять</Button>
+                    <Button htmlType="submit" type="primary" className="form-button" disabled={isLoading}>Accept</Button>
                 </form>
             </div>
         )

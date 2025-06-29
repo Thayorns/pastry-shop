@@ -68,10 +68,6 @@ const Navigation: React.FC<{ children: React.ReactNode }> = ({ children }) => {
         };
     }, [dispatch, userLogin]);
 
-    // useEffect(() => {
-    //     navigate('/home');
-    //     dispatch(setActiveBottom(2));
-    // }, []);
     useEffect(() => {
         if (location.pathname === '/') {
             navigate('/home');
@@ -88,7 +84,7 @@ const Navigation: React.FC<{ children: React.ReactNode }> = ({ children }) => {
             dispatch(setActiveTop(1));
             dispatch(dropCakes());
         }catch (err){
-            console.error('Ошибка выхода: ', err);
+            console.error('Entry error: ', err);
         }
     };
 
@@ -123,7 +119,7 @@ const Navigation: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     return (
         <div>
             <nav className="navbar-top">
-                <span className="logo">КРЕМ и КОРЖ</span>
+                <span className="logo">MY PASTRY SHOP</span>
                 <span className="top-nav-wrapper">
                     {topNavIcons.map((icon, index) => (
                         <button onClick={()=> { dispatch(setActiveTop(index)) }} key={index}

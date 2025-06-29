@@ -19,14 +19,14 @@ const AddFriend: React.FC = () => {
     const success = () => {
         messageApi.open({
             type: 'success',
-            content: `Вы добавили нового друга!`,
+            content: `You have added a new friend!`,
             duration: 5,
         });
     };
     const error = () => {
         messageApi.open({
             type: 'error',
-            content: 'Произошла ошибка! Не добавилось..',
+            content: 'An error occurred! Not added..',
             duration: 5,
         });
     };
@@ -45,7 +45,7 @@ const AddFriend: React.FC = () => {
             await addFriend({ login: userLogin });
             setUserLogin('');
         } catch (err) {
-            console.error('Ошибка при добавлении пользователя:', err);
+            console.error('An error occurred! Not added:', err);
         }
     };
 
@@ -59,7 +59,7 @@ const AddFriend: React.FC = () => {
                     <Button type="dashed" className="backward-button">
                         <Link to={'/admin-settings'}><LeftOutlined /></Link>
                     </Button>
-                    <p>Заполните форму, чтобы добавить пользователя в друзья.</p>
+                    <p>Fill out the form to add the user as a friend</p>
                     
                     <form onSubmit={handleSubmit}>
                         <div>
@@ -67,17 +67,17 @@ const AddFriend: React.FC = () => {
                                 onChange={(e:React.ChangeEvent<HTMLInputElement>) => setUserLogin(e.target.value) } 
                                 value={userLogin} 
                                 type="text" 
-                                name="login" placeholder="Введите логин пользователя" required
+                                name="login" placeholder="Enter user login" required
                             ></Input>
                         </div>
-                        <Button htmlType="submit" type="primary" className="form-button" disabled={isLoading}>Добавить</Button>
+                        <Button htmlType="submit" type="primary" className="form-button" disabled={isLoading}>Add</Button>
                             
                     </form>
                 </div>
             )}
         
             {isAuth === false && (
-                <Result status="403" subTitle="Простите, Вы не авторизованы и не можете зайти на эту страницу." />
+                <Result status="403" subTitle="Sorry, you are not logged in and cannot access this page." />
             )}
         </>
         

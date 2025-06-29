@@ -6,7 +6,6 @@ import coffeeReducer from '../../features/api/coffeeSlice';
 import buttonReducer from '../../features/api/buttonSlice';
 import productReducer from '../../features/api/productSlice';
 import webSocketReducer from '../../features/api/webSocketSlice';
-// import webSocketMiddleware from './webSocketMiddleware';
 
 const store = configureStore({
     reducer: {
@@ -19,12 +18,10 @@ const store = configureStore({
         webSocket: webSocketReducer,
     },
     middleware: getDefaultMiddleware => getDefaultMiddleware().concat(
-        apiSlice.middleware, 
-        // webSocketMiddleware
+        apiSlice.middleware,
     )
 });
 
-// экспортирую тип глобального состояния store
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 

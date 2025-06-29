@@ -34,12 +34,12 @@ const Home: React.FC = () => {
     const result = data as ResultResponse[] || [];
     
     const horizonAnchors = [ 
-        'Торты', 
-        'Выпечка', 
-        'Десерты', 
-        'Напитки', 
-        'Сендвичи', 
-        'Салаты'
+        'Cakes', 
+        'Baked Goods', 
+        'Desserts', 
+        'Drinks', 
+        'Sandwiches', 
+        'Salads'
     ];
     const isScrolling = useRef(false);
     const isClicking = useRef(false);
@@ -48,21 +48,21 @@ const Home: React.FC = () => {
     const successDelete = () => {
         messageApi.open({
             type: 'success',
-            content: `Вы успешно удалили продукт!`,
+            content: `You have successfully removed the product!`,
             duration: 5,
         });
     };
     const errorDelete = () => {
         messageApi.open({
             type: 'error',
-            content: 'Не удалось удалить..',
+            content: 'Failed to delete..',
             duration: 5,
         });
     };
     const successBuy = () => {
         messageApi.open({
             type: 'success',
-            content: `Вы добавили торт в корзину!`,
+            content: `You have added the cake to your cart!`,
             duration: 5,
         });
     };  
@@ -133,7 +133,7 @@ const Home: React.FC = () => {
                     </div>
                     {role === true 
                     ? <DeleteOutlined disabled={isLoading} onClick={() => handleDeleteProduct(obj.title)} className="delete-button"/> 
-                    : (obj.chapter === 'Торты' && isAuth === true)
+                    : (obj.chapter === 'Cakes' && isAuth === true)
                         ?   basketIsClicked.includes(obj.title) 
                             ? <CheckCircleOutlined className="shopping-button"/> 
                             : <ShoppingCartOutlined className="shopping-button" onClick={() => handleBuyProduct(obj.title, obj.price, obj.photo)}/>
@@ -229,7 +229,7 @@ const Home: React.FC = () => {
             )}
 
             {isError && (
-                <Result status="500" title="Данные не получены." subTitle="Простите, что-то пошло не так." />
+                <Result status="500" title="No data received." subTitle="Sorry, something went wrong." />
             )}
         
         </>

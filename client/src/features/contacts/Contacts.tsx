@@ -25,24 +25,24 @@ const Contacts: React.FC = () => {
                         <div className="contacts-inner">
                             
                             <div className="hello-div">
-                                <p>Давайте знакомиться!</p> 
-                                <h3><strong>Антон Оськин</strong></h3>
-                                <p>шеф-кондитер КРЕМ и КОРЖ.</p> 
+                                <p>Let's get acquainted!</p> 
+                                <h3><strong>Anton Chelentano</strong></h3>
+                                <p>Pastry Chef</p> 
                             </div>
                             <img src={require('./shef-patisserie.jpg')} alt=""/>
 
                         </div>
                         <p>
-                            Начиная с обучения в международном университете SWISSAM, Антон прошел многолетний путь от повара до су-шефа, включая работу под началом шеф-повара и новатора в кулинарии - <strong>Аллена Дюкаса</strong>.
+                            Since studying at the international university SWISSAM, Anton has come a long way from a cook to an assistant chef, including working under the head chef and culinary innovator - <strong>Allen Ducasse</strong>.
                         </p>
                         <p>
-                            Со временем Антон отдал предпочтение тортам и выпечке, осознав, что действительно вкусной и, что самое важное, <strong>качественной</strong> по составу и внутреннему наполнению продукции так не хватает Петербургу. 
+                            Over time, Anton gave preference to cakes and pastries, realizing that they are really tasty and, most importantly, <strong>quality</strong> the city lacks the composition and internal content of its products. 
                         </p>
                         <p>
-                            Но, как ценитель кулинарии, Антон постепенно вводит проверенные временем позиции кулинарных блюд. Весь ассортимент отражён в ленте раздела "дом".
+                            But, as a culinary expert, Anton gradually introduces time-tested culinary dishes. The entire range is reflected in the feed of the "home" section.
                         </p>
                         <p>
-                            Кстати, на бармена Антон тоже выучился, но в своей кондитерской из напитков предлагает пока только кофе...
+                            By the way, Anton also studied to be a bartender, but in his pastry shop he only offers coffee for now...
                         </p>
                     </div>
                     

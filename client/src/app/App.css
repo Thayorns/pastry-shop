@@ -1,6 +1,5 @@
 .App {
   max-width: var(--maxWidth);
-  /* height: var(--height700); */
   margin: var(--margin-0-auto);
   text-align: center;
   background: var(--colorWhite);
@@ -97,7 +96,6 @@ form{
   border-radius: 18px;
 }
 .form-button{
-  /* margin-top: var(--px-60); */
   background-color: var(--color);
   span{
       font-size: 18px;

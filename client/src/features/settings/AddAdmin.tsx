@@ -19,14 +19,14 @@ const AddAdmin: React.FC = () => {
     const success = () => {
         messageApi.open({
             type: 'success',
-            content: `Вы добавили нового администратора!`,
+            content: `You have added a new administrator!`,
             duration: 5,
         });
     };
     const error = () => {
         messageApi.open({
             type: 'error',
-            content: 'Произошла ошибка! Не добавилось..',
+            content: 'An error occurred! Not added..',
             duration: 5,
         });
     };
@@ -45,7 +45,7 @@ const AddAdmin: React.FC = () => {
             await addAdmin({ login: userLogin });
             setUserLogin('');
         } catch (err) {
-            console.error('Ошибка при добавлении пользователя:', err);
+            console.error('An error occurred! Not added:', err);
         }
     };
 
@@ -59,7 +59,7 @@ const AddAdmin: React.FC = () => {
                     <Button type="dashed" className="backward-button">
                         <Link to={'/admin-settings'}><LeftOutlined /></Link>
                     </Button>
-                    <p>Заполните форму, чтобы наделить пользователя правами администратора.</p>
+                    <p>Fill out the form to grant the user administrator rights.</p>
                     
                     <form onSubmit={handleSubmit}>
                         <div>
@@ -67,17 +67,17 @@ const AddAdmin: React.FC = () => {
                                 onChange={(e:React.ChangeEvent<HTMLInputElement>) => setUserLogin(e.target.value) } 
                                 value={userLogin} 
                                 type="text" 
-                                name="login" placeholder="Введите логин пользователя" required
+                                name="login" placeholder="Enter user login" required
                             ></Input>
                         </div>
-                        <Button htmlType="submit" type="primary" className="form-button" disabled={isLoading}>Добавить</Button>
+                        <Button htmlType="submit" type="primary" className="form-button" disabled={isLoading}>Add</Button>
                             
                     </form>
                 </div>
             )}
         
             {isAuth === false && (
-                <Result status="403" subTitle="Авторизуйтесь." />
+                <Result status="403" subTitle="Log in." />
             )}
         </>
         

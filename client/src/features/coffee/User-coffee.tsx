@@ -42,22 +42,22 @@ const UserCoffee: React.FC = () => {
             {(isLoading) && (<Spin />)}
             {(isSuccess && isAuth) && (
                 <div className='user-coffee'>
-                    <h1>КОФЕ В ПОДАРОК</h1>
-                    <p>Заказывая кофе по qr-коду, вы накапливаете счётчик чашек.</p>
-                    <p>Каждая восьмая чашка кофе - <strong>бесплатно</strong>!</p>
+                    <h1>COFFEE AS ​​A GIFT</h1>
+                    <p>By ordering coffee using a QR code, you accumulate a cup counter.</p>
+                    <p>Every eighth cup of coffee - <strong>for free</strong>!</p>
                     <div className='coffee-cups'>
                         {activeCups.map((isActive, index) => (
                             <img key={index} src={isActive ? require('./gifted-coffee.png') : require('./gifted-coffee-outlined.png')} alt=''/>
                         ))}
                     </div>
                     {(activeCups[7] === true) 
-                        ? <p className='diff-coffee-paragraph'>Вам доступен <strong>кофе в подарок!</strong></p>
-                        : <p className='diff-coffee-paragraph'>Чашек до подарочного кофе: <strong className='count-coffee'>{coffeeDiff}</strong></p>
+                        ? <p className='diff-coffee-paragraph'>You can get <strong>coffee as a gift!</strong></p>
+                        : <p className='diff-coffee-paragraph'>Gift coffee cups: <strong className='count-coffee'>{coffeeDiff}</strong></p>
                     }
                 </div>
             )}
             {(isAuth === false && !isLoading) && (
-                <Result status="403" subTitle="Авторизуйтесь, чтобы просматривать счётчик подарочных кофе." />
+                <Result status="403" subTitle="Log in to see the gift coffee counter." />
             )}
         </>
     );
