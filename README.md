@@ -1,18 +1,18 @@
 # 🍰 Pastry Shop Automation System
 
+This project will provide you with a complete automation system for your pastry shop.
+
 [![React](https://img.shields.io/badge/-React-61DAFB?style=for-the-badge&logo=react&logoColor=white)](https://reactjs.org/)
 [![TypeScript](https://img.shields.io/badge/-TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Node.js](https://img.shields.io/badge/-Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
 [![PostgreSQL](https://img.shields.io/badge/-PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
 [![Docker](https://img.shields.io/badge/-Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/get-started/)
 
-**This project will provide you with a complete automation system for your pastry shop.**
-
 ## Features
 
-- **Docker allows you to build a system with a single command**
-- **Full-fledged fullstack project**
-- **Real business processes are automated**
+- Docker allows you to build a system with a single command
+- Full-fledged fullstack project
+- Real business processes are automated
 
 ## Tech Stack
 
@@ -21,6 +21,7 @@
 ![Redux](https://img.shields.io/badge/-Redux-764ABC?style=flat&logo=redux&logoColor=white)
 ![RTK Query](https://img.shields.io/badge/-RTK_Query-764ABC?style=flat&logo=redux&logoColor=white)
 ![React Router](https://img.shields.io/badge/-React_Router-CA4245?style=flat&logo=react-router&logoColor=white)
+![TypeScript](https://img.shields.io/badge/-TypeScript-3178C6?style=flat&logo=typescript&logoColor=white)
 
 ### UI Libraries
 ![Ant Design](https://img.shields.io/badge/-Ant_Design-0170FE?style=flat&logo=ant-design&logoColor=white)
@@ -63,53 +64,78 @@ This project can be set up with a single Docker command. Follow these simple ste
 
 ### Prerequisites
 
-1. Install [Docker Desktop](https://www.docker.com/get-started/) (includes both Docker and Docker Compose)
-   - [Installation guide for Windows/Mac](https://docs.docker.com/desktop/)
-   - For Linux:
-     ```bash
-     sudo apt-get update && sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
-     ```
+Install [Docker Desktop](https://www.docker.com/get-started/). This includes both Docker and Docker Compose
 
-2. Verify installation:
-   
-   ```bash
-   docker --version && docker compose version
+- [Installation guide for Windows/Mac](https://docs.docker.com/desktop/)
 
-### Running the Project
-
-1. Clone the repository (if you haven't already):
+- For Linux (Ubuntu/Debian):
 
     ```bash
-    https://github.com/Thayorns/pastry-shop.git
-    cd pastry-shop
+    sudo apt-get update && sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+    ```
+- Verify installation:
 
-2. Create `.env` files in the project root, client and server folders as shown in each `example.env` files
+    ```bash
+    docker --version && docker compose version
+    ```
+    
+Clone the repository (if you haven't already)
 
+```bash
+https://github.com/Thayorns/pastry-shop.git
+cd pastry-shop
+```
 
-3. Start the project with one command
+Configure Environment Variables. The project requires `.env*` files in these locations:
 
-    - **For development mode:**
+- Roor folder (main settings)
 
-        -  make changes to `/server/mailer.js`, `/server/index.js` as indicated in the comments in these files to get all backend functionality (if you want). 
+- `client/` (frontend variables)
 
-        - run docker command:
+- `server/` (backend variables)
 
-            ```bash
-            docker-compose -f docker-compose.dev.yml up --build
-            ```
-        - open `http://localhost:3000` url in browser
+How to set up
 
-        ---
+- For each folder (root, `client`, `server`) :
+    
+    - Find the `example.env` file
+    - Create a copy named `.env*`:
 
-    - **For production mode:**
+        ```
+        cp example.env .env                              # for root folder
+        cp example.env.development .env.development      # for client and server folders
+        cp example.env.production .env.production        # for client and server folders
+        ```
+- Open each `.env*` file in a text editor and fill in the required values if needed (API keys, database credentials, etc.)
 
-        - make changes to `/client/nginx.conf`, `/client/certbot.sh`, `/server/mailer.js`, `/server/index.js` as indicated in the comments in these files.
+- Save the files — they will be automatically ignored by Git
 
-        - run docker command:
+*Note: Never commit `.env*` files to version control!*
 
-            ```bash
-            docker-compose up --build
-            ```
+---
+### Running the project
+
+In development mode:
+
+-  make changes to `/server/mailer.js`, `/server/index.js` as indicated in the comments in these files to get all backend functionality. (*optional*)
+
+- run docker command:
+
+    ```bash
+    docker-compose -f docker-compose.dev.yml up --build
+    ```
+
+- open `http://localhost:3000` url in browser
+
+In production mode:
+
+- make changes to `/client/nginx.conf`, `/client/certbot.sh`, `/server/mailer.js`, `/server/index.js` as indicated in the comments in these files. (*required*)
+
+- run docker command:
+
+    ```bash
+    docker-compose up --build
+    ```
 ---
 
 ⭐ **If you liked the project, give it a star!** ⭐
