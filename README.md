@@ -88,7 +88,7 @@ This project can be set up with a single Docker command. Follow these simple ste
 
 3. Start the project with one command
 
-    - *For development mode:*
+    - **For development mode:**
 
         -  make changes to `/server/mailer.js`, `/server/index.js` as indicated in the comments in these files to get all backend functionality (if you want). 
 
@@ -101,7 +101,7 @@ This project can be set up with a single Docker command. Follow these simple ste
 
         ---
 
-    - *For production mode:*
+    - **For production mode:**
 
         - make changes to `/client/nginx.conf`, `/client/certbot.sh`, `/server/mailer.js`, `/server/index.js` as indicated in the comments in these files.
 
