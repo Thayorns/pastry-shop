@@ -60,6 +60,8 @@ This project will provide you with a complete automation system for your pastry 
 - 📱 QR codes for bonuses
 - ⏱ Order status tracking
 
+![home-section](./github-info/home-section.png) ![notifications-section](./github-info/notifications-section.png) ![cart-section](./github-info/cart-section.png) ![qr-code-section](./github-info/qr-code-section.png)
+
 ## Quick Start with Docker
 
 This project can be set up with a single Docker command. Follow these simple steps to get the Pastry Shop Automation System up and running.
