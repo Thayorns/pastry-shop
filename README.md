@@ -52,6 +52,8 @@ This project will provide you with a complete automation system for your pastry 
 - 🎁 Generate QR codes for bonus coffees
 - 📊 Order management
 
+![admin-panel](./github-info/admin-panel-section.png)
+
 ### Client panel
 - 🛒 Shopping cart with order processing
 - 🎫 Discount program "Friend of the pastry-shop"
