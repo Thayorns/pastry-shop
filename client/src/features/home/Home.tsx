@@ -129,7 +129,7 @@ const Home: React.FC = () => {
                 <div className="card-description">
                     <div className="description-div">
                         <p>{obj.title}</p>
-                        <span>{obj.price} руб.</span>
+                        <span>{obj.price} **</span>
                     </div>
                     {role === true 
                     ? <DeleteOutlined disabled={isLoading} onClick={() => handleDeleteProduct(obj.title)} className="delete-button"/> 
