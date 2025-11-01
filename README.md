@@ -130,10 +130,17 @@ In development mode:
 
 -  make changes to `/server/mailer.js`, `/server/index.js` as indicated in the comments in these files to get all backend functionality. (*optional*)
 
-- run docker command:
+- enable docker and run docker command for Windows/Mac:
 
     ```bash
     docker-compose -f docker-compose.dev.yml up --build
+    ```
+- enable docker and run docker command for Linux:
+
+    ```bash
+    sudo systemctl start docker
+    sudo systemctl enable docker
+    sudo docker-compose -f docker-compose.dev.yml up --build
     ```
 
 - open `http://localhost:3000` url in browser
