@@ -21,6 +21,7 @@ services:
       - ./server/.env.development
     volumes:
       - ./server:/app
+      - /app/node_modules
       - ./uploads:/app/uploads
     ports:
       - '3001:3001'
@@ -35,6 +36,7 @@ services:
       - ./client/.env.development
     volumes:
       - ./client:/app
+      - /app/node_modules
       - ./uploads:/app/uploads
     ports:
       - '3000:3000'
