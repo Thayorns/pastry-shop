@@ -75,7 +75,14 @@ Install [Docker Desktop](https://www.docker.com/get-started/). This includes bot
 - For Linux (Ubuntu/Debian):
 
     ```bash
-    sudo apt-get update && sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+    sudo apt-get update
+    sudo apt-get install ca-certificates curl gnupg lsb-release
+    sudo mkdir -m 0755 -p /etc/apt/keyrings
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+    sudo chmod a+r /etc/apt/keyrings/docker.gpg
+    sudo apt-get update
+    sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
     ```
 - Verify installation:
 
@@ -110,7 +117,8 @@ How to set up
         cp example.env.development .env.development      # for client and server folders
         cp example.env.production .env.production        # for client and server folders
         ```
-- Open each `.env*` file in a text editor and fill in the required values if needed (API keys, database credentials, etc.)
+- Open each `.env*` file in a text editor and fill in the required 
+values if needed (API keys, database credentials, etc.)
 
 - Save the files — they will be automatically ignored by Git
 
@@ -121,19 +129,30 @@ How to set up
 
 In development mode:
 
--  make changes to `/server/mailer.js`, `/server/index.js` as indicated in the comments in these files to get all backend functionality. (*optional*)
+-  make changes to `/server/mailer.js`, `414, 417` 
+lines of code in your `/server/index.js` as indicated in the comments in these files
+to get all backend functionality. 
+(*optional*)
 
-- run docker command:
+- enable docker and run docker command for Windows/Mac:
 
     ```bash
     docker-compose -f docker-compose.dev.yml up --build
+    ```
+- enable docker and run docker command for Linux:
+
+    ```bash
+    sudo systemctl start docker
+    sudo systemctl enable docker
+    sudo docker-compose -f docker-compose.dev.yml up --build
     ```
 
 - open `http://localhost:3000` url in browser
 
 In production mode:
 
-- make changes to `/client/nginx.conf`, `/client/certbot.sh`, `/server/mailer.js`, `/server/index.js` as indicated in the comments in these files. (*required*)
+- make changes to `/client/nginx.conf`, `/client/certbot.sh`, `/server/mailer.js`, `414, 417, 528-529` lines of code in your `/server/index.js` as indicated in the comments in these files. 
+(*required*)
 
 - run docker command:
 
