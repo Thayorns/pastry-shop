@@ -99,7 +99,7 @@ cd pastry-shop
 
 Configure Environment Variables. The project requires `.env*` files in these locations:
 
-- Roor folder (main settings)
+- Root folder (main settings)
 
 - `client/` (frontend variables)
 
