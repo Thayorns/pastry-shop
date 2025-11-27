@@ -159,6 +159,26 @@ In production mode:
     ```bash
     docker-compose up --build
     ```
+
+## How to Contribute
+
+Once you have a forked our repository to your account, clone it to your computer, and then check out the `main` branch.
+
+Now, it’s time to branch (`123` is the number of the GitHub issue you’re going to work with, and the name of the branch):
+
+```
+git checkout -b 123
+```
+By convention, we use the same names for the branch and issue you’re working with.
+
+Make any needed changes using a text editor or IDE. It’s a good practice to commit changes as soon as you make them. Don’t accumulate large numbers of changes too long before committing them.
+
+```
+git commit -am 'fix(#123): the description of the changes'
+git push origin 123
+```
+Create a pull request in GitHub and we'll be happy to review and merge it.
+
 ---
 
 ⭐ If you liked the project, give it a star! ⭐
