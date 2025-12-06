@@ -1,13 +1,19 @@
 
 {
   "compilerOptions": {
-  "target": "es5",
+  "target": "ES2024",
   "jsx": "react",
   "module": "commonjs",
   "strict": true,
   "esModuleInterop": true,
   "skipLibCheck": true,
-  "forceConsistentCasingInFileNames": true
+  "forceConsistentCasingInFileNames": true,
+  "noEmit": true,
+  "noImplicitAny": true,
+  "allowJs": true,
+  "checkJs": true,
+  "resolveJsonModule": true,
+  "maxNodeModuleJsDepth": 1
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
