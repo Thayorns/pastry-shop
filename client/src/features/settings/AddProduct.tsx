@@ -14,16 +14,16 @@ import '../../app/styles/vars.css';
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
 const getBase64 = (file: FileType): Promise<string> =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result as string);
-    reader.onerror = (error) => reject(error);
-  });
+    new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = (error) => reject(error);
+    });
+const { TextArea } = Input;
 
-
-  const AddProduct: React.FC = () => {
-    const [addProduct, {isError, isSuccess, isLoading}] = useAddProductMutation();
+const AddProduct: React.FC = () => {
+    const [addProduct, { isError, isSuccess, isLoading }] = useAddProductMutation();
 
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
@@ -37,22 +37,22 @@ const getBase64 = (file: FileType): Promise<string> =>
 
     const handlePreview = async (file: UploadFile) => {
         if (!file.url && !file.preview) {
-          file.preview = await getBase64(file.originFileObj as FileType);
+            file.preview = await getBase64(file.originFileObj as FileType);
         }
         setPreviewImage(file.url || (file.preview as string));
         setPreviewOpen(true);
     };
-    
+
     const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) => setFileList(newFileList);
-    
+
     const handleSelectChange = (value: string) => {
         setActiveSelect(value);
     };
 
     const uploadButton = (
         <button style={{ border: 0, background: 'none' }} type="button">
-          <PlusOutlined />
-          <div style={{ marginTop: 8 }}>Upload</div>
+            <PlusOutlined />
+            <div style={{ marginTop: 8 }}>Upload</div>
         </button>
     );
 
@@ -113,7 +113,7 @@ const getBase64 = (file: FileType): Promise<string> =>
 
 
     return (
-        <>  
+        <>
             {isAuth === true && (
                 <div className="add-settings-div">
                     {contextHolder}
@@ -124,25 +124,25 @@ const getBase64 = (file: FileType): Promise<string> =>
 
                     <form onSubmit={handleSubmit}>
                         <div className="upload-div">
-                            
+
                             <Upload
                                 listType="picture-card"
                                 fileList={fileList}
                                 onPreview={handlePreview}
                                 onChange={handleChange}
                             >
-                            {fileList.length >= 1 ? null : uploadButton}
+                                {fileList.length >= 1 ? null : uploadButton}
                             </Upload>
                             {previewImage && (
-                                
+
                                 <Image
-                                wrapperStyle={{ display: 'none' }}
-                                preview={{
-                                    visible: previewOpen,
-                                    onVisibleChange: (visible) => setPreviewOpen(visible),
-                                    afterOpenChange: (visible) => !visible && setPreviewImage(''),
-                                }}
-                                src={previewImage}
+                                    wrapperStyle={{ display: 'none' }}
+                                    preview={{
+                                        visible: previewOpen,
+                                        onVisibleChange: (visible) => setPreviewOpen(visible),
+                                        afterOpenChange: (visible) => !visible && setPreviewImage(''),
+                                    }}
+                                    src={previewImage}
                                 />
                             )}
                         </div>
@@ -162,48 +162,52 @@ const getBase64 = (file: FileType): Promise<string> =>
                             />
                         </div>
                         <div>
-                            <Input 
-                                onChange={(e:React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value) } 
-                                value={title} 
-                                type="text" 
+                            <Input
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitle(e.target.value)}
+                                value={title}
+                                type="text"
                                 name="title" placeholder="Product name" required
                             ></Input>
                         </div>
                         <div>
-                            <Input 
-                                onChange={(e:React.ChangeEvent<HTMLInputElement>) => setDescription(e.target.value) } 
-                                value={description} 
-                                type="text" 
-                                name="description" placeholder="Product description" required
-                            ></Input>
+                            <Input.TextArea
+                                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setDescription(e.target.value)}
+                                value={description}
+                                rows={4}
+                                name="description"
+                                placeholder="Product description"
+                                required
+                            />
                         </div>
                         <div>
-                            <Input 
-                                onChange={(e:React.ChangeEvent<HTMLInputElement>) => setPrice(e.target.value) } 
-                                value={price} 
-                                type="number" 
+                            <Input
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPrice(e.target.value)}
+                                value={price}
+                                type="number"
                                 name="price" placeholder="Product price" required
                             ></Input>
                         </div>
                         <div>
-                            <Input 
-                                onChange={(e:React.ChangeEvent<HTMLInputElement>) => setIngredients(e.target.value) } 
-                                value={ingredients} 
-                                type="text" 
-                                name="ingredients" placeholder="Product ingredients separated by commas." required
-                            ></Input>
+                            <Input.TextArea
+                                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setIngredients(e.target.value)}
+                                value={ingredients}
+                                rows={4}
+                                name="ingredients"
+                                placeholder="Product ingredients separated by commas."
+                                required
+                            />
                         </div>
                         <Button htmlType="submit" type="primary" className="form-button" disabled={isLoading}>Add</Button>
                     </form>
                 </div>
             )}
-            
-        
+
+
             {isAuth === false && (
                 <Result status="403" subTitle="Sorry, you are not logged in and cannot access this page." />
             )}
         </>
-        
+
     )
 }
 export default AddProduct;
