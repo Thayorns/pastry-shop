@@ -114,7 +114,7 @@ const AddProduct: React.FC = () => {
 
     return (
         <>
-            {(
+            {isAuth === true && (
                 <div className="add-settings-div">
                     {contextHolder}
                     <Button type="dashed" className="backward-button">
