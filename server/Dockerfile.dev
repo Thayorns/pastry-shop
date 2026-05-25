@@ -1,17 +1,18 @@
 # build stage
-FROM node:18.20.8-alpine AS builder
-RUN apk add --no-cache \
+FROM node:18.20.8 AS builder
+RUN apt-get update && apt-get install -y --no-install-recommends \
     python3 \
     make \
     g++ \
-    pkgconfig \
-    pixman \
-    cairo \
-    pango \
-    giflib-dev \
-    libjpeg-turbo-dev \
-    librsvg-dev \
-    libpng-dev
+    pkg-config \
+    libpixman-1-dev \
+    libcairo2-dev \
+    libpango1.0-dev \
+    libgif-dev \
+    libjpeg-dev \
+    librsvg2-dev \
+    libpng-dev \
+  && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 COPY package*.json ./
 RUN npm install
