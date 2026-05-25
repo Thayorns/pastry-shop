@@ -170,28 +170,28 @@ const getBase64 = (file: FileType): Promise<string> =>
                             ></Input>
                         </div>
                         <div>
-                            <Input 
-                                onChange={(e:React.ChangeEvent<HTMLInputElement>) => setDescription(e.target.value) } 
-                                value={description} 
-                                type="text" 
+                            <Input.TextArea
+                                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setDescription(e.target.value)}
+                                value={description}
                                 name="description" placeholder="Product description" required
-                            ></Input>
+                                autoSize={{ minRows: 3, maxRows: 6 }}
+                            />
                         </div>
                         <div>
-                            <Input 
-                                onChange={(e:React.ChangeEvent<HTMLInputElement>) => setPrice(e.target.value) } 
-                                value={price} 
-                                type="number" 
+                            <Input
+                                onChange={(e:React.ChangeEvent<HTMLInputElement>) => setPrice(e.target.value) }
+                                value={price}
+                                type="number"
                                 name="price" placeholder="Product price" required
                             ></Input>
                         </div>
                         <div>
-                            <Input 
-                                onChange={(e:React.ChangeEvent<HTMLInputElement>) => setIngredients(e.target.value) } 
-                                value={ingredients} 
-                                type="text" 
+                            <Input.TextArea
+                                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setIngredients(e.target.value)}
+                                value={ingredients}
                                 name="ingredients" placeholder="Product ingredients separated by commas." required
-                            ></Input>
+                                autoSize={{ minRows: 3, maxRows: 6 }}
+                            />
                         </div>
                         <Button htmlType="submit" type="primary" className="form-button" disabled={isLoading}>Add</Button>
                     </form>
